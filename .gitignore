@@ -1,0 +1,10 @@
+# Local assistant instructions and settings (not part of the project)
+CLAUDE.md
+.claude/
+
+# Scratch files, on purpose
+test.js
+
+node_modules/
+.env
+.env.local

@@ -1,0 +1,1219 @@
+# Phase 1: JavaScript Notes
+
+A study reference you can come back to. Each lesson has the same shape: what it is, why it exists, the rules with examples, Python comparisons, common mistakes, your own words, and the exercise status.
+
+Status key: not started / taught (explained, exercise pending) / done (exercise completed and understanding checked)
+
+## Folder layout
+
+Every lesson has its own folder. A lesson with several parts keeps all its files in that one folder.
+
+```
+phase1-javascript/
+  NOTES.md
+  lesson1/   lesson1a.js  lesson1b.js  lesson1c.js
+  lesson2/   lesson2.js
+  lesson3/   lesson3.js
+  lesson4/   lesson4a.js  lesson4b.js
+  lesson5/   main.js  mathUtils.js  students.js  scratch.js  package.json
+  lesson6/   lesson6.js
+  lesson7/   lesson7.js
+  lesson8/   lesson8.js
+  lesson9/   lesson9.js
+```
+
+(`lesson4a.js` was originally called `lesson4.js`, and was renamed to match `lesson1a`, `lesson1b` and so on.)
+
+Running any file: from `phase1-javascript`, run `node lesson2/lesson2.js`, or `cd` into the lesson folder and run `node lesson2.js`. For `lesson5`, `cd lesson5` first and run `node main.js`. Stop a program that never ends with `Ctrl+C`.
+
+## Lesson plan
+
+Each lesson is roughly 1 hour. At 3-4 hours per week, the whole phase is about 3 weeks.
+
+| # | Lesson | Covers | Status |
+|---|--------|--------|--------|
+| 0 | Diagnostic | Find out what you already know | skipped (you had forgotten most JS, so we started from Lesson 1) |
+| 1 | Variables, types, control flow | let, const, types, template literals, ===, if, loops | done |
+| 2 | Functions | Function declarations, arrow functions, default parameters, functions as values, scope | done |
+| 3 | Objects and arrays | Properties, nested data, destructuring, spread and rest | done |
+| 4 | Array methods | map, filter, find (part 1); some, every, reduce, sort (part 2) | done |
+| 5 | Modules | import, export, default vs named | done |
+| 6 | Promises | Why async exists, callbacks, Promise, then/catch | taught, exercise pending |
+| 7 | async/await | async functions, await, try/catch | not started |
+| 8 | fetch and JSON | GET and POST requests, response.json(), JSON.stringify, status codes | not started |
+| 9 | Mini project | Fetch data from a public API and process it in Node | not started |
+
+Deliberately skipped: the browser DOM (document.querySelector and similar). React replaces direct DOM work, so you don't need it now.
+
+---
+
+# Lesson 1: Variables, types, control flow
+
+## Part 1: Variables and types (done, 2026-11-05)
+
+### What a variable is
+
+A name that points to a value. In JavaScript you must declare it with `let` or `const`; a bare `age = 20` is not the normal way.
+
+| | Python | JavaScript |
+|---|---|---|
+| Assign | `age = 20` | `let age = 20;` or `const age = 20;` |
+| Comment | `# note` | `// note` |
+| Print | `print(x)` | `console.log(x)` |
+| End of statement | newline | semicolon `;` |
+
+### `const` vs `let`
+
+- `const`: the name can never be reassigned. **Use this by default.**
+- `let`: the name can be reassigned. Use it only when the value really changes.
+- `var`: the old way. Ignore it. Old tutorials use it, modern code does not.
+
+```js
+const name = "Rahim";
+name = "Aisha";      // TypeError: Assignment to constant variable.
+
+let score = 10;
+score = 15;          // fine
+```
+
+Why it exists: most values never change. `const` prevents accidental changes and tells every reader "this value is fixed". If you later discover you need to change it, switch it to `let`. The error message shows you exactly where.
+
+### Types
+
+| JavaScript | Example | Python equivalent |
+|---|---|---|
+| number | `42`, `3.14` | int and float (JS has only one number type) |
+| string | `"hello"`, `'hello'` | str |
+| boolean | `true`, `false` | bool (lowercase in JS) |
+| undefined | a variable declared with no value | roughly "never assigned" |
+| null | "intentionally empty" | None |
+
+`typeof` tells you the type of a value:
+
+```js
+console.log(typeof 42);      // number
+console.log(typeof "hi");    // string
+console.log(typeof true);    // boolean
+```
+
+### Template literals
+
+JavaScript's version of Python f-strings. Use backticks (the key left of `1`) and `${ }`:
+
+```js
+const name = "Rahim";
+const score = 82;
+console.log(`${name} scored ${score}`);       // Rahim scored 82
+console.log(`Next year: ${score + 5}`);       // any expression works inside ${ }
+```
+
+### `++` shorthand
+
+`semester++` means `semester = semester + 1`. Also `semester--` for subtracting 1. It is a reassignment, so it does not work on a `const`.
+
+### Common mistakes
+
+- Using `let` for everything. Start with `const`.
+- Using normal quotes with `${}`. Template literals need **backticks**, not quotes.
+- Reading the error: `TypeError: Assignment to constant variable` plus an arrow pointing to the line means "you tried to reassign a const on this line".
+
+### In my own words
+
+`semester++` caused the error because semester was declared as const, which can't be changed later. Only variables that get reassigned trigger it. Use const when the value isn't changing in the code.
+
+### Exercise status
+
+`lesson1/lesson1a.js` (originally `lesson1.js`): done and reviewed. Improvement noted: `age` and `student` should be `const` since they never change.
+
+---
+
+## Part 2: Comparison and if (done, 2026-11-05)
+
+### Comparison operators
+
+Mostly the same as Python:
+
+```js
+5 > 3        // true
+5 <= 3       // false
+5 !== 3      // true   (Python: !=)
+```
+
+### `===` and never `==`
+
+```js
+5 === 5        // true
+5 === "5"      // false  (number vs string)
+5 == "5"       // true   (!)  JavaScript silently converts the types first
+```
+
+`==` converts types before comparing, so the results can surprise you. `===` checks the value **and** the type together, like Python's `==`. Rule: use `===` and `!==`, never `==`.
+
+### Logical operators
+
+| Python | JavaScript |
+|---|---|
+| `and` | `&&` |
+| `or` | `\|\|` |
+| `not` | `!` |
+
+```js
+true && false    // false
+true || false    // true
+!false           // true
+```
+
+### `if` statements
+
+```js
+const score = 82;
+
+if (score >= 90) {
+  console.log("A");
+} else if (score >= 60) {
+  console.log("Pass");
+} else {
+  console.log("Fail");
+}
+```
+
+Compared with Python:
+- Condition goes in **parentheses** `( )`.
+- Body goes in **curly braces** `{ }`, not indentation. Still indent, because it makes code readable.
+- `else if`, not `elif`.
+
+An if/else-if chain stops at the first true branch. So in the example, when the code reaches `score >= 60`, it already knows `score < 90`. That means a check like `temperature >= 20 && temperature <= 30` after `temperature > 30` could be shortened to `temperature >= 20`.
+
+### Common mistakes
+
+- Writing `=` (assign) when you meant `===` (compare). `if (x = 5)` assigns instead of compares.
+- Using `==`.
+- Forgetting the braces or parentheses.
+
+### Exercise status
+
+`lesson1/lesson1b.js`: done and reviewed. All four predictions correct. Reminder: test every branch of an if chain, not only the one you expect to run.
+
+---
+
+## Part 3: Loops (done, 2026-11-05)
+
+### What a loop is and why
+
+A loop repeats code. Without loops, printing 1 to 100 would take 100 lines.
+
+### The `for` loop
+
+```js
+for (let i = 1; i <= 5; i++) {
+  console.log(i);
+}
+```
+
+Three parts in the parentheses, separated by semicolons:
+1. `let i = 1` runs once at the start (the starting value).
+2. `i <= 5` is checked before each round. The loop continues while it is true.
+3. `i++` runs after each round (add 1).
+
+Python equivalent: `for i in range(1, 6)`. The result is the same, but JavaScript spells out the start, the condition and the step. `i` is `let` because it changes every round.
+
+### Arrays (just enough for now)
+
+An array is JavaScript's list. Lesson 3 covers arrays properly.
+
+```js
+const scores = [82, 45, 91];
+console.log(scores[0]);       // 82  (counting starts at 0, like Python)
+console.log(scores.length);   // 3   (Python: len(scores))
+```
+
+### `for...of`
+
+Goes through every item of an array. Python equivalent: `for x in list`.
+
+```js
+for (const score of scores) {
+  console.log(score);
+}
+```
+
+`const` works here because each round creates a **new** `score` variable. Nothing is reassigned.
+
+### `while`
+
+Repeats while the condition is true.
+
+```js
+let count = 3;
+while (count > 0) {
+  console.log(count);
+  count--;
+}
+```
+
+Something inside the loop must eventually make the condition false. Otherwise it runs forever. Press `Ctrl+C` in the terminal to stop it.
+
+### Which loop to use
+
+- Known number of rounds: `for`.
+- Visiting every item of an array: `for...of`.
+- Repeat until something changes and you don't know how many rounds: `while`.
+
+### The accumulator pattern
+
+Used for totals and counts. You start a variable, then update it inside the loop. Because it changes, it must be `let`:
+
+```js
+let total = 0;
+for (const score of scores) {
+  total += score;      // same as total = total + score
+}
+console.log(total);
+```
+
+`+=` adds to the variable and stores the result.
+
+### Common mistakes
+
+- An infinite `while` loop because the variable never changes.
+- Off-by-one errors: `i < 5` runs 0 to 4, `i <= 5` runs 0 to 5.
+- Declaring the accumulator with `const`, then getting the "Assignment to constant variable" error from Part 1.
+
+### Exercise status
+
+`lesson1/lesson1c.js`: done and reviewed (2026-11-05). Output correct (total 316, 3 passed).
+1. `for` loop printing 1 to 5.
+2. `for` loop printing only even numbers from 1 to 10 (hint: `%` gives the remainder).
+3. `for...of` to total `[82, 45, 91, 60, 38]`. Explain in a comment why you picked `let` or `const`.
+4. `for...of` plus `if` to count scores `>= 60`, and print `3 students passed` using a template literal.
+5. Optional challenge: do exercise 3 with a `while` loop (not done).
+
+Review notes: the two `for...of` loops could be merged into one. `\n` inside a string is an escape that starts a new line. Match the exact wording requested in a task.
+
+Understanding check questions skipped (user has strong C/C++/Java background).
+
+---
+
+# Lesson 2: Functions (done)
+
+Background note: you know functions from C, C++ and Java. This lesson covers only what is different in JavaScript.
+
+## Three ways to write a function
+
+```js
+// 1. Function declaration
+function add(a, b) {
+  return a + b;
+}
+
+// 2. Arrow function stored in a const
+const add2 = (a, b) => {
+  return a + b;
+};
+
+// 3. Arrow function, short form: one expression, "return" is implicit
+const add3 = (a, b) => a + b;
+const double = n => n * 2;          // one parameter: parentheses optional
+const makePoint = (x, y) => ({ x, y }); // returning an object literal: wrap it in ( )
+```
+
+- No types anywhere: no return type, no parameter types. JavaScript never checks them.
+- With braces `{ }` you must write `return`. Without braces, the expression is returned automatically.
+- A function with no `return` gives back `undefined`.
+- Arrow functions are the modern default and are what you will see in React and in `map`/`filter`.
+
+## Default parameters
+
+```js
+function greet(name = "friend") {
+  return `Hello ${name}`;
+}
+greet();          // Hello friend
+greet("Maruf");   // Hello Maruf
+```
+
+## Arguments are not checked (big difference from C++/Java)
+
+- No overloading. One name is one function.
+- Missing arguments become `undefined`. Extra arguments are silently ignored.
+
+```js
+function f(a, b) { return a + b; }
+f(1);          // NaN   (1 + undefined)
+f(1, 2, 3);    // 3     (the 3 is ignored)
+```
+
+`NaN` means "not a number". This is a common source of silent bugs.
+
+## Functions are values (first-class functions)
+
+A function can be stored in a variable, passed to another function, and returned from one. This is the most important idea in this lesson.
+
+```js
+const double = n => n * 2;
+
+function applyTwice(fn, x) {
+  return fn(fn(x));
+}
+
+applyTwice(double, 5);   // 20
+```
+
+A function passed into another function is called a **callback**. In C++ the nearest idea is a function pointer or lambda. JavaScript uses this everywhere:
+- `array.map(fn)` and `array.filter(fn)` (Lesson 4)
+- `promise.then(fn)` and event handlers (Lessons 6-7, and React)
+
+## Hoisting
+
+Function declarations are available before the line where they appear. Arrow functions in a `const` are not:
+
+```js
+sayHi();                      // works
+function sayHi() { console.log("hi"); }
+
+sayHello();                   // ReferenceError: Cannot access 'sayHello' before initialization
+const sayHello = () => console.log("hello");
+```
+
+Practical rule: define a function before you use it, and you will not meet this problem.
+
+## Scope
+
+- `let` and `const` are **block scoped**: they exist only inside the nearest `{ }`.
+- A function can read variables from the scope around it. A function that does this and is used later is called a **closure**:
+
+```js
+function makeCounter() {
+  let count = 0;
+  return () => ++count;      // remembers "count" after makeCounter has finished
+}
+const next = makeCounter();
+next();   // 1
+next();   // 2
+```
+
+You will not write closures often right now, but React hooks depend on this idea.
+
+## Common mistakes
+
+- Writing `return` and then a new line for the value. JavaScript can end the statement at the line break, so the function returns `undefined`.
+- Forgetting parentheses around an object literal in a short arrow function.
+- Calling `fn` vs passing `fn`: `applyTwice(double, 5)` passes the function, `applyTwice(double(5), 5)` passes the number 10.
+
+## Exercise status
+
+`lesson2/lesson2.js`: done (2026-11-05). Revisit later: retype `applyTwice` from memory to check you are comfortable passing functions as arguments. Fixes made to your code: missing `const` in `for (const number of numbers)` (without it JavaScript silently creates a global variable), and `>` changed to `>=` so that a score of exactly 60 passes.
+1. `average(numbers)` as a function declaration. It returns the average of an array, using a loop.
+2. `isPassing(score, threshold = 60)` as an arrow function, returning true or false. Test it with and without the second argument.
+3. `applyTwice(fn, x)` as above. Test it with `double`, then with an arrow function you write inline, like `applyTwice(n => n + 3, 10)`.
+4. Predict, then run: `f(1)` and `f(1, 2, 3)` from the "arguments are not checked" section. Write your predictions in a comment first.
+
+---
+
+# Lesson 3: Objects and arrays (done)
+
+Background note: you know arrays and structs/classes from C, C++ and Java. JavaScript objects and arrays are much looser, and the syntax below is used in nearly all React code.
+
+## Objects
+
+An object is a collection of key-value pairs. No class is needed; you write one directly (an "object literal"):
+
+```js
+const student = { name: "Aisha", score: 82, tags: ["ml", "python"] };
+
+student.name;            // "Aisha"      (dot access)
+student["name"];         // "Aisha"      (bracket access, key can be a variable)
+student.score = 90;      // change a value
+student.age = 21;        // add a new property, no declaration needed
+delete student.age;      // remove it
+student.address;         // undefined    (missing property: no error)
+```
+
+- Nested data is normal: `student.address.city`. If `address` is `undefined`, that line throws `TypeError: Cannot read properties of undefined`. The safe form is optional chaining: `student.address?.city`, which gives `undefined` instead of an error.
+- `Object.keys(obj)`, `Object.values(obj)` and `Object.entries(obj)` give arrays of the keys, values, or [key, value] pairs.
+- Objects like this are almost exactly JSON, which is how JavaScript and Python backends exchange data (Lesson 8).
+
+## `const` does not freeze the contents
+
+This resolves the question from Lesson 1. `const` stops the **name** being reassigned. It does not stop the **contents** changing:
+
+```js
+const student = { name: "Aisha" };
+student.name = "Mina";          // allowed, the object is modified
+student = { name: "Mina" };     // TypeError: Assignment to constant variable.
+```
+
+## Arrays
+
+A dynamic list, like `ArrayList` or `std::vector`, but it can hold mixed types:
+
+```js
+const scores = [82, 45, 91];
+scores.push(60);         // add to the end
+scores.pop();            // remove and return the last item
+scores.length;           // 3
+scores[0];               // 82
+scores.at(-1);           // 91, negative index counts from the end (like Python)
+scores[10];              // undefined, an out-of-range read does not throw
+```
+
+## Assignment copies the reference, not the value
+
+```js
+const a = [1, 2, 3];
+const b = a;
+b.push(4);
+console.log(a);   // [1, 2, 3, 4]   a and b are the same array
+```
+
+Objects and arrays behave like references in Java. To copy, use spread (below).
+
+## Destructuring
+
+Pull values out of objects and arrays into variables in one line.
+
+```js
+const { name, score } = student;          // by property name
+const { name: studentName } = student;    // rename while extracting
+const { age = 18 } = student;             // default if the property is missing
+const [first, second] = scores;           // by position
+```
+
+It also works in function parameters, which is how React components receive props:
+
+```js
+const describe = ({ name, score }) => `${name}: ${score}`;
+describe(student);    // "Aisha: 82"
+```
+
+## Spread `...` and rest `...`
+
+The same three dots do two jobs.
+
+**Spread** expands an object or array into a new one. Use it to copy and to make changed copies:
+
+```js
+const copy = [...scores];                       // new array with the same items
+const extended = [...scores, 100];              // new array with one more item
+const updated = { ...student, score: 70 };      // new object, score replaced
+const merged = { ...a, ...b };                  // later keys win
+```
+
+`updated` is a new object, so `student` is unchanged. This "copy instead of modify" style is how React state updates work in Phase 2.
+
+Spread makes a **shallow** copy: nested arrays and objects are still shared with the original.
+
+**Rest** collects the remaining items:
+
+```js
+const [head, ...others] = [1, 2, 3, 4];      // head = 1, others = [2, 3, 4]
+const { name, ...remaining } = student;       // remaining has every property except name
+function sum(...nums) {                        // nums is an array of all arguments
+  let total = 0;
+  for (const n of nums) total += n;
+  return total;
+}
+sum(1, 2, 3, 4);   // 10
+```
+
+## Destructuring and spread, step by step
+
+Added after the first explanation was too fast.
+
+### Destructuring: why
+
+Without it, pulling values out of an object takes one line each:
+
+```js
+const student = { name: "Aisha", score: 82 };
+const name = student.name;
+const score = student.score;
+```
+
+Destructuring is a shortcut for exactly those lines:
+
+```js
+const { name, score } = student;
+```
+
+Read it as: "create variables called `name` and `score`, and fill them from `student`." The `{ }` on the left is a **pattern**, not a new object. The names must match the property names, and order doesn't matter.
+
+```js
+const { score } = student;                 // take only what you need
+const { name: studentName } = student;     // rename (the colon means "rename", not a type)
+const { age = 18 } = student;              // default used when the property is missing
+```
+
+Arrays are matched by **position**, and you choose the names:
+
+```js
+const [first, second] = scores;     // first = scores[0], second = scores[1]
+```
+
+(Python comparison: `a, b = pair` is the array form. Python has no direct form for dictionaries.)
+
+In function parameters it saves the repeated `student.`:
+
+```js
+const describe = ({ name, score }) => `${name}: ${score}`;
+```
+
+The function still receives one object. React components receive all their inputs as one `props` object and destructure it the same way.
+
+### Spread: why
+
+`const b = a` points at the same array, so it is not a copy. Spread `...` means "unpack everything inside this, right here":
+
+```js
+const base = [1, 2, 3];
+const more = [...base, 4];     // [...base, 4] becomes [1, 2, 3, 4], a NEW array
+```
+
+For objects, a later key overwrites an earlier one:
+
+```js
+const updated = { ...student, score: 70 };   // { name: "Aisha", score: 82, score: 70 } -> score is 70
+```
+
+`student` is unchanged. Order matters: `{ score: 70, ...student }` puts the old score back, because `student` comes later.
+
+(Python comparison: `[*base, 4]` and `{**student, "score": 70}`.)
+
+### One rule for the three dots
+
+- Where you **write a value** (inside the `[ ]` or `{ }` you are building): `...` **spreads** (expands).
+- Where you **receive** values (a parameter list, or the left of `=`): `...` **collects** the rest.
+
+### Rest parameters (exercise item 6)
+
+Explained from scratch because the first version assumed too much.
+
+**The problem.** A normal function has a fixed number of parameters. `function add(a, b)` adds exactly two numbers. You cannot write a parameter for every possible count.
+
+**Solution 1, which you already know:** pass an array, `sumArray([1, 2, 3, 4])`. The caller has to wrap the values in `[ ]`.
+
+**Solution 2, a rest parameter:** the caller just lists the values, `sum(1, 2, 3, 4)`. You write three dots before the parameter name:
+
+```js
+function sum(...nums) { ... }
+```
+
+`...nums` means "gather every value the caller passed into one array called `nums`". For `sum(1, 2, 3, 4)`, `nums` is `[1, 2, 3, 4]` inside the function. It is an ordinary array, so `for...of`, `.length` and the accumulator pattern all work.
+
+Normal parameters can come first. The rest parameter must be **last**:
+
+```js
+function f(first, ...others) {
+  console.log(first);    // 1
+  console.log(others);   // [ 2, 3 ]
+}
+f(1, 2, 3);
+```
+
+**Answer to exercise item 6:**
+
+```js
+function sum(...nums) {
+  let total = 0;
+  for (const n of nums) {
+    total += n;
+  }
+  return total;
+}
+
+console.log(sum(1, 2, 3, 4));   // 10
+console.log(sum(5));            // 5
+console.log(sum());             // 0 (nums is an empty array)
+```
+
+The loop is identical to `average` in Lesson 2. The only difference is how the caller passes the values: `sum(1, 2, 3, 4)` instead of `average([1, 2, 3, 4])`.
+
+**Rest vs spread.** Both are `...`, opposite directions. Rest (in a parameter list) gathers separate values **into** an array. Spread (in a call or array) expands an array **into** separate values: `sum(...[1, 2, 3])` is the same as `sum(1, 2, 3)`.
+
+### Warm-up exercises (predict, then run)
+
+```js
+// A
+const p = { x: 1, y: 2, z: 3 };
+const { x, z } = p;
+console.log(x, z);
+
+// B
+const nums = [10, 20, 30];
+const [a, b] = nums;
+console.log(a, b);
+
+// C
+const base = [1, 2];
+const more = [...base, 3];
+console.log(base, more);
+
+// D
+const o = { a: 1, b: 2 };
+const o2 = { ...o, b: 99, c: 3 };
+console.log(o, o2);
+```
+
+Status: done (2026-11-06). B, C and D correct. In A the user wrote `{ x, y: z }` (rename `y` to `z`) instead of `{ x, z }`, which prints `1 2` instead of `1 3`. The colon renames: the name before it must exist in the object.
+
+## Printing an object: `console.log(obj)` vs `${obj}`
+
+```js
+const student = { name: "Aisha", score: 82 };
+
+console.log(student);               // { name: 'Aisha', score: 82 }
+console.log(`${student}`);          // [object Object]
+console.log(JSON.stringify(student));   // {"name":"Aisha","score":82}
+console.log(`${[1, 2, 3]}`);        // 1,2,3
+console.log("score is", student);   // score is { name: 'Aisha', score: 82 }
+console.log(`name is ${student.name}`); // name is Aisha
+```
+
+- `console.log(obj)` is a debugging tool. Node formats the object for you so you can inspect it. It is not turning the object into a string first.
+- A template literal needs a **string**, so JavaScript converts the object to one. The default conversion for any plain object is the useless text `[object Object]`. (Arrays convert by joining their items with commas.)
+- To put a whole object into text, use `JSON.stringify(obj)`. To show one value, use `${student.name}`.
+- Seeing `[object Object]` in output almost always means "an object was converted to a string by mistake". It is a common bug in React pages too.
+- Python comparison: `print(obj)` and `f"{obj}"` both call the object's string conversion, so they match. In JavaScript, `console.log` is special, which is why they differ.
+
+## Common mistakes
+
+- Thinking `const` makes an object or array unchangeable.
+- Putting a whole object inside a template literal and getting `[object Object]`.
+- `const b = a` and expecting a copy.
+- Reading a property of something that is `undefined` (use `?.` or check first).
+- Mixing up `{ }` destructuring (by name) with `[ ]` destructuring (by position).
+
+## Exercise status
+
+`lesson3/lesson3.js`: done (2026-11-06). Rest parameters were new to you, so revisit later: retype `sum(...nums)` from memory to check you can.
+- Item 1: prints the last student's name and the tag. Correct.
+- Item 2: correct.
+- Item 3: copy with `score: 70` is correct, and the original is printed to show it is unchanged.
+- Item 4: `push` works on a `const` array because `const` only stops the name being reassigned.
+- Item 5: works (it returns more than asked, it also includes `tags`, which is fine).
+- Item 6: `sum(...nums)` returns 10, 5 and 0 for `sum(1,2,3,4)`, `sum(5)` and `sum()`.
+
+Use this data:
+
+```js
+const students = [
+  { name: "Aisha", score: 82, tags: ["ml", "python"] },
+  { name: "Rahim", score: 45, tags: ["web"] },
+  { name: "Mina", score: 91, tags: ["ml", "js", "react"] },
+];
+```
+
+1. Print the second tag of the third student, and the name of the last student using `.at(-1)`.
+2. In one line, destructure `name` and `score` from `students[0]` and print them in a template literal.
+3. Make a copy of `students[1]` with `score` changed to 70 using spread. Print both objects to prove the original did not change.
+4. Add a new student to the end of `students` using `push`. In a comment, explain why this works even though `students` is `const`.
+5. Write `describe = ({ name, score }) => ...` that destructures in the parameter list and returns `"Aisha: 82"`. Call it on the first student.
+6. Write `sum(...nums)` using a rest parameter. Call `sum(1, 2, 3, 4)`.
+
+---
+
+# Lesson 4: Array methods
+
+## Part 1: map, filter, find (done, 2026-11-06)
+
+### What they are and why
+
+These are methods that every array has. Each one takes a **function** (a callback, from Lesson 2) and calls it once for every item. They replace the `for` loop plus an empty array plus `push` that you would otherwise write.
+
+### `map`: transform every item
+
+Returns a **new array of the same length**, where each item is whatever the callback returns. The original is not changed.
+
+```js
+const scores = [82, 45, 91];
+
+// with a loop
+const curved = [];
+for (const s of scores) {
+  curved.push(s + 5);
+}
+
+// with map
+const curved2 = scores.map((s) => s + 5);   // [87, 50, 96]
+```
+
+The name `s` is yours to choose. It is the parameter that receives each item in turn. (Python comparison: `[s + 5 for s in scores]`.)
+
+With objects:
+
+```js
+const names = students.map((student) => student.name);        // ["Aisha", "Rahim", ...]
+const names2 = students.map(({ name }) => name);              // same, with destructuring
+```
+
+### `filter`: keep some items
+
+Returns a **new array** containing only the items for which the callback returns `true`.
+
+```js
+const passing = scores.filter((s) => s >= 60);      // [82, 91]
+```
+
+(Python comparison: `[s for s in scores if s >= 60]`.)
+
+### `find`: get the first match
+
+Returns the **first item** for which the callback returns `true`, or `undefined` if there is none. It returns the item itself, not an array.
+
+```js
+const mina = students.find((s) => s.name === "Mina");    // the Mina object
+const nobody = students.find((s) => s.name === "Zed");   // undefined
+```
+
+### Chaining
+
+`map` and `filter` return arrays, so you can call another method straight on the result:
+
+```js
+const passingNames = students
+  .filter((s) => s.score >= 60)
+  .map((s) => s.name);
+```
+
+Read it top to bottom: "keep the students who passed, then take their names."
+
+### Handy: `includes`
+
+`array.includes(value)` returns `true` or `false`: `["ml", "js"].includes("ml")` is `true`. It is useful inside a `filter` callback.
+
+### Why this matters for React
+
+In React, showing a list on the page is `items.map((item) => ...)`. You will use `map` constantly in Phase 2.
+
+### Common mistakes
+
+- **Braces without `return`.** `scores.map((s) => { s * 2 })` gives `[undefined, undefined, undefined]`, because a function body in `{ }` needs an explicit `return`. Either write `(s) => s * 2` or `(s) => { return s * 2; }`.
+- Expecting `map` or `filter` to change the original array. They never do; they return a new one.
+- Expecting `find` to return an array. It returns one item or `undefined`.
+- Using `map` when you do not use the returned array. Use a `for...of` loop or `forEach` for that.
+
+### Exercise status
+
+`lesson4/lesson4a.js` (renamed from `lesson4.js`): done (2026-11-06). Revisit later: retype the filter-then-map chain from item 5 from memory. Verified with a fake high scorer without the `ml` tag, who is correctly excluded. Review:
+- Items 1 to 4: correct.
+- Item 5: the `ml` tag condition was missing at first. Second attempt chained `filter`, `map`, then `find(st => st.includes("ml"))`. That fails because each chain step receives the output of the previous step: after `map(st => st.name)` the items are plain name strings, so `tags` no longer exists, and `find` returns only one item anyway. Fix: do both checks in one `filter` callback while the items are still objects (`score >= 60 && tags.includes("ml")`), then `map` last to get the names. Rule: filter first on the full objects, map last to reshape.
+- Item 6: first prediction was wrong; second attempt correct (five `undefined` values). You predicted the doubled scores, but a function body in `{ }` without `return` gives back `undefined`, so `map` returns an array of `undefined`. The doubling itself was understood.
+- Style: JavaScript uses camelCase (`passedMl`), not Python's snake_case (`passed_ml`).
+
+Use this data:
+
+```js
+const scores = [82, 45, 91, 60, 38];
+const students = [
+  { name: "Aisha", score: 82, tags: ["ml", "python"] },
+  { name: "Rahim", score: 45, tags: ["web"] },
+  { name: "Mina", score: 91, tags: ["ml", "js", "react"] },
+  { name: "Noman", score: 99, tags: ["ml", "java", "python"] },
+];
+```
+
+1. `map`: a new array where every score has 5 added. Print it and the original.
+2. `filter`: only the scores that are 60 or more.
+3. `map` on `students`: an array of just the names.
+4. `find`: the student named `"Mina"`. Then `find` a name that does not exist and predict what you get.
+5. Chain `filter` and `map`: the names of students who scored 60 or more **and** have the tag `"ml"`.
+6. Predict the output without running it, then check: `console.log(scores.map((s) => { s * 2 }));`
+
+## Part 2: some, every, reduce, sort (done, 2026-11-06)
+
+All outputs below were run in Node to check them.
+
+### `some` and `every`: yes/no questions about an array
+
+Both return a boolean. (Python comparison: `any(...)` and `all(...)`.)
+
+```js
+const scores = [82, 45, 91, 60, 38];
+
+scores.some((s) => s >= 90);     // true   (at least one item passes the test)
+scores.every((s) => s >= 60);    // false  (not every item passes)
+```
+
+On an empty array, `some` is `false` and `every` is `true`.
+
+### `reduce`: combine all items into ONE value
+
+`reduce` is the accumulator loop from Lesson 1 Part 3, written as a method. Compare:
+
+```js
+// with a loop
+let total = 0;
+for (const s of scores) {
+  total = total + s;
+}
+
+// with reduce
+const total2 = scores.reduce((total, s) => total + s, 0);     // 316
+```
+
+The callback receives two things: the **accumulator** (the running result so far) and the **current item**. Whatever the callback returns becomes the accumulator for the next round. The second argument to `reduce` (`0` here) is the **starting value** of the accumulator.
+
+Walk-through of `[82, 45, 91]` with start `0`:
+
+| round | accumulator in | item | callback returns |
+|---|---|---|---|
+| 1 | 0 | 82 | 82 |
+| 2 | 82 | 45 | 127 |
+| 3 | 127 | 91 | 218 |
+
+The final result is 218.
+
+More examples:
+
+```js
+scores.reduce((max, s) => (s > max ? s : max), scores[0]);          // 91, the largest
+scores.reduce((count, s) => (s >= 60 ? count + 1 : count), 0);      // 3, how many passed
+```
+
+`condition ? a : b` is the ternary operator: it gives `a` if the condition is true and `b` otherwise. You will see it in React often.
+
+Rules: always pass the starting value, and remember that braces in the callback need an explicit `return`.
+
+### `sort`: two traps
+
+**Trap 1: `sort` changes the original array** and also returns it.
+
+```js
+const copy = [3, 1, 2];
+copy.sort();           // copy itself is now [1, 2, 3]
+```
+
+To keep the original, copy first with spread: `[...scores].sort(...)`. Modern Node also has `toSorted(...)`, which returns a new array and leaves the original alone.
+
+**Trap 2: the default sort compares items as text.**
+
+```js
+[10, 9, 1].sort();                     // [ 1, 10, 9 ]   wrong for numbers
+[10, 9, 1].sort((a, b) => a - b);      // [ 1, 9, 10 ]   ascending
+[10, 9, 1].sort((a, b) => b - a);      // [ 10, 9, 1 ]   descending
+```
+
+The compare function receives two items, `a` and `b`. If it returns a negative number, `a` goes first; if positive, `b` goes first. So `a - b` sorts ascending.
+
+Sorting objects by a property:
+
+```js
+[...students].sort((a, b) => b.score - a.score).map((s) => s.name);   // highest score first
+```
+
+### Common mistakes
+
+- Calling `reduce` without a starting value.
+- Forgetting `return` when the callback has braces.
+- Calling `.sort()` on numbers with no compare function.
+- Forgetting that `sort` modifies the original array.
+
+### Exercise status
+
+`lesson4/lesson4b.js`: done (2026-11-06). Review notes:
+- Item 1: an `if` that prints only when the result is true hides a `false` result. Print the boolean itself so both answers always show.
+- Item 3: `reduce` without a starting value works (it starts from the first item) but throws on an empty array.
+- Item 6: output `[ 100, 25, 3 ]` is right, and it shows the trap: the default sort compares as text, so it is not numerically sorted.
+- Style: avoid naming a callback parameter the same as an outer variable (`total` inside `const total = ...reduce(...)`); it works by shadowing but reads badly.
+
+Exercise items (same `scores` and `students` data as part 1):
+
+1. `some`: is there any score above 90? `every`: did everybody score at least 40? Print both.
+2. `reduce`: the total of `scores`, then the average (divide by `scores.length`).
+3. `reduce`: the highest score in `scores`, without using `Math.max`.
+4. `sort`: the `scores` in descending order, **without changing the original** `scores`. Print both.
+5. `sort` the `students` by score from highest to lowest and print only their names.
+6. Predict, then check: `console.log([100, 25, 3].sort());`
+
+---
+
+# Lesson 5: Modules (import / export) (done, 2026-11-06)
+
+## What a module is and why
+
+A module is just a file. Every file keeps its own variables private: a `const` at the top of one file cannot be seen from another file. To share something you **export** it from one file, and **import** it in the file that needs it.
+
+Why: it lets you split a program into small files, each doing one job, instead of one huge file. React projects are made of hundreds of small files connected this way, so every React file starts with imports.
+
+## Named exports
+
+A file can export many things, each by name:
+
+```js
+// mathUtils.js
+export const PI = 3.14159;
+
+export function add(a, b) {
+  return a + b;
+}
+```
+
+Import them with **braces**. The names must match exactly:
+
+```js
+// main.js
+import { add, PI } from "./mathUtils.js";
+
+console.log(add(2, 3));   // 5
+```
+
+Rename on import with `as`:
+
+```js
+import { PI as pi } from "./mathUtils.js";
+```
+
+Import everything under one name with `* as`:
+
+```js
+import * as math from "./mathUtils.js";
+math.add(1, 1);           // 2
+```
+
+## Default export
+
+A file can have **one** default export. Import it **without braces**, and you choose the name:
+
+```js
+// greet.js
+export default function greet(name) {
+  return `Hello ${name}`;
+}
+
+// main.js
+import greet from "./greet.js";          // could be called anything: import hello from ...
+```
+
+You can mix both in one import: `import greet, { add, PI } from "./mathUtils.js";`
+
+When to use which: React components are usually default exports (one component per file). Helper functions and constants are usually named exports.
+
+## `export` vs `export default`: the difference
+
+"Export" on its own means a **named** export. The two kinds differ in four ways:
+
+| | Named export | Default export |
+|---|---|---|
+| Written as | `export const PI = 3` or `export function add() {}` | `export default students;` |
+| How many per file | as many as you like | at most one |
+| Imported with | braces: `import { add } from "./x.js"` | no braces: `import students from "./x.js"` |
+| Name in the importing file | must match, or rename with `as` | any name you like |
+
+Think of a file as a box. Named exports are **labelled items**: you ask for them by label. The default export is **the one main thing** the file is about, so you just ask for "the box's main item" and call it whatever you like.
+
+Same file, both kinds (this is your `students.js`):
+
+```js
+export default students;          // the main thing
+export function getPassing() {}   // an extra helper
+```
+
+```js
+import students, { getPassing } from "./students.js";
+//     ^ default, no braces   ^ named, braces
+```
+
+Why both exist: a file that is "about one thing" (a React component) uses a default export. A file full of helpers or constants uses named exports, because the names document what is available and the importing side cannot misspell them silently. Many teams prefer named exports everywhere, because with a default export every file can rename it differently.
+
+Item 6 error: `import { students } from "./students.js"` fails with `The requested module './students.js' does not provide an export named 'students'`, because braces ask for a **named** export and `students` is the **default**.
+
+## Paths
+
+- `"./mathUtils.js"` means "the file in the same folder". `"../x.js"` means one folder up. The `./` or `../` is required for your own files.
+- In plain Node you must write the `.js` extension. I tested leaving it out and got `ERR_MODULE_NOT_FOUND`. Tools like Vite (used for React) let you leave it out, but keep it in Node.
+
+## Running modules in Node
+
+Node has two module systems:
+- **ES modules** (`import` / `export`): the modern standard, used by browsers, Vite and React. This is what we use.
+- **CommonJS** (`require(...)` / `module.exports = ...`): the older Node style. You will see it in old tutorials and some Node code. Recognise it, but write `import`.
+
+In your Node version (v24), a `.js` file containing `import` is detected as an ES module automatically. To be explicit, the `lesson5/` folder has a `package.json` containing `{ "type": "module" }`, which is also how Vite projects are set up.
+
+Run the entry file from inside the folder: `cd lesson5` then `node main.js`. Only run the file that imports the others (`main.js`); `mathUtils.js` and `students.js` have nothing to run on their own.
+
+## Common mistakes
+
+- Forgetting the `./` in the path, or the `.js` extension in Node.
+- Using braces for a default export (`import { greet } from ...`) or leaving them off for a named export. The error says `does not provide an export named ...`.
+- Misspelling a name: named imports must match the export exactly.
+- Trying to run the module file instead of the file that imports it.
+
+## Exercise status
+
+`lesson5/`: done (2026-11-06): `mathUtils.js`, `students.js`, `main.js`, `scratch.js`. Output: `5 20`, `10`, `[ 'Aisha', 'Mina', 'Noman' ]`. Review notes:
+- `getPassing` first returned a single `false` (it used `list.score` on the array), then `[]` (it compared the whole student object to 60). Fixed by filtering on `s.score`. Lesson: in a callback over objects, `s` is the whole object, so look inside it.
+- Design note: `getPassing` now returns names (the `map` is inside it), but the task said it should return the passing **students**, with the `map` done in `main.js`. A function named `getPassing` that returns names is misleading. It works, so it was left as written.
+- Item 6 error confirmed in `scratch.js`. The prediction was not written down before running; do that next time.
+- Formatting changed: imports moved to the top of `main.js` (standard convention, behaviour identical).
+
+The exercise items were:
+
+1. `mathUtils.js`: export `add(a, b)`, `multiply(a, b)` and a constant `TAX_RATE = 0.1`, all as named exports.
+2. `main.js`: import `add` and `multiply` with braces; print `add(2, 3)` and `multiply(4, 5)`.
+3. `main.js`: import `TAX_RATE` renamed to `taxRate`; print `100 * taxRate`.
+4. `students.js`: `export default` the students array, and export a named function `getPassing(list)` that returns the students with `score >= 60`.
+5. `main.js`: import the default array and `getPassing`; print the names of the passing students.
+6. Predict, then check in a scratch file: what happens with `import { students } from "./students.js"` when `students` is the default export?
+
+---
+
+# Lesson 6: Promises (taught, exercise pending)
+
+All outputs below were run in Node. This is the first idea in the course with no direct C++/Java equivalent, so it is explained from the problem upward.
+
+## The problem: some things take time
+
+Some operations are slow: a network request, reading a big file, a database query, a timer. JavaScript runs **one thing at a time**. If it stood and waited for a slow operation, everything else (a web page, a server handling other users) would freeze.
+
+So JavaScript does this instead: it **starts** the slow operation, **moves on** to the next line, and the result arrives **later**.
+
+```js
+console.log("1: start");
+setTimeout(() => console.log("4: after 1 second"), 1000);   // start a timer, do not wait
+console.log("2: end of the script");
+```
+
+Output order: `1: start`, `2: end of the script`, then 1 second later `4: after 1 second`. The code after `setTimeout` does **not** wait for it. Even `setTimeout(fn, 0)` runs after the lines below it.
+
+`setTimeout(fn, ms)` calls `fn` after `ms` milliseconds. It is a simple stand-in for any slow operation.
+
+The restaurant picture: you order food and get a buzzer. You do not stand at the kitchen door; you sit down, and the buzzer rings when the food is ready. A promise is the buzzer.
+
+## The old way: callbacks
+
+You pass a function to run when the slow thing finishes (like the `setTimeout` above). It works, but doing several slow steps in a row means nesting callbacks inside callbacks, which gets very hard to read. Promises were added to fix that.
+
+## What a promise is
+
+A **promise** is an object that stands for a value that is **not available yet**. It is always in one of three states:
+
+| State | Meaning |
+|---|---|
+| pending | still working |
+| fulfilled | finished successfully, has a value |
+| rejected | failed, has an error |
+
+```js
+const p = getScore(false);
+console.log(p);                       // Promise { <pending> }   (printed right away)
+// ...300 ms later...
+console.log(p);                       // Promise { 82 }
+```
+
+A promise changes state **once** and then never again.
+
+## Creating a promise (to understand how they work)
+
+You will mostly receive promises from other code (`fetch` in Lesson 8). But creating one shows what is happening:
+
+```js
+function getScore(shouldFail) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldFail) {
+        reject(new Error("Could not load score"));
+      } else {
+        resolve(82);
+      }
+    }, 300);
+  });
+}
+```
+
+- `new Promise((resolve, reject) => { ... })`: you give it a function. JavaScript passes that function **two functions**.
+- Call `resolve(value)` when it worked. The promise becomes fulfilled with `value`.
+- Call `reject(error)` when it failed. The promise becomes rejected with `error`. Use `new Error("message")` for the error.
+
+A reusable "wait" helper (you will write this one):
+
+```js
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+```
+
+## Using a promise: `then`, `catch`, `finally`
+
+```js
+getScore(false).then((s) => console.log("then got:", s));        // then got: 82
+
+getScore(true)
+  .then((s) => console.log("never printed", s))
+  .catch((e) => console.log("catch got:", e.message))            // catch got: Could not load score
+  .finally(() => console.log("finally runs either way"));
+```
+
+- `.then(fn)`: runs `fn` with the value when the promise is **fulfilled**.
+- `.catch(fn)`: runs `fn` with the error when the promise is **rejected**.
+- `.finally(fn)`: runs `fn` in both cases (for cleanup, such as hiding a loading spinner).
+
+## Chaining
+
+`.then(...)` itself returns a **new promise**. Whatever your callback **returns** becomes the value for the next `.then`:
+
+```js
+wait(500)
+  .then(() => 10)
+  .then((n) => n * 2)
+  .then((n) => console.log("chain result:", n));      // chain result: 20
+```
+
+One `.catch` at the end handles a failure in **any** step above it. This is the fix for nested callbacks: a flat list of steps.
+
+## Common mistakes
+
+- **Expecting the code after `.then(...)` to wait.** It does not. The lines below run first, and the `.then` callback runs later.
+- **Forgetting `return` in a `.then` with braces.** Same trap as Lesson 4: with `{ }` you need `return`. Verified:
+
+  ```js
+  wait(600)
+    .then(() => 10)
+    .then((n) => { n * 2; })                          // no return
+    .then((n) => console.log("next then gets:", n));  // next then gets: undefined
+  ```
+
+- **No `.catch`.** If a promise is rejected and nothing handles it, Node prints the error and stops the program. Always handle the failure case.
+- **Treating the promise as the value.** `const score = getScore(false);` gives you a pending promise, not 82. You must use `.then` (or `await`, next lesson) to get the value.
+
+## Why this matters for the roadmap
+
+- `fetch(...)` (Lesson 8) returns a promise.
+- React's data loading, calls from React to FastAPI, and calls to LLM APIs all return promises.
+- Lesson 7 (`async/await`) is just a cleaner way to write exactly this.
+
+## Exercise status
+
+`lesson6/lesson6.js`: pending. A starter file with `// TODO` comments exists.
+
+1. Predict the print order, then run: `console.log("A"); setTimeout(() => console.log("B"), 0); console.log("C");`
+2. Write `wait(ms)` that returns a promise resolving after `ms` milliseconds. Use it: `wait(1000).then(() => console.log("1 second passed"))`.
+3. Write `getStudent(name)` that returns a promise. After 500 ms it resolves with the matching student from the array, or rejects with `new Error("Student not found")` if none matches. Call it with `"Mina"` (print the object) and `"Zed"` (print only the error message), using `then` and `catch`.
+4. Chain: from `getStudent("Aisha")`, take the score, add 5, and print the final number.
+5. Predict, then check: if a middle `.then` uses braces and forgets `return`, what does the next `.then` receive? Print it to see.
+
+---
+
+# Quick reference (Lesson 1)
+
+```js
+const name = "Maruf";                         // fixed value
+let count = 0;                                // changing value
+console.log(`Hello ${name}`);                 // template literal
+typeof name;                                  // "string"
+
+if (count === 0 && name !== "") { }           // === and !==, && || !
+for (let i = 0; i < 5; i++) { }               // counted loop
+for (const item of items) { }                 // every item of an array
+while (count < 3) { count++; }                // repeat until false
+```
+
+# Error messages seen so far
+
+| Error | Meaning |
+|---|---|
+| `TypeError: Assignment to constant variable.` | You reassigned a `const`. Use `let` if it really has to change. |
+
+---
+
+# Template for future lessons
+
+Each new lesson should have: what it is and why, rules with examples, Python comparison, common mistakes, in my own words, exercise status.
