@@ -23,7 +23,9 @@ My running record of what is done and what is next is in [LEARNING_PROGRESS.md](
   - `lesson3/`: objects, arrays, destructuring, spread and rest
   - `lesson4/`: array methods (`map`, `filter`, `find`, `some`, `every`, `reduce`, `sort`)
   - `lesson5/`: modules (`import` and `export`)
-  - `lesson6/` to `lesson9/`: promises, `async`/`await`, `fetch` and JSON, and a small project (coming next)
+  - `lesson6/`: promises, built up from functions as values and arrow functions
+  - `lesson7/`: `async` and `await` (in progress)
+  - `lesson8/` and `lesson9/`: `fetch` and JSON, and a small project (coming next)
 - **LEARNING_PROGRESS.md**: current phase, completed topics, topics I find hard, and what is next.
 
 ## Running the code

@@ -2,10 +2,10 @@
 
 const scores = [82, 45, 91, 60, 38];
 const students = [
-    { name: "Aisha", score: 82, tags: ["ml", "python"] },
-    { name: "Rahim", score: 45, tags: ["web"] },
-    { name: "Mina", score: 91, tags: ["ml", "js", "react"] },
-    { name: "Noman", score: 99, tags: ["ml", "java", "python"] },
+  { name: "Aisha", score: 82, tags: ["ml", "python"] },
+  { name: "Rahim", score: 45, tags: ["web"] },
+  { name: "Mina", score: 91, tags: ["ml", "js", "react"] },
+  { name: "Noman", score: 99, tags: ["ml", "java", "python"] },
 ];
 
 // --- 1. map: add 5 to every score ---
@@ -31,14 +31,14 @@ console.log(random); // undefined, because find returns undefined when nothing m
 // Both checks go in the same filter callback, while the
 // items are still student objects. map comes last to pull out the names.
 const passedMl = students
-    .filter((st) => st.score >= 60 && st.tags.includes("ml"))
-    .map((st) => st.name);
+  .filter((st) => st.score >= 60 && st.tags.includes("ml"))
+  .map((st) => st.name);
 console.log(passedMl);
 
 // --- 6. map without return ---
 // Braces mean a block of statements, so without `return` the callback gives back undefined.
 console.log(
-    scores.map((s) => {
-        s * 2;
-    }),
+  scores.map((s) => {
+    s * 2;
+  }),
 ); // undefined x 5

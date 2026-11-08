@@ -5,8 +5,8 @@ Last updated: 2026-11-06
 ## Current Status
 
 - **Current phase:** Phase 1 - JavaScript Fundamentals and Revision
-- **Current topic:** Lesson 6, Promises (taught, exercise pending). Lesson plan and notes: `phase1-javascript/NOTES.md`
-- **Next learning task:** Exercise 9 in `phase1-javascript/lesson6/lesson6.js`, then Lesson 7 (async/await)
+- **Current topic:** Lesson 7, async/await (taught, exercise pending). Lesson plan and notes: `phase1-javascript/NOTES.md`
+- **Next learning task:** Exercise 10 in `phase1-javascript/lesson7/lesson7.js`, then Lesson 8 (fetch and JSON) in `lesson6/lesson6.js`, then Lesson 7 (async/await)
 
 ## Roadmap
 
@@ -22,17 +22,20 @@ Last updated: 2026-11-06
 ## Completed Topics
 
 - JS Lesson 1: variables (let/const), types, template literals, ===, if, loops (for, for...of, while) - 2026-11-05. Exercises passed. Own-words write-ups and recap questions were skipped (strong C, C++ and Java background, see below).
-- JS Lesson 2: functions (declarations, arrow functions, default parameters, callbacks, hoisting, scope) - 2026-11-05.- JS Lesson 3: objects, arrays, destructuring, spread, rest parameters - 2026-11-06.- JS Lesson 4 part 1: map, filter, find - 2026-11-06.- JS Lesson 5: modules (named and default exports, imports, renaming, ES modules in Node) - 2026-11-06.- JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
+- JS Lesson 2: functions (declarations, arrow functions, default parameters, callbacks, hoisting, scope) - 2026-11-05.- JS Lesson 3: objects, arrays, destructuring, spread, rest parameters - 2026-11-06.- JS Lesson 4 part 1: map, filter, find - 2026-11-06.- JS Lesson 5: modules (named and default exports, imports, renaming, ES modules in Node) - 2026-11-06.- JS Lesson 6: promises (a promise as a box, `resolve` and `reject` as buttons, `then`, `catch`, chaining) - 2026-11-08. Started with three small steps on functions as values and arrow functions, because the first explanation was too fast.
+- JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
 ## Topics I Understand
 
 - Programming fundamentals: strong prior experience in C, C++ and Java (self-reported). JavaScript is the unfamiliar part, so lessons focus on how JS differs.
 - JS Lesson 1 topics, verified by exercises (lesson1/lesson1a.js, lesson1b.js, lesson1c.js)
+- Functions as values and callbacks: `sayHi` vs `sayHi()`, passing a function to another function, and why a timer runs it later (Lesson 6 basics, steps 1-3, answered correctly in their own words, 2026-11-08). Arrow functions (with and without braces) and returning vs printing a value (Step 4, after one correction).
 
 ## Topics I Struggle With
 
 - Destructuring and spread (needed a second, step-by-step explanation in Lesson 3; warm-ups B, C, D then correct).
 - Rest parameters (`...nums` in a parameter list) were unclear at first.
 - Arrow functions with braces: forgot that `{ }` needs an explicit `return` (Lesson 4 item 6 prediction was wrong). Watch for this again.
+- Promises (Lesson 6): the first explanation was too fast. The gap underneath is passing a function to another function to be run later (callbacks), so Lesson 6 now starts with three small steps from zero.
 - Chaining array methods: each step receives the previous step's output, so `map` before `filter` loses the data `filter` needed (Lesson 4 item 5).
 - No diagnostic was taken; other weak spots will show up in exercises.
 
@@ -42,6 +45,7 @@ Retype these from memory in a later session, to check they have really stuck:
 - `applyTwice(fn, x)` (passing a function as an argument)
 - `sum(...nums)` (rest parameters)
 - A `filter` with two conditions followed by a `map` (chaining array methods)
+- `wait(ms)` and `getStudent(name)` with `resolve` and `reject` (promises)
 
 ## Exercises Completed
 
@@ -53,6 +57,8 @@ Retype these from memory in a later session, to check they have really stuck:
 - lesson4/lesson4a.js (map, filter, find)
 - lesson4/lesson4b.js (some, every, reduce, sort)
 - lesson5/ (mathUtils.js, students.js, main.js, scratch.js: named and default exports)
+- lesson6/basics.js (functions as values, callbacks, arrow functions, printing vs returning)
+- lesson6/lesson6.js (print order, wait, getStudent with resolve and reject, then chain, missing return)
 
 ## Projects Completed
 

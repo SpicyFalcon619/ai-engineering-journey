@@ -38,8 +38,8 @@ Each lesson is roughly 1 hour. At 3-4 hours per week, the whole phase is about 3
 | 3 | Objects and arrays | Properties, nested data, destructuring, spread and rest | done |
 | 4 | Array methods | map, filter, find (part 1); some, every, reduce, sort (part 2) | done |
 | 5 | Modules | import, export, default vs named | done |
-| 6 | Promises | Why async exists, callbacks, Promise, then/catch | taught, exercise pending |
-| 7 | async/await | async functions, await, try/catch | not started |
+| 6 | Promises | Why async exists, callbacks, Promise, then/catch | done |
+| 7 | async/await | async functions, await, try/catch | taught, exercise pending |
 | 8 | fetch and JSON | GET and POST requests, response.json(), JSON.stringify, status codes | not started |
 | 9 | Mini project | Fetch data from a public API and process it in Node | not started |
 
@@ -321,6 +321,66 @@ const makePoint = (x, y) => ({ x, y }); // returning an object literal: wrap it 
 - With braces `{ }` you must write `return`. Without braces, the expression is returned automatically.
 - A function with no `return` gives back `undefined`.
 - Arrow functions are the modern default and are what you will see in React and in `map`/`filter`.
+
+## Arrow functions, step by step
+
+Added because arrow functions were confusing. An arrow function is **just a shorter way to write a function**. It does the same job as `function`. All outputs below were run.
+
+**Step 1: the normal function.**
+
+```js
+function double1(n) {
+  return n * 2;
+}
+```
+
+**Step 2: the same function as an arrow function.** Replace `function double1(n)` with `const double2 = (n) =>`:
+
+```js
+const double2 = (n) => {
+  return n * 2;
+};
+```
+
+The parts: `const name = (parameters) => { body };`. Read `=>` as "gives back" or "goes to". The function is stored in a variable (the recipe is written down and given a name).
+
+**Step 3: shorter still.** If the body is a single expression, remove the braces **and** the word `return`. The value is returned automatically:
+
+```js
+const double3 = (n) => n * 2;
+```
+
+Calling any of the three, `double1(4)`, `double2(4)` or `double3(4)`, gives `8`.
+
+**Step 4: the parameter list.**
+
+```js
+const sayHello = () => "Hello";          // no parameters: empty brackets
+const add = (a, b) => a + b;             // two parameters
+// sayHello() gives "Hello", add(2, 3) gives 5
+```
+
+With exactly one parameter the brackets are optional (`n => n * 2`), but keeping them, `(n) => n * 2`, is clearer and is what these notes use.
+
+**Step 5: why they exist. Arrow functions are short recipes you hand over without naming them.**
+
+```js
+setTimeout(() => console.log("Hi after 1 second"), 1000);   // no name needed
+[1, 2, 3].map((n) => n * 2);                                // [ 2, 4, 6 ]
+```
+
+Compare with Lesson 6 Step 3: instead of writing `function sayHi() {...}` and then `setTimeout(sayHi, 2000)`, you write the recipe inline inside the `setTimeout(...)` brackets. It is the same thing, with less typing.
+
+**Step 6: the trap.** With braces `{ }`, you must write `return`. Without braces, `return` is automatic:
+
+```js
+const broken = (n) => { n * 2; };       // braces, no return: gives back undefined
+console.log(broken(4));                 // undefined
+```
+
+This is the mistake behind two of your earlier exercises (Lesson 4 item 6 and the promise `then` chain).
+
+**Reading an arrow function aloud:** `(n) => n * 2` means "given `n`, give back `n * 2`".
 
 ## Default parameters
 
@@ -1058,9 +1118,84 @@ The exercise items were:
 
 ---
 
-# Lesson 6: Promises (taught, exercise pending)
+# Lesson 6: Promises (done, 2026-11-08)
 
 All outputs below were run in Node. This is the first idea in the course with no direct C++/Java equivalent, so it is explained from the problem upward.
+
+## Before promises: three small steps, from zero
+
+Promises felt confusing because they stand on an idea that was not practised yet: **a function can be handed to someone else, who runs it later**. These three steps build that idea one piece at a time. All outputs were run in Node.
+
+### Step 1: defining a function vs running it
+
+```js
+function sayHi() {
+  console.log("Hi!");
+}
+
+console.log("A");
+sayHi();              // the ( ) means "run it now"
+console.log("B");
+```
+
+Output: `A`, `Hi!`, `B`.
+
+`function sayHi() {...}` only writes the recipe down. Nothing happens. `sayHi()`, with the brackets, is what actually cooks the recipe. **`sayHi` without brackets is the recipe itself. `sayHi()` with brackets is "run it now".**
+
+### Step 2: a recipe can be handed to someone else
+
+```js
+const myRecipe = sayHi;     // no brackets: copy the recipe, do NOT run it
+console.log("before");
+myRecipe();                 // now run it: prints Hi!
+```
+
+```js
+function doThreeTimes(recipe) {
+  recipe();                 // whoever receives the recipe runs it
+  recipe();
+  recipe();
+}
+
+doThreeTimes(sayHi);        // no brackets after sayHi: hand over the recipe
+```
+
+Output: `Hi!` three times.
+
+The mistake to know about:
+
+```js
+doThreeTimes(sayHi());      // brackets: sayHi runs NOW and prints Hi! once,
+                            // then hands over its result (undefined), not the recipe
+```
+
+Output: `Hi!`, then `Error: recipe is not a function`. A function that is handed to another function to be run later is called a **callback**.
+
+### Step 3: someone else decides WHEN to run your recipe
+
+```js
+console.log("A");
+setTimeout(sayHi, 2000);    // "timer, run sayHi in 2 seconds" (recipe handed over, not run)
+console.log("B");
+```
+
+Output: `A`, `B` immediately, and `Hi!` two seconds later.
+
+`setTimeout` is just `doThreeTimes` with a clock: it receives a recipe and runs it later instead of now. Your program does not stop and wait; it carries on to the next line. This is the idea behind everything in Lesson 6: you hand over a recipe, and the result arrives later.
+
+Practice file: `lesson6/basics.js`. Status (2026-11-08): Steps 1 to 3 answered correctly in your own words. Step 4 (arrow functions): a, c and d correct. b first printed instead of returning (see below), then was fixed to return; only a small typo in the string remained (`"hi"` instead of `"Hi "`). Basics done.
+
+### Printing vs returning
+
+```js
+const greetPrints = (name) => console.log("Hi", name);   // shows text on screen, gives back undefined
+const greetReturns = (name) => "Hi " + name;             // gives the text back to the caller
+
+console.log(greetPrints("Maruf"));    // Hi Maruf   then   undefined
+console.log(greetReturns("Maruf"));   // Hi Maruf
+```
+
+**Printing shows something on the screen. Returning hands a value back to whoever called the function.** A function that only prints cannot be used inside other code (`.map`, `.then`, `reduce`), because it gives nothing back. Step 4 b asked for a function that returns.
 
 ## The problem: some things take time
 
@@ -1102,6 +1237,75 @@ console.log(p);                       // Promise { 82 }
 ```
 
 A promise changes state **once** and then never again.
+
+## Step by step: how `resolve` and `.then` work together
+
+Added because the first explanation was too fast. All three experiments were run, with the time each line printed.
+
+**The model: a promise is a box that you return right away.** Inside the box, someone will press a button when the work is done. That button is `resolve`. `.then(fn)` means "when the button is pressed, run `fn`".
+
+### Experiment 1: press the button yourself
+
+```js
+let pressDone;
+const p = new Promise((resolve) => {
+  pressDone = resolve;              // keep the button so we can press it later
+});
+p.then((value) => console.log("1c. then ran, got:", value));
+console.log("1a. promise made, nothing pressed yet");
+
+setTimeout(() => {
+  console.log("1b. pressing the button now");
+  pressDone("hello");               // press the button, passing the result
+}, 1000);
+```
+
+Output, with the time of each line:
+
+```
+[0.1s] 1a. promise made, nothing pressed yet
+[1.1s] 1b. pressing the button now
+[1.1s] 1c. then ran, got: hello
+```
+
+The `.then` function does **not** run when you write it. It runs only when the button is pressed. Whatever you pass into `resolve(...)` arrives as the parameter of the `.then` function.
+
+### Experiment 2: `wait` is the same thing, with a timer pressing the button
+
+```js
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);       // after ms milliseconds, press the button
+  });
+}
+
+console.log("2a. before wait");
+wait(2000).then(() => console.log("2c. 2 seconds passed"));
+console.log("2b. right after calling wait, no waiting happened");
+```
+
+Output: `2a`, then `2b` immediately, and then `2c` two seconds later.
+
+`setTimeout(resolve, ms)` reads as: "after `ms` milliseconds, call `resolve`", which is pressing the button. In Lesson 2 you learned that a function can be passed around like a value. Here `resolve` is a function we hand to `setTimeout`.
+
+### Experiment 3: why the broken version fails
+
+```js
+function brokenWait(ms) {
+  setTimeout(() => ms);             // no return, no promise, no resolve
+}
+console.log(brokenWait(1000));      // undefined
+```
+
+`brokenWait(1000)` hands back `undefined`, not a box. `undefined.then(...)` crashes with `Cannot read properties of undefined (reading 'then')`.
+
+### The recipe for any function that returns a promise
+
+1. `return new Promise((resolve, reject) => { ... })`: hand back the box.
+2. Inside, start the slow work.
+3. When the work succeeds, call `resolve(value)`. If it fails, call `reject(error)`.
+
+Everything in the rest of the course (`fetch`, calls to your FastAPI backend) returns a promise made this way. You will mostly use `.then` or `await` on promises that others made, and the box idea is the same.
 
 ## Creating a promise (to understand how they work)
 
@@ -1182,13 +1386,164 @@ One `.catch` at the end handles a failure in **any** step above it. This is the 
 
 ## Exercise status
 
-`lesson6/lesson6.js`: pending. A starter file with `// TODO` comments exists.
+`lesson6/lesson6.js`: done (2026-11-08). Items 1 and 2 correct (item 2 written from memory). Item 3 review:
+- `if (matched)` tests a function that is never called, so it is always true (the same `sayHi` vs `sayHi()` idea from the basics). "Zed" wrongly printed "Student found".
+- The `matched` callback used braces without `return` (third time this trap appeared), and searched `students.name` on the array instead of looking at each student. The Lesson 4 `find` does this job: `students.find((s) => s.name === name)`.
+- `setTimeout(resolve, 500)` presses the button with no value. The student has to travel through the button: `resolve(student)`. Written directly in `setTimeout(...)` it would press immediately (brackets mean run now), so wrap it: `setTimeout(() => resolve(student), 500)`.
+- The failure branch did `console.error(reject)`, which prints the button instead of pressing it. It must be `reject(new Error("Student not found"))`.
+- `.then(() => ...)` ignored the value. It should receive the student: `.then((student) => ...)`, and `.catch((error) => console.log(error.message))`.
+- Structure to aim for: `new Promise` containing a `setTimeout` of 500 ms, which does the `find`, then calls `resolve(student)` or `reject(new Error(...))`.
+
+Item 3 now works (2026-11-08): output is the Mina object and `Student not found` at 0.5 s. The last fix was pressing the failure button with brackets and a value: `reject(new Error("Student not found"))`, not `reject;`. Pressing a button means calling it: `resolve(value)` or `reject(error)`.
+
+Item 4, first attempt: `getStudent("Aisha").map(...)` failed with `aisha.map is not a function`. The variable holds a **promise** (printed as `Promise { <pending> }`), not the student, and `.map` is an array method. To use a value inside a promise, chain `.then`. Each `.then` receives what the previous one returned, so every step must give a value back (braces need `return`). Shape: `.then((student) => score).then((score) => score + 5).then((result) => console.log(result))`, which should print `87`. A crash on line 68 also stopped the timers of items 2 and 3 from ever firing, because the error happens before any timer finishes.
+
+Item 4 done (2026-11-08): `getStudent("Aisha").then((student) => student.score).then((score) => score + 5).then((result) => console.log(result))` prints `87` at 0.5 s. Tip for later: end a real chain with `.catch(...)`, because an unhandled rejection stops the program.
+
+Item 5 done: the prediction was "it will throw an error", which was close but not right. The next `.then` receives `undefined`, and there is no error by itself. All verified by running: printing it shows `undefined`, `result + 1` gives `NaN`, and only reading a property of it (`result.toFixed(1)`) throws `Cannot read properties of undefined`. A missing `return` therefore usually fails silently, which is why it is worth watching for.
+
+All five items done. Revisit later: write `wait` and `getStudent` again from memory.
+
+### Truthy and falsy: why `if (student)` works
+
+A variable does not have to be `true` or `false` to be used in an `if`. `students.find(...)` gives back **the student object**, or **`undefined`** if nothing matched. `if (student)` then asks "is there something here?"
+
+```js
+const found = students.find((st) => st.name === "Mina");   // { name: 'Mina', score: 91 }
+const missing = students.find((st) => st.name === "Zed");  // undefined
+
+found === true      // false, found is an object, not the boolean true
+if (found) { }      // runs: an object counts as "something" (truthy)
+if (missing) { }    // does not run: undefined counts as "nothing" (falsy)
+```
+
+**Falsy values** (treated as false inside an `if`): `false`, `0`, `""` (empty text), `null`, `undefined`, and `NaN`. **Everything else is truthy**, including `"hi"`, `1`, and even an empty array `[]` or empty object `{}` (all checked by running them).
+
+Compare with `some`, which really returns `true` or `false`: `students.some((st) => st.name === "Mina")` is `true`.
 
 1. Predict the print order, then run: `console.log("A"); setTimeout(() => console.log("B"), 0); console.log("C");`
 2. Write `wait(ms)` that returns a promise resolving after `ms` milliseconds. Use it: `wait(1000).then(() => console.log("1 second passed"))`.
 3. Write `getStudent(name)` that returns a promise. After 500 ms it resolves with the matching student from the array, or rejects with `new Error("Student not found")` if none matches. Call it with `"Mina"` (print the object) and `"Zed"` (print only the error message), using `then` and `catch`.
 4. Chain: from `getStudent("Aisha")`, take the score, add 5, and print the final number.
 5. Predict, then check: if a middle `.then` uses braces and forgets `return`, what does the next `.then` receive? Print it to see.
+
+---
+
+# Lesson 7: async / await (taught, exercise pending)
+
+All outputs below were run in Node.
+
+## What it is and why
+
+`async` and `await` are a cleaner way to write promise code. The boxes and buttons are exactly the same. The only difference is that the code **reads from top to bottom like normal code**, with no `.then` chain.
+
+The Aisha chain from Lesson 6, side by side:
+
+```js
+// Lesson 6 style: .then chain
+getStudent("Aisha")
+  .then((student) => student.score)
+  .then((score) => score + 5)
+  .then((result) => console.log(result));
+
+// Lesson 7 style: async / await
+async function aishaPlusFive() {
+  const student = await getStudent("Aisha");
+  const result = student.score + 5;
+  console.log(result);
+}
+aishaPlusFive();
+```
+
+Both print `87`.
+
+## The two keywords
+
+**`async` before a function.** It marks the function as one that may need to wait. An async function **always returns a promise** (checked: `typeof five().then` is `function`, even for `async function five() { return 5; }`).
+
+**`await` before a promise.** It means: "pause **this function** here until the box's button is pressed, then give me what was inside."
+
+```js
+const student = await getStudent("Aisha");
+```
+
+`await getStudent("Aisha")` gives you the same thing the `.then((student) => ...)` callback received: the student object itself, not a box.
+
+`await` can be used only inside an `async` function. (Modern Node and ES modules also allow it at the top level of a file, but inside an `async` function is the rule that always works.)
+
+## Only the async function pauses, not the program
+
+```js
+async function pause() {
+  console.log("1a. start");
+  await wait(1000);
+  console.log("1c. 1 second later");
+}
+
+pause();
+console.log("1b. after calling pause()");
+```
+
+Output order: `1a. start`, `1b. after calling pause()`, then a second later `1c. 1 second later`. The function pauses at `await`. The rest of the program carries on. This is the same idea as the print order exercise in Lesson 6 item 1.
+
+## Errors: `try` / `catch`
+
+A rejected promise becomes an error at the `await`. Catch it with `try` / `catch`, which replaces `.catch(...)`:
+
+```js
+async function findZed() {
+  try {
+    const student = await getStudent("Zed");
+    console.log("found", student);
+  } catch (error) {
+    console.log("caught:", error.message);      // caught: Student not found
+  }
+}
+```
+
+If the `try` part fails at any line, JavaScript jumps straight to `catch`, with the error as its parameter.
+
+## Arrow function version
+
+```js
+const aishaPlusFive = async () => {
+  const student = await getStudent("Aisha");
+  console.log(student.score + 5);
+};
+```
+
+## The trap: forgetting `await`
+
+```js
+async function forgot() {
+  const student = getStudent("Mina");        // no await
+  console.log(student);                       // Promise { <pending> }
+  console.log(student.score);                 // undefined
+}
+```
+
+You get the **box**, not the student. This is the same mistake as `aisha.map` in Lesson 6. If you ever see `Promise { <pending> }` where a value should be, a missing `await` (or `.then`) is the first thing to check.
+
+## Common mistakes
+
+- Forgetting `await` (see above).
+- Using `await` in a function that is not `async`.
+- Forgetting that code after the function call keeps running while the function waits.
+- No `try` / `catch`: a rejected promise that nothing handles stops the program, same as with `.then` and no `.catch`.
+
+## Why this matters for the roadmap
+
+`fetch` (Lesson 8) returns a promise, and almost all real JavaScript for talking to a backend is written as `async` / `await`. In React (Phase 2) and when calling your FastAPI backend (Phase 4), you will write exactly this.
+
+## Exercise status
+
+`lesson7/lesson7.js`: pending. The starter has `wait` and `getStudent` already written (from Lesson 6), so the focus is the new syntax.
+
+1. Write `async function pause()`: print `start`, `await wait(1000)`, then print `1 second later`. Call `pause()` and on the next line print `after calling pause`. Predict the order of the three prints first.
+2. Write `async function showScore()` that awaits `getStudent("Mina")` and prints `Mina scored 91`, using a template literal.
+3. Write `async function findZed()` with `try` / `catch`: await `getStudent("Zed")`, and print only the error message.
+4. Rewrite the Lesson 6 Aisha chain as an `async` function: the score plus 5, printed.
+5. Predict, then check: in `showScore`, remove `await`. What does the variable hold, and what does `student.score` give?
 
 ---
 
