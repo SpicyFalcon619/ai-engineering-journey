@@ -25,6 +25,17 @@ Every top-level folder of the repository (except `webapp`, `Test` and `tools`) i
 - **Order.** The number in a folder or file name sets the order (`lesson4`, `lesson4a.js`, `lesson4b.js`). Section names for the lesson folders are listed in `src/lib/content.ts` (`SECTION_LABELS`); a folder with no entry is named from its folder name.
 - **The roadmap.** `ROADMAP.md` in the repository root lists the six basecamps as a checklist; the site reads it for its Roadmap and Progress views. `src/lib/roadmap.ts` maps each basecamp to the track folders that belong to it: add a folder there when a new basecamp gets lessons, and write its blurb in `src/lib/categoryInfo.ts` and `src/lib/journey.ts`.
 
+## The study notes
+
+`phase1-javascript/NOTES.md` is the explanation of the lessons. The guided view reads it directly (`src/lib/notes.ts`), so there is one source and nothing to copy:
+
+- Each `# Lesson N: ...` section of the notes is shown above the code of the lesson files in `lessonN/`. Files named `lesson1a.js`, `lesson1b.js` show the matching `## Part` of the lesson (a is the first part, b the second); other files of a lesson point to the one that carries the notes (`lessonN.js`, or `main.js` in lesson 5).
+- Headings called "Exercise status" and "In my own words", and status tails such as "(done, 2026-11-05)", are the author's own record and are left out of the page.
+- The "In this lesson" panel lists the notes' headings, and every JavaScript example has **Copy** and **Try it in the Sandbox** buttons.
+- After the notes comes the heading "Your code": the lesson file itself, with its real output and an **Edit** button.
+
+Edit `NOTES.md`, commit, and the site shows the change at the next deploy. Nothing needs capturing for the notes (only for the code's output).
+
 ## Writing a lesson
 
 A plain practice file needs nothing special: the whole file is one block, shown with the output it printed. To write a **guided** lesson, with explanation between blocks, use the same conventions as the Java guide, which work in JavaScript because `///` is an ordinary comment:

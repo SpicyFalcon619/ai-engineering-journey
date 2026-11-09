@@ -19,6 +19,14 @@ const SECTION_LABELS: Record<string, string> = {
   lesson9: 'Lesson 9: Mini project',
 }
 
+// Files whose own header comment does not make a good title in the sidebar.
+const TITLE_OVERRIDES: Record<string, string> = {
+  'phase1-javascript/lesson5/main.js': 'main.js: importing from the other files',
+  'phase1-javascript/lesson5/mathUtils.js': 'mathUtils.js: named exports',
+  'phase1-javascript/lesson5/students.js': 'students.js: default and named exports',
+  'phase1-javascript/lesson5/scratch.js': 'scratch.js: a wrong import, on purpose',
+}
+
 // Keyword -> extra search tags. Matched against raw source text.
 const API_KEYWORD_TAGS: [RegExp, string][] = [
   [/\bconst\b|\blet\b/, 'variables const let'],
@@ -161,7 +169,7 @@ function buildSnippets(): Snippet[] {
     const subSegments = middleSegments.map((s) => SECTION_LABELS[s] ?? prettifySegment(s))
 
     const docTitle = parseDocstringTitle(code)
-    const title = docTitle ?? prettifySegment(filename.replace(/\.js$/, ''))
+    const title = TITLE_OVERRIDES[relative] ?? docTitle ?? prettifySegment(filename.replace(/\.js$/, ''))
     const topics = parseTopics(code)
 
     const tagSet = new Set<string>()

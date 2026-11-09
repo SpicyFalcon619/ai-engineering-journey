@@ -11,6 +11,8 @@ import { useLibrary } from '@/hooks/useLibrary'
 import { useAssistant } from '@/hooks/useAssistant'
 import { CodeBlock } from '@/components/code/CodeBlock'
 import { GuidedLesson } from '@/components/snippet/GuidedLesson'
+import { NotesView } from '@/components/snippet/NotesView'
+import { getNotesFor, noteHeadings } from '@/lib/notes'
 import { hasGuide, parseLesson } from '@/lib/lesson'
 import { toBareCode } from '@/lib/bare'
 import { cn } from '@/lib/cn'
@@ -53,6 +55,17 @@ export function SnippetPage() {
   const blocks = useMemo(() => (snippet ? parseLesson(snippet.code) : []), [snippet])
   const guided = hasGuide(blocks)
   const bare = useMemo(() => (snippet ? toBareCode(snippet.code, snippet.topics) : null), [snippet])
+  // The explanation comes from the study notes (NOTES.md). A lesson's other files point to the one that carries them.
+  const notesFor = useMemo(() => (snippet ? getNotesFor(snippet) : null), [snippet])
+  const outlineNotes = useMemo(() => (notesFor?.kind === 'notes' ? noteHeadings(notesFor.markdown) : undefined), [notesFor])
+  const notes =
+    notesFor?.kind === 'notes' ? (
+      <NotesView markdown={notesFor.markdown} />
+    ) : notesFor?.kind === 'pointer' ? (
+      <p className="notes-pointer">
+        The notes for this lesson are with <Link to={`/s/${notesFor.to.id}`}>{notesFor.to.filename}</Link>. This file is part of the same lesson.
+      </p>
+    ) : undefined
   const views = VIEWS
   // A lesson without a guide has only its code.
   const activeView: LessonView = guided ? view : 'code'
@@ -194,6 +207,7 @@ export function SnippetPage() {
           topics={snippet.topics}
           output={output}
           focusLine={focusLine}
+          notes={notes}
         />
       ) : activeView === 'bare' && bare ? (
         <CodeBlock code={bare.code} filename={snippet.filename} topics={bare.topics} />
@@ -219,7 +233,7 @@ export function SnippetPage() {
       <PrevNext snippet={snippet} prev={prev} next={next} />
       </div>
 
-      <Outline snippet={{ ...snippet, topics: viewTopics }} />
+      <Outline snippet={{ ...snippet, topics: viewTopics }} notes={activeView === 'guided' ? outlineNotes : undefined} />
     </div>
   )
 }

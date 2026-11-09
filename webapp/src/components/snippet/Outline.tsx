@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Snippet } from '@/types'
+import type { NoteHeading } from '@/lib/notes'
 import { jumpToLine } from '@/lib/scroll'
 import { cn } from '@/lib/cn'
 
@@ -7,23 +8,44 @@ import { cn } from '@/lib/cn'
 // Leaves room for the code window's sticky header.
 const SPY_OFFSET_PX = 110
 
-// A lesson's table of contents: its `### Topic ###` sections, with the one you
-// are reading highlighted as you scroll. Shown beside the code on wide screens;
-// narrower screens keep the jump chips under the title.
-export function Outline({ snippet }: { snippet: Snippet }) {
-  const [active, setActive] = useState<number | null>(null)
+interface Entry {
+  /** The id of the element on the page that this entry points at. */
+  id: string
+  label: string
+  /** 3 is a sub-section of the one above it. */
+  depth: number
+  go: () => void
+}
+
+const scrollToId = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+// A lesson's table of contents, with the section you are reading highlighted as you scroll. It lists the headings of
+// the lesson's notes when there are notes (ending with "Your code"), and otherwise the lesson's own `### Topic ###`
+// sections. Shown beside the lesson on wide screens; narrower screens keep the jump chips under the title.
+export function Outline({ snippet, notes = [] }: { snippet: Snippet; notes?: NoteHeading[] }) {
+  const [active, setActive] = useState<string | null>(null)
   const { topics } = snippet
 
+  const entries = useMemo<Entry[]>(() => {
+    if (notes.length > 0) {
+      return [
+        ...notes.map((h) => ({ id: h.id, label: h.label, depth: h.depth, go: () => scrollToId(h.id) })),
+        { id: 'your-code', label: 'Your code', depth: 2, go: () => scrollToId('your-code') },
+      ]
+    }
+    return topics.map((t) => ({ id: `L${t.line}`, label: t.label, depth: 2, go: () => jumpToLine(t.line) }))
+  }, [notes, topics])
+
   useEffect(() => {
-    if (topics.length === 0) return
+    if (entries.length === 0) return
     let frame = 0
 
     function update() {
-      let current: number | null = null
-      for (const topic of topics) {
-        const el = document.getElementById(`L${topic.line}`)
+      let current: string | null = null
+      for (const entry of entries) {
+        const el = document.getElementById(entry.id)
         if (!el) continue
-        if (el.getBoundingClientRect().top <= SPY_OFFSET_PX) current = topic.line
+        if (el.getBoundingClientRect().top <= SPY_OFFSET_PX) current = entry.id
         else break
       }
       setActive(current)
@@ -43,30 +65,31 @@ export function Outline({ snippet }: { snippet: Snippet }) {
       cancelAnimationFrame(frame)
       timers.forEach(window.clearTimeout)
     }
-  }, [topics])
+  }, [entries])
 
   return (
-    <aside aria-label="In this lesson" className="sticky top-6 hidden self-start xl:block">
+    <aside aria-label="In this lesson" className="sticky top-6 hidden max-h-[calc(100vh-3rem)] self-start overflow-y-auto xl:block">
       <h2 className="mb-3 text-sm font-semibold text-[var(--color-ink)]">
         In this lesson
       </h2>
-      {topics.length > 0 ? (
+      {entries.length > 0 ? (
         <ol className="flex flex-col border-l border-[var(--color-border)]">
-          {topics.map((topic) => {
-            const isActive = topic.line === active
+          {entries.map((entry) => {
+            const isActive = entry.id === active
             return (
-              <li key={topic.line}>
+              <li key={entry.id}>
                 <button
-                  onClick={() => jumpToLine(topic.line)}
+                  onClick={entry.go}
                   aria-current={isActive ? 'location' : undefined}
                   className={cn(
-                    '-ml-px block w-full cursor-pointer border-l py-1.5 pr-2 pl-3 text-left text-[13px] leading-snug transition-colors',
+                    '-ml-px block w-full cursor-pointer border-l py-1.5 pr-2 text-left text-[13px] leading-snug transition-colors',
+                    entry.depth >= 3 ? 'pl-6' : 'pl-3',
                     isActive
                       ? 'border-[var(--color-accent)] text-[var(--color-ink)]'
                       : 'border-transparent text-[var(--color-ink-faint)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-ink-dim)]',
                   )}
                 >
-                  {topic.label}
+                  {entry.label}
                 </button>
               </li>
             )

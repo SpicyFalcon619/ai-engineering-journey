@@ -1,6 +1,6 @@
 import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { PencilLine, Play } from 'lucide-react'
+import { ArrowDown, PencilLine, Play } from 'lucide-react'
 import { getTerm, TERM_PATTERN, termIdOf, termsIn } from '@/lib/glossary'
 import { jsRunner } from '@/lib/jsRunner'
 import { chunkTransformer, getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
@@ -27,6 +27,8 @@ interface GuidedLessonProps {
   /** What every code block of this lesson printed when Node ran it, while the site was built. */
   output?: CapturedOutput
   focusLine?: number
+  /** The explanation, drawn from the study notes. It comes first, and the lesson's own code follows as "Your code". */
+  notes?: ReactNode
 }
 
 // Words in prose that are really code: `backticked`, name(...) calls, __dunders__.
@@ -349,7 +351,7 @@ function PartRun({
   )
 }
 
-export function GuidedLesson({ leading, blocks, code, filename, topics, output, focusLine }: GuidedLessonProps) {
+export function GuidedLesson({ leading, blocks, code, filename, topics, output, focusLine, notes }: GuidedLessonProps) {
   const [siteTheme] = useTheme()
   const [chunks, setChunks] = useState<Record<number, string>>({})
   // The sample output under a block is open unless the reader hid it.
@@ -508,7 +510,22 @@ export function GuidedLesson({ leading, blocks, code, filename, topics, output, 
         </div>
       </div>
 
-      <div className="guide-body">{body}</div>
+      <div className="guide-body">
+        {notes && (
+          <>
+            <div className="notes-jump">
+              <button type="button" onClick={() => document.getElementById('your-code')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
+                Jump to your code <ArrowDown className="h-3 w-3" aria-hidden />
+              </button>
+            </div>
+            {notes}
+            <h2 id="your-code" className="guide-topic scroll-mt-24">
+              Your code
+            </h2>
+          </>
+        )}
+        {body}
+      </div>
     </div>
   )
 }
