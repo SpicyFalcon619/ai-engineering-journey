@@ -4,7 +4,7 @@ My notes and code from learning to build AI-powered applications, from JavaScrip
 
 ## The Field Guide
 
-The easiest way to read it is the site: **[Open the AI Engineering Field Guide](https://spicyfalcon619.github.io/ai-engineering-journey/)** (once it is published).
+The easiest way to read it is the site: **[Open the AI Engineering Field Guide](https://spicyfalcon619.github.io/ai-engineering-journey/)**.
 
 Every lesson shows the real code beside the real output it printed, and any block can be edited and run in the page. It is built from the `.js` files in this repo, so it always matches what is here. Its source is in [webapp/](webapp); see [webapp/README.md](webapp/README.md) to run it locally or add a lesson. It is the same app as my [ML Field Guide](https://spicyfalcon619.github.io/ml-research-journey/) and [Java Field Guide](https://spicyfalcon619.github.io/java-field-guide/), and the three link to each other.
 
