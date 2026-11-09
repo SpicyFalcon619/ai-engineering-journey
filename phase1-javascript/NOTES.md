@@ -40,7 +40,7 @@ Each lesson is roughly 1 hour. At 3-4 hours per week, the whole phase is about 3
 | 5 | Modules | import, export, default vs named | done |
 | 6 | Promises | Why async exists, callbacks, Promise, then/catch | done |
 | 7 | async/await | async functions, await, try/catch | done |
-| 8 | fetch and JSON | JSON.stringify and parse, GET with fetch and response.json() (part 1); status codes, POST, error handling (part 2) | part 1 taught, exercise pending |
+| 8 | fetch and JSON | JSON.stringify and parse, GET with fetch and response.json() (part 1); status codes, POST, error handling (part 2) | part 1 done; part 2 next |
 | 9 | Mini project | Fetch data from a public API and process it in Node | not started |
 
 Deliberately skipped: the browser DOM (document.querySelector and similar). React replaces direct DOM work, so you don't need it now.
@@ -1554,7 +1554,7 @@ You get the **box**, not the student. This is the same mistake as `aisha.map` in
 
 # Lesson 8: fetch and JSON
 
-## Part 1: JSON and GET requests (taught, exercise pending)
+## Part 1: JSON and GET requests (done, 2026-11-09)
 
 All outputs below were run in Node against a real public API.
 
@@ -1639,7 +1639,7 @@ Part 2 covers handling this properly, and POST requests.
 
 ### Exercise status
 
-`lesson8/lesson8.js`: pending. A starter with `// TODO` comments exists. Use `https://jsonplaceholder.typicode.com`.
+`lesson8/lesson8.js`: items 1 to 5 done (2026-11-09). Item 2's prediction was wrong: `console.log(fetch(url))` prints `Promise { <pending> }`, not the server's metadata, because the response only exists after `await`. Item 5's prediction (`undefined undefined`) matched the output, but the reason is that `user` is a promise and a promise has no `name`; nothing throws, so this bug is silent. Use `https://jsonplaceholder.typicode.com`.
 
 1. JSON warm-up (no network): `JSON.stringify` a student, print the result and its `typeof`, then `JSON.parse` it back and print the name. Predict first what `typeof JSON.stringify(student)` gives.
 2. `async function`: fetch user 1 and print the user's name and email. Before you write it, predict what `console.log(fetch(url))` prints, then check.

@@ -1,52 +1,88 @@
 # AI Engineering Journey
 
-My notes and code from learning to build AI-powered applications, from JavaScript up to a React frontend talking to a Python backend with a machine learning model behind it. Everything is written to be followed by a beginner, in order.
+My path from JavaScript to building a complete AI-powered app: a React frontend, a Python (FastAPI) backend, and a machine learning model behind it. Everything is written for a beginner and followed in order, with real code and the real output it printed.
 
-## The Field Guide
+**[Read it as a site: the AI Engineering Field Guide](https://spicyfalcon619.github.io/ai-engineering-journey/)**
 
-The easiest way to read it is the site: **[Open the AI Engineering Field Guide](https://spicyfalcon619.github.io/ai-engineering-journey/)**.
+It is one of three guides built on the same app. The others are the [ML Field Guide](https://spicyfalcon619.github.io/ml-research-journey/) (Python to deep learning) and the [Java Field Guide](https://spicyfalcon619.github.io/java-field-guide/) (object oriented programming). They link to each other from the top bar.
 
-Every lesson shows the real code beside the real output it printed, and any block can be edited and run in the page. It is built from the `.js` files in this repo, so it always matches what is here. Its source is in [webapp/](webapp); see [webapp/README.md](webapp/README.md) to run it locally or add a lesson. It is the same app as my [ML Field Guide](https://spicyfalcon619.github.io/ml-research-journey/) and [Java Field Guide](https://spicyfalcon619.github.io/java-field-guide/), and the three link to each other.
+## The goal
 
-## The path
+One app, end to end:
 
-React frontend → API communication → Python (FastAPI) backend → machine learning model → prediction → back to the frontend.
+```
+React frontend  ->  fetch()  ->  FastAPI backend  ->  trained model  ->  prediction  ->  back to the page
+```
 
-1. JavaScript fundamentals (in progress)
-2. React fundamentals
-3. Backend development with Python and FastAPI
-4. React + FastAPI integration
-5. Machine learning integration
-6. Modern AI application development (LLM APIs, RAG, authentication, deployment)
+Each stage is learned only after the one before it makes sense, and each ends with something small that works.
 
-The checklist is [ROADMAP.md](ROADMAP.md), which the site reads for its progress view. My running record of what is done and what is next is [LEARNING_PROGRESS.md](LEARNING_PROGRESS.md).
+## The roadmap
+
+| Basecamp | What it covers | Status |
+|---|---|---|
+| 1. JavaScript fundamentals | Variables, functions, objects, array methods, modules, promises, `async`/`await`, `fetch` and JSON | In progress (lesson 8 of 9) |
+| 2. React fundamentals | Vite, JSX, components, props, state, effects, forms; a task manager and a public-API app | Not started |
+| 3. Backend with Python and FastAPI | HTTP and REST, GET and POST endpoints, Pydantic validation, errors, CORS, testing | Not started |
+| 4. React and FastAPI together | `fetch` from React to FastAPI, loading and error states, environment variables | Not started |
+| 5. Machine learning integration | Saving a scikit-learn model, serving predictions, showing them in React | Not started |
+| 6. Modern AI applications | LLM APIs, embeddings and RAG, authentication, a database, deployment, basic security | Not started |
+
+The checklist behind this table is [ROADMAP.md](ROADMAP.md); the site reads it for its progress view. [LEARNING_PROGRESS.md](LEARNING_PROGRESS.md) is the running record of what is done, what is hard, and what comes next.
+
+## What the site gives you
+
+- **A rail map.** Every track is a coloured line and every lesson a stop, so you always see where you are.
+- **Code beside its real output.** Each lesson file was actually run; the output on the page is what it printed, not a guess.
+- **Edit and run in the page.** Any block can be changed and run in your browser, inside a sandboxed frame. The Sandbox page keeps variables between runs, like a notebook.
+- **Study notes.** [phase1-javascript/NOTES.md](phase1-javascript/NOTES.md) is shown above each lesson's code, with an outline and a "Try it in the Sandbox" button on every example.
+- **A glossary.** Words such as *promise* and *callback* are underlined where they first appear; hover or tap for the meaning.
+- **Search** (`Ctrl+K`), **progress** you can tick off, and several themes. Progress stays in your own browser; nothing is sent anywhere.
 
 ## What's in the repo
 
-- **phase1-javascript/**: JavaScript fundamentals. [NOTES.md](phase1-javascript/NOTES.md) is the study reference for every lesson. Each lesson has its own folder with the exercise files:
-  - `lesson1/`: variables, types, comparison, `if`, loops
-  - `lesson2/`: functions
-  - `lesson3/`: objects, arrays, destructuring, spread and rest
-  - `lesson4/`: array methods (`map`, `filter`, `find`, `some`, `every`, `reduce`, `sort`)
-  - `lesson5/`: modules (`import` and `export`)
-  - `lesson6/`: promises, built up from functions as values and arrow functions
-  - `lesson7/`: `async` and `await`
-  - `lesson8/`: JSON and `fetch` (in progress)
-  - `lesson9/`: a small project that fetches data from a public API (coming next)
-- **webapp/**: the website, and the script that captures each lesson's real output.
-- **ROADMAP.md**: the six basecamps as a checklist.
-- **LEARNING_PROGRESS.md**: current phase, completed topics, topics I find hard, and what is next.
+```
+phase1-javascript/
+  NOTES.md        the study reference for every lesson
+  lesson1/ ...    one folder per lesson, with its exercise files
+webapp/           the website, and the script that captures each lesson's output
+ROADMAP.md        the six basecamps as a checklist
+LEARNING_PROGRESS.md
+```
+
+The lessons so far:
+
+| Lesson | Topic |
+|---|---|
+| 1 | Variables, types, comparison, `if`, loops |
+| 2 | Functions |
+| 3 | Objects, arrays, destructuring, spread and rest |
+| 4 | Array methods: `map`, `filter`, `find`, `some`, `every`, `reduce`, `sort` |
+| 5 | Modules: `import` and `export` |
+| 6 | Promises, built up from functions as values and arrow functions |
+| 7 | `async` and `await` |
+| 8 | JSON and `fetch` (in progress) |
+| 9 | A small project that fetches data from a public API (next) |
 
 ## Running the code
 
-Every lesson is plain JavaScript run with [Node.js](https://nodejs.org/):
+Every lesson is plain JavaScript run with [Node.js](https://nodejs.org/) (version 22 or newer):
 
 ```bash
 node phase1-javascript/lesson2/lesson2.js
 ```
 
-For `lesson5/`, run the entry file from inside its folder: `cd phase1-javascript/lesson5` then `node main.js`.
+Lesson 5 imports its neighbours, so run it from inside its folder: `cd phase1-javascript/lesson5`, then `node main.js`.
+
+## Running the site locally
+
+```bash
+cd webapp
+npm install
+npm run dev        # http://localhost:5173
+```
+
+After adding or editing a lesson, run `npm run capture-outputs` to refresh the sample output, and commit the result. [webapp/README.md](webapp/README.md) explains how lessons are found, how to write a guided lesson, and how the notes are wired in.
 
 ## Built with
 
-JavaScript (Node.js). The site uses Vite, React, TypeScript, Tailwind CSS, Shiki and CodeMirror, and is deployed to GitHub Pages by GitHub Actions. Later phases add Python, FastAPI and scikit-learn.
+JavaScript on Node.js for the lessons. The site is Vite, React, TypeScript, Tailwind CSS, Shiki and CodeMirror, deployed to GitHub Pages by GitHub Actions. Later basecamps add Python, FastAPI and scikit-learn.

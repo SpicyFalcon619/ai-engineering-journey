@@ -1,12 +1,12 @@
 # Learning Progress
 
-Last updated: 2026-11-06
+Last updated: 2026-11-09
 
 ## Current Status
 
 - **Current phase:** Phase 1 - JavaScript Fundamentals and Revision
-- **Current topic:** Lesson 8 part 1, JSON and fetch (taught, exercise pending). Lesson plan and notes: `phase1-javascript/NOTES.md`
-- **Next learning task:** Exercise 11 in `phase1-javascript/lesson8/lesson8.js`, then Lesson 8 part 2 (status codes, POST, error handling), then Lesson 9 (mini project) in `lesson6/lesson6.js`, then Lesson 7 (async/await)
+- **Current topic:** Lesson 8 part 2, status codes, POST and error handling (next). Part 1 (JSON and fetch) is done. Lesson plan and notes: `phase1-javascript/NOTES.md`
+- **Next learning task:** Lesson 8 part 2 (check `response.ok`, handle errors with `try`/`catch`, send a POST request), then Lesson 9 (mini project that fetches from a public API)
 
 ## Roadmap
 
@@ -25,6 +25,7 @@ Last updated: 2026-11-06
 - JS Lesson 2: functions (declarations, arrow functions, default parameters, callbacks, hoisting, scope) - 2026-11-05.- JS Lesson 3: objects, arrays, destructuring, spread, rest parameters - 2026-11-06.- JS Lesson 4 part 1: map, filter, find - 2026-11-06.- JS Lesson 5: modules (named and default exports, imports, renaming, ES modules in Node) - 2026-11-06.- JS Lesson 7: async/await (`async` functions, `await`, `try`/`catch`, forgetting `await` gives a promise) - 2026-11-09. Item 5 prediction first mixed up "missing await" (gives a promise) with "missing return" (gives undefined).
 - JS Lesson 6: promises (a promise as a box, `resolve` and `reject` as buttons, `then`, `catch`, chaining) - 2026-11-08. Started with three small steps on functions as values and arrow functions, because the first explanation was too fast.
 - JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
+- JS Lesson 8 part 1: `JSON.stringify` and `JSON.parse`, GET with `fetch`, the second `await` for `response.json()`, a 404 does not reject (`response.ok` is false) - 2026-11-09. Item 2 prediction was wrong (`fetch(url)` prints `Promise { <pending> }`).
 ## Topics I Understand
 
 - Programming fundamentals: strong prior experience in C, C++ and Java (self-reported). JavaScript is the unfamiliar part, so lessons focus on how JS differs.
@@ -61,6 +62,7 @@ Retype these from memory in a later session, to check they have really stuck:
 - lesson6/basics.js (functions as values, callbacks, arrow functions, printing vs returning)
 - lesson6/lesson6.js (print order, wait, getStudent with resolve and reject, then chain, missing return)
 - lesson7/lesson7.js (pause, showScore, try/catch, Aisha plus 5, forgetting await)
+- lesson8/lesson8.js (JSON stringify and parse, fetch one user, fetch all users, a 404, forgetting the second await)
 
 ## Projects Completed
 
