@@ -39,8 +39,8 @@ Each lesson is roughly 1 hour. At 3-4 hours per week, the whole phase is about 3
 | 4 | Array methods | map, filter, find (part 1); some, every, reduce, sort (part 2) | done |
 | 5 | Modules | import, export, default vs named | done |
 | 6 | Promises | Why async exists, callbacks, Promise, then/catch | done |
-| 7 | async/await | async functions, await, try/catch | taught, exercise pending |
-| 8 | fetch and JSON | GET and POST requests, response.json(), JSON.stringify, status codes | not started |
+| 7 | async/await | async functions, await, try/catch | done |
+| 8 | fetch and JSON | JSON.stringify and parse, GET with fetch and response.json() (part 1); status codes, POST, error handling (part 2) | part 1 taught, exercise pending |
 | 9 | Mini project | Fetch data from a public API and process it in Node | not started |
 
 Deliberately skipped: the browser DOM (document.querySelector and similar). React replaces direct DOM work, so you don't need it now.
@@ -1429,7 +1429,7 @@ Compare with `some`, which really returns `true` or `false`: `students.some((st)
 
 ---
 
-# Lesson 7: async / await (taught, exercise pending)
+# Lesson 7: async / await (done, 2026-11-09)
 
 All outputs below were run in Node.
 
@@ -1537,13 +1537,117 @@ You get the **box**, not the student. This is the same mistake as `aisha.map` in
 
 ## Exercise status
 
-`lesson7/lesson7.js`: pending. The starter has `wait` and `getStudent` already written (from Lesson 6), so the focus is the new syntax.
+`lesson7/lesson7.js`: done (2026-11-09). Items 3 and 5 were corrected after review: item 3 now prints `error.message`, and item 5 has the corrected prediction plus a `forgot()` function proving it (`Promise { <pending> }` and `undefined`). The starter has `wait` and `getStudent` already written (from Lesson 6), so the focus is the new syntax. Review so far:
+- Item 1: correct, prediction `start`, `after calling pause`, `1 second later` matched the run.
+- Item 2: correct (`Mina scored 91`).
+- Item 3: `try`/`catch` is right, but `console.error(error)` prints the whole error object with its stack trace. The task asked for only the message, which is `error.message`.
+- Item 4: correct (`87`).
+- Item 5: prediction was "the variable holds `undefined` and `student.score` gives `NaN`". Without `await` the variable holds the **promise** (`Promise { <pending> }`) and `student.score` is `undefined`. `NaN` would only appear after arithmetic, such as `student.score + 5`. The "missing return gives undefined" idea from Lesson 6 is a different mistake from "missing await gives a box".
 
 1. Write `async function pause()`: print `start`, `await wait(1000)`, then print `1 second later`. Call `pause()` and on the next line print `after calling pause`. Predict the order of the three prints first.
 2. Write `async function showScore()` that awaits `getStudent("Mina")` and prints `Mina scored 91`, using a template literal.
 3. Write `async function findZed()` with `try` / `catch`: await `getStudent("Zed")`, and print only the error message.
 4. Rewrite the Lesson 6 Aisha chain as an `async` function: the score plus 5, printed.
 5. Predict, then check: in `showScore`, remove `await`. What does the variable hold, and what does `student.score` give?
+
+---
+
+# Lesson 8: fetch and JSON
+
+## Part 1: JSON and GET requests (taught, exercise pending)
+
+All outputs below were run in Node against a real public API.
+
+### Why this lesson exists
+
+Your React frontend and your FastAPI backend will be two separate programs, often on different computers. They can only talk by sending **text** over the network. So you need two things:
+
+1. A text format for data: **JSON**.
+2. A way to ask another computer for something and wait for the answer: **`fetch`**, which returns a promise, so everything from Lessons 6 and 7 applies.
+
+Reading, with official documentation as a reference:
+- MDN, "Using the Fetch API": https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch (covers `response.ok`, `response.json()`, and POST with JSON)
+- javascript.info, "JSON methods, toJSON": https://javascript.info/json
+- javascript.info, "Fetch": https://javascript.info/fetch
+- A free practice API with no sign-up and no key: https://jsonplaceholder.typicode.com/ (resources: posts, comments, albums, photos, todos, users)
+
+### Step 1: JSON
+
+**JSON is text that looks like a JavaScript object.** A network can only carry text, not live JavaScript objects, so objects are turned into text to be sent and back into objects when they arrive.
+
+```js
+const student = { name: "Aisha", score: 82, tags: ["ml", "python"] };
+
+const text = JSON.stringify(student);
+console.log(text);                 // {"name":"Aisha","score":82,"tags":["ml","python"]}
+console.log(typeof text);          // string
+
+const back = JSON.parse(text);
+console.log(back);                 // { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] }
+console.log(typeof back);          // object
+console.log(back.name);            // Aisha
+```
+
+- `JSON.stringify(object)`: object becomes text.
+- `JSON.parse(text)`: text becomes an object again.
+- Remember the Lesson 3 surprise: `${student}` gave `[object Object]`. `JSON.stringify(student)` is the proper way to turn a whole object into text.
+- JSON rules: keys and text values need **double quotes**, and it cannot hold functions.
+
+### Step 2: `fetch`
+
+`fetch(url)` asks another computer for something. It returns a **promise** (a box), so you `await` it:
+
+```js
+const box = fetch("https://jsonplaceholder.typicode.com/users/1");
+console.log(box);                  // Promise { <pending> }
+```
+
+What comes out of the first box is a **Response** object (status, headers, and so on), not the data yet. The data is in a **second box**: `response.json()` also returns a promise, so it needs its own `await`.
+
+```js
+async function main() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+  console.log(response.status, response.ok);     // 200 true
+
+  const user = await response.json();            // second await
+  console.log(user.name, user.email);            // Leanne Graham Sincere@april.biz
+}
+main();
+```
+
+Why two steps: the first box fills when the reply starts arriving (status and headers). The body can be large and arrives after, so reading it is a separate promise.
+
+A list works the same way and gives an array. `/users` returned 10 users: `users.length` was `10`, and `users.slice(0, 3).map((u) => u.name)` gave `[ 'Leanne Graham', 'Ervin Howell', 'Clementine Bauch' ]`. All of the array methods from Lesson 4 now apply to real data.
+
+### Step 3: a missing item is NOT an error (the big gotcha)
+
+```js
+const missing = await fetch("https://jsonplaceholder.typicode.com/users/9999");
+console.log(missing.status, missing.ok);       // 404 false
+```
+
+A 404 (not found) still counts as "the server answered", so the promise does **not** reject. You must check `response.ok` (or `response.status`) yourself. Only a real network failure rejects. Calling a domain that does not exist threw `TypeError: fetch failed`.
+
+Part 2 covers handling this properly, and POST requests.
+
+### Common mistakes
+
+- Forgetting the second `await`: `const user = response.json();` makes `user` a promise, so `user.name` is `undefined`.
+- Forgetting `await` on `fetch`, so `response` is a box (`Promise { <pending> }`).
+- Assuming a 404 or 500 makes `fetch` throw. It does not; check `response.ok`.
+- Putting an object into a template literal (`${user}`) and getting `[object Object]`.
+
+### Exercise status
+
+`lesson8/lesson8.js`: pending. A starter with `// TODO` comments exists. Use `https://jsonplaceholder.typicode.com`.
+
+1. JSON warm-up (no network): `JSON.stringify` a student, print the result and its `typeof`, then `JSON.parse` it back and print the name. Predict first what `typeof JSON.stringify(student)` gives.
+2. `async function`: fetch user 1 and print the user's name and email. Before you write it, predict what `console.log(fetch(url))` prints, then check.
+3. Fetch all `/users` and print an array of just their names (use `map`).
+4. Fetch `/users/9999` and print its `status` and `ok`.
+5. Predict, then check: in item 2, remove the second `await`. What is `user`, and what does `user.name` give?
+
+## Part 2: status codes, POST, and handling errors (not started)
 
 ---
 
