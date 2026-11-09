@@ -26,6 +26,7 @@ console.log(copy.name);
 // async function: fetch `${BASE}/users/1` and print the user's name and email.
 // Predict first: what does console.log(fetch(url)) print?
 // My prediction: it will print the server metadata and other status
+// Actual: Promise { <pending> }. The response only exists after the await.
 async function fetchOneUser() {
   const response = await fetch(`${BASE}/users/1`);
   const user = await response.json();
@@ -49,6 +50,7 @@ fetchUsers();
 
 // --- 4. A user that does not exist ---
 // Fetch `${BASE}/users/9999` and print its status and ok.
+// Actual: 404 false. A 404 does not make fetch reject, so check response.ok.
 async function fetchNoUser() {
   const response = await fetch(`${BASE}/users/9999`);
 
@@ -61,6 +63,8 @@ fetchNoUser();
 // Predict: in item 2, if you remove the await before response.json(), what is
 // user, and what does user.name give? Then check.
 // My prediction: undefined undefined
+// Actual: undefined undefined, because user is a Promise { <pending> } and a
+// promise has no name. Nothing throws, so this bug is silent.
 async function fetchWrong() {
   const response = await fetch(`${BASE}/users/1`);
   const user = response.json();
