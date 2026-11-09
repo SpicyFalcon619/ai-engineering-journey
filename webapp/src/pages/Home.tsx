@@ -38,7 +38,7 @@ export function Home({ onOpenSearch }: { onOpenSearch: () => void }) {
     <div className="mx-auto max-w-5xl pb-16">
       <section className="animate-fade-up pt-2 sm:pt-8">
         <h1 className="max-w-3xl text-balance text-5xl leading-[0.95] font-bold text-[var(--color-ink)] sm:text-7xl">
-          {returning ? 'Welcome back.' : 'Learn it in the order I did.'}
+          {returning ? 'Back on the road to your AI app.' : 'From JavaScript to an AI app.'}
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-dim)]">
           {returning

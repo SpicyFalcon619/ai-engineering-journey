@@ -158,11 +158,15 @@ export function SandboxPage() {
 
       <div className="guide-code code-font">
         <Suspense fallback={<p className="guide-part-none">Opening the editor...</p>}>
-          <LiveJs key={version} initialCode={code} onCodeChange={remember} variant="page" label="JavaScript sandbox editor" />
+          <LiveJs key={version} initialCode={code} onCodeChange={remember} variant="page" label="JavaScript sandbox editor" session="sandbox" />
         </Suspense>
       </div>
 
       <ul className="mt-4 max-w-2xl list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-[var(--color-ink-faint)]">
+        <li>
+          Runs remember each other, like cells in a notebook: a variable or function from one run is still there in the next. Press Reset
+          variables to forget them. Picking an example starts clean.
+        </li>
         <li>
           Print with <code>console.log</code>. There is no keyboard input and no file access, because the code runs in the page.
         </li>

@@ -5,7 +5,7 @@ import { ThemeToggle } from './ThemeToggle'
 import { Logo } from './Logo'
 import { cn } from '@/lib/cn'
 import { isMac } from '@/lib/platform'
-import { otherGuides, THIS_REPO } from '@/lib/guides'
+import { GUIDES, THIS_GUIDE, THIS_REPO } from '@/lib/guides'
 
 function GithubMark(props: SVGProps<SVGSVGElement>) {
   return (
@@ -65,7 +65,7 @@ export function TopBar({
         <Menu className="h-4 w-4" />
       </button>
 
-      <Link to="/" aria-label="AI Engineering Field Guide home" className="flex shrink-0 items-center gap-2 pr-2 font-semibold tracking-tight text-[var(--color-ink)]">
+      <Link to="/" aria-label="AI Engineering Field Guide home" className="flex shrink-0 items-center gap-2 pr-2 font-semibold tracking-tight text-[var(--color-ink)] sm:min-w-[14.5rem]">
         <Logo className="h-7 w-7 shrink-0" />
         <span className="hidden sm:inline">AI Engineering Field Guide</span>
       </Link>
@@ -91,18 +91,32 @@ export function TopBar({
 
       {/* The other field guides: separate sites that point at each other. Phones find them in the lesson menu. */}
       <nav aria-label="Other field guides" className="hidden items-center gap-0.5 border-l border-[var(--color-border)] pl-2 xl:flex">
-        {otherGuides.map((guide) => (
-          <a
-            key={guide.id}
-            href={guide.url}
-            title={`${guide.name}: ${guide.blurb}`}
-            className={cn(linkBase, 'inline-flex items-center gap-1 text-[var(--color-ink-dim)] hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]')}
-          >
-            {guide.short}
-            <ArrowUpRight className="h-3 w-3 shrink-0 text-[var(--color-ink-faint)]" aria-hidden />
-            <span className="sr-only">Field Guide</span>
-          </a>
-        ))}
+        {/* The same three guides, in the same order, on every site, so they sit in the same place. The current one is marked. */}
+        {GUIDES.map((guide) =>
+          guide.id === THIS_GUIDE ? (
+            <span
+              key={guide.id}
+              aria-current="page"
+              title={`You are in the ${guide.name}`}
+              className={cn(linkBase, 'inline-flex items-center gap-1 bg-[var(--color-surface-hover)] font-medium text-[var(--color-ink)]')}
+            >
+              {guide.short}
+              <span className="h-3 w-3 shrink-0" aria-hidden />
+              <span className="sr-only">Field Guide (this site)</span>
+            </span>
+          ) : (
+            <a
+              key={guide.id}
+              href={guide.url}
+              title={`${guide.name}: ${guide.blurb}`}
+              className={cn(linkBase, 'inline-flex items-center gap-1 text-[var(--color-ink-dim)] hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]')}
+            >
+              {guide.short}
+              <ArrowUpRight className="h-3 w-3 shrink-0 text-[var(--color-ink-faint)]" aria-hidden />
+              <span className="sr-only">Field Guide</span>
+            </a>
+          ),
+        )}
       </nav>
 
       <button

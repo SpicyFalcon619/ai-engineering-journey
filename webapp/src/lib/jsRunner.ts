@@ -5,7 +5,11 @@
 // The frame replaces console.* (so output comes back here as it is printed), watches timers and fetch calls (so
 // the run knows when the program has really finished, even after setTimeout or await), and turns uncaught
 // errors into output. There is no keyboard input: lessons print, they do not prompt.
+//
+// A run can also belong to a session (the Sandbox does this): the frame is kept between runs, like a notebook, so what
+// one run defines is still there for the next. Reset throws that frame away.
 import { useSyncExternalStore } from 'react'
+import { toSessionCode } from '@/lib/jsSession'
 
 export type JsPhase = 'idle' | 'running'
 export interface JsStatus {
@@ -21,6 +25,8 @@ export type JsStream = 'out' | 'err'
 export interface JsRunOptions {
   code: string
   owner: string
+  /** Runs with the same session key share one frame, so variables and functions stay between runs. */
+  session?: string
   onOutput: (stream: JsStream, text: string) => void
 }
 
@@ -173,7 +179,19 @@ const RUNNER_PAGE = `<!doctype html><html><head><meta charset="utf-8"></head><bo
     if (event.source !== parent) return
     var message = event.data || {}
     if (message.type !== 'run') return
+    // A kept frame has had runs before: forget the last run's state and its leftover timers.
+    failed = false
+    finished = false
+    Object.keys(live).forEach(function (id) { realClearTimeout(+id); realClearInterval(+id); delete live[id] })
     touch()
+    if (message.session) {
+      // A classic script, so var and function declarations stay as globals for the next run.
+      var script = document.createElement('script')
+      script.textContent = String(message.code)
+      document.head.appendChild(script)
+      settle()
+      return
+    }
     var url = URL.createObjectURL(new Blob([String(message.code)], { type: 'text/javascript' }))
     import(url).then(settle, function (error) { report(error, ''); settle() })
   })
@@ -194,6 +212,9 @@ class JsRunner {
   private timer = 0
   private status: JsStatus = { phase: 'idle', message: '', owner: null }
   private listeners = new Set<() => void>()
+  /** The kept frame of a session, and the key it belongs to. It survives between runs until it is reset. */
+  private sessionFrame: HTMLIFrameElement | null = null
+  private sessionKey: string | null = null
 
   subscribe = (listener: () => void) => {
     this.listeners.add(listener)
@@ -206,10 +227,18 @@ class JsRunner {
     this.listeners.forEach((listener) => listener())
   }
 
-  private teardown() {
+  /** Ends the run in progress. The frame is removed too, unless it is a session's and `keepSession` is set. */
+  private teardown(keepSession = false) {
     window.clearTimeout(this.timer)
     window.removeEventListener('message', this.handle)
-    this.frame?.remove()
+    const frame = this.frame
+    if (frame && !(keepSession && frame === this.sessionFrame)) {
+      frame.remove()
+      if (frame === this.sessionFrame) {
+        this.sessionFrame = null
+        this.sessionKey = null
+      }
+    }
     this.frame = null
     this.setStatus('idle', null)
   }
@@ -223,32 +252,56 @@ class JsRunner {
       active.options.onOutput(message.stream === 1 ? 'err' : 'out', message.text ?? '')
     } else if (message.type === 'done') {
       this.active = null
-      this.teardown()
+      this.teardown(true)
       active.resolve({ ok: message.ok !== false, ms: performance.now() - active.startedAt })
     }
+  }
+
+  private makeFrame(): HTMLIFrameElement {
+    const frame = document.createElement('iframe')
+    frame.setAttribute('sandbox', 'allow-scripts')
+    frame.setAttribute('aria-hidden', 'true')
+    frame.title = 'JavaScript runner (hidden)'
+    frame.tabIndex = -1
+    frame.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;border:0;visibility:hidden'
+    frame.srcdoc = RUNNER_PAGE
+    return frame
   }
 
   run(options: JsRunOptions): Promise<JsRunResult> {
     // One program at a time: a new Run ends the one before it.
     if (this.active) this.stop()
     return new Promise<JsRunResult>((resolve, reject) => {
-      const frame = document.createElement('iframe')
-      frame.setAttribute('sandbox', 'allow-scripts')
-      frame.setAttribute('aria-hidden', 'true')
-      frame.title = 'JavaScript runner (hidden)'
-      frame.tabIndex = -1
-      frame.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;border:0;visibility:hidden'
-      frame.srcdoc = RUNNER_PAGE
+      const session = options.session
+      let code = options.code
+      if (session) {
+        try {
+          code = toSessionCode(code)
+        } catch (error) {
+          // Not valid JavaScript: say so the way a run would, without touching the kept variables.
+          options.onOutput('err', `SyntaxError: ${error instanceof Error ? error.message : String(error)}\n`)
+          resolve({ ok: false, ms: 0 })
+          return
+        }
+      }
+
+      const reuse = Boolean(session && this.sessionFrame && this.sessionKey === session)
+      if (session && !reuse) this.reset()
+      const frame = reuse ? this.sessionFrame! : this.makeFrame()
+      if (session && !reuse) {
+        this.sessionFrame = frame
+        this.sessionKey = session
+      }
       this.frame = frame
       this.active = { options, startedAt: performance.now(), resolve, reject }
       this.setStatus('running', options.owner)
 
+      const post = () => frame.contentWindow?.postMessage({ type: 'run', code, session: Boolean(session) }, '*')
       const onReady = (event: MessageEvent) => {
         if (event.source !== frame.contentWindow || (event.data as { type?: string })?.type !== 'ready') return
         window.removeEventListener('message', onReady)
-        frame.contentWindow?.postMessage({ type: 'run', code: options.code }, '*')
+        post()
       }
-      window.addEventListener('message', onReady)
       window.addEventListener('message', this.handle)
       this.timer = window.setTimeout(() => {
         window.removeEventListener('message', onReady)
@@ -266,7 +319,12 @@ class JsRunner {
         this.teardown()
         reject(new Error(START_FAILED))
       })
-      document.body.appendChild(frame)
+      if (reuse) {
+        post()
+      } else {
+        window.addEventListener('message', onReady)
+        document.body.appendChild(frame)
+      }
     })
   }
 
@@ -274,12 +332,21 @@ class JsRunner {
   prepare() {}
   warmUp() {}
 
-  /** Ends whatever is running, even a program stuck in a loop. */
+  /** Ends whatever is running, even a program stuck in a loop. A session's variables go with it. */
   stop() {
     const active = this.active
     this.active = null
     this.teardown()
     active?.reject(new JsRunStopped())
+  }
+
+  /** Forgets everything a session has defined: its frame is thrown away, so the next run starts clean. */
+  reset(key?: string) {
+    if (key !== undefined && key !== this.sessionKey) return
+    if (this.active && this.frame === this.sessionFrame) this.stop()
+    this.sessionFrame?.remove()
+    this.sessionFrame = null
+    this.sessionKey = null
   }
 }
 

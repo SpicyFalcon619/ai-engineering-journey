@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
-import { Play, Square, Undo2, X } from 'lucide-react'
+import { Play, RotateCcw, Square, Undo2, X } from 'lucide-react'
 import { jsRunner, JsRunStopped, useJsStatus, type JsStream } from '@/lib/jsRunner'
 import JsEditor from '@/components/code/JsEditor'
 import { cn } from '@/lib/cn'
@@ -20,6 +20,8 @@ interface LiveJsProps {
   autoRun?: boolean
   /** Lets a lesson's block go back to its plain code and sample output. */
   onClose?: () => void
+  /** Notebook style: runs with the same key keep each other's variables and functions, until they are reset. */
+  session?: string
 }
 
 // A page of output is plenty; a runaway loop printing forever must not freeze the tab.
@@ -38,6 +40,7 @@ export default function LiveJs({
   onCodeChange,
   autoRun = false,
   onClose,
+  session,
 }: LiveJsProps) {
   const owner = useId()
   const status = useJsStatus()
@@ -94,7 +97,7 @@ export default function LiveJs({
     buffer.current = []
     total.current = 0
     try {
-      const result = await jsRunner.run({ code, owner, onOutput: (stream, text) => append(stream, text) })
+      const result = await jsRunner.run({ code, owner, session, onOutput: (stream, text) => append(stream, text) })
       flush()
       setOutcome(result)
     } catch (error) {
@@ -105,7 +108,7 @@ export default function LiveJs({
       flush()
       setRunning(false)
     }
-  }, [running, code, owner, append, flush])
+  }, [running, code, owner, session, append, flush])
 
   // A block opened with Run starts straight away. The guard stops React's double effect from running it twice.
   const started = useRef(false)
@@ -116,13 +119,23 @@ export default function LiveJs({
     }
   }, [autoRun, run])
 
-  // Leaving while a program runs ends it, so a frame is never left running in the background.
+  // Leaving while a program runs ends it, so a frame is never left running in the background. A session's kept
+  // frame goes too: its variables belong to this page.
   useEffect(
     () => () => {
       if (jsRunner.getStatus().owner === owner) jsRunner.stop()
+      if (session) jsRunner.reset(session)
     },
-    [owner],
+    [owner, session],
   )
+
+  const resetVariables = () => {
+    if (!session) return
+    jsRunner.reset(session)
+    setNote('Variables cleared. The next run starts fresh.')
+    setChunks([])
+    setOutcome(null)
+  }
 
   const busyElsewhere = !running && status.owner !== null && status.owner !== owner && status.phase === 'running'
   const changed = code !== initialCode
@@ -150,6 +163,11 @@ export default function LiveJs({
           <span className="hidden text-xs text-[var(--color-code-ink-faint)] sm:inline">Ctrl+Enter</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {session && (
+            <button type="button" onClick={resetVariables} disabled={running} className={cn(button, quiet)} title="Forget every variable and function from earlier runs">
+              <RotateCcw className="h-3 w-3" aria-hidden /> Reset variables
+            </button>
+          )}
           {changed && (
             <button type="button" onClick={() => edit(initialCode)} className={cn(button, quiet)}>
               <Undo2 className="h-3 w-3" aria-hidden /> Revert
