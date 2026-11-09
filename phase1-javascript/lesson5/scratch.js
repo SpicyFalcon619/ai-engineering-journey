@@ -3,3 +3,4 @@
 // Braces ask for a NAMED export, but students is the DEFAULT export.
 
 import { students } from "./students.js";
+/// @error

@@ -1,0 +1,167 @@
+import { useEffect, useRef, useState } from 'react'
+import type { ShikiTransformer } from 'shiki'
+import { getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
+import { useTheme } from '@/hooks/useTheme'
+import { computeFoldRanges } from '@/lib/foldRanges'
+import type { CapturedOutput } from '@/lib/outputs'
+import { CopyButton } from './CopyButton'
+import { CsvTable } from './CsvTable'
+import { FontSizeControl } from './FontSizeControl'
+import { CaptureButton } from './CaptureButton'
+import { CaptureDialogButton } from './CaptureDialog'
+import type { Topic } from '@/types'
+import { cn } from '@/lib/cn'
+
+interface CodeBlockProps {
+  code: string
+  filename?: string
+  focusLine?: number
+  className?: string
+  output?: CapturedOutput
+  /** The lesson's marked sections, so a capture can be limited to one of them. */
+  topics?: Topic[]
+}
+
+const lineIdTransformer: ShikiTransformer = {
+  line(node, line) {
+    node.properties.id = `L${line}`
+    this.addClassToHast(node, 'code-line')
+  },
+}
+
+export function CodeBlock({ code, filename, focusLine, className, output, topics }: CodeBlockProps) {
+  const isCsv = filename?.endsWith('.csv') ?? false
+  const [siteTheme] = useTheme()
+  const [html, setHtml] = useState<string | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isCsv) return
+    let cancelled = false
+    getHighlighter().then((highlighter) => {
+      if (cancelled) return
+      const out = highlighter.codeToHtml(code, {
+        lang: 'javascript',
+        theme: SHIKI_THEME_BY_SITE_THEME[siteTheme],
+        transformers: [lineIdTransformer],
+      })
+      setHtml(out)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [code, siteTheme, isCsv])
+
+  // Injects a fold toggle on every line that opens a block (def/class/if/for/...),
+  // so users can collapse just that block instead of the whole file. This is done
+  // imperatively on the Shiki-rendered DOM rather than in JSX, since the highlighted
+  // markup is inserted via dangerouslySetInnerHTML.
+  useEffect(() => {
+    if (isCsv || !html || !containerRef.current) return
+    const root = containerRef.current
+    const ranges = computeFoldRanges(code)
+    const disposers: (() => void)[] = []
+
+    for (const range of ranges) {
+      const headerEl = root.querySelector<HTMLElement>(`#L${range.start}`)
+      if (!headerEl) continue
+
+      const bodyLines: HTMLElement[] = []
+      for (let n = range.start + 1; n <= range.end; n++) {
+        const el = root.querySelector<HTMLElement>(`#L${n}`)
+        if (el) bodyLines.push(el)
+      }
+      if (bodyLines.length === 0) continue
+
+      const toggle = document.createElement('button')
+      toggle.type = 'button'
+      toggle.className = 'fold-toggle'
+      toggle.setAttribute('aria-label', 'Toggle code fold')
+      headerEl.prepend(toggle)
+
+      const summary = document.createElement('span')
+      summary.className = 'fold-summary'
+      summary.textContent = ` ⋯ ${bodyLines.length} line${bodyLines.length === 1 ? '' : 's'} hidden`
+
+      let folded = false
+      function handleClick() {
+        folded = !folded
+        toggle.classList.toggle('folded', folded)
+        for (const line of bodyLines) line.classList.toggle('fold-hidden', folded)
+        if (folded) headerEl!.appendChild(summary)
+        else summary.remove()
+      }
+
+      toggle.addEventListener('click', handleClick)
+      disposers.push(() => toggle.removeEventListener('click', handleClick))
+    }
+
+    return () => {
+      disposers.forEach((dispose) => dispose())
+    }
+  }, [html, code])
+
+  useEffect(() => {
+    if (!html || !focusLine || !containerRef.current) return
+    const el = containerRef.current.querySelector(`#L${focusLine}`)
+    if (!el) return
+    // Un-fold any ancestor block so a search/topic jump into folded code is visible.
+    el.classList.remove('fold-hidden')
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    el.classList.add('line-flash')
+    const t = setTimeout(() => el.classList.remove('line-flash'), 1800)
+    return () => clearTimeout(t)
+  }, [html, focusLine])
+
+  return (
+    <div
+      ref={cardRef}
+      className={cn(
+        'group relative rounded-xl border border-[var(--color-code-border)] bg-[var(--color-code-bg)] shadow-[var(--shadow-code)] transition-colors hover:border-[var(--color-code-border-strong)]',
+        className,
+      )}
+    >
+      <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-y-2 rounded-t-xl border-b border-[var(--color-code-border)] bg-[var(--color-code-bg)] px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]/70" />
+          {filename && (
+            <span
+              className={cn(
+                'ml-3 font-mono text-xs',
+                isCsv ? 'font-bold text-[var(--color-code-ink)]' : 'text-[var(--color-code-ink-faint)]',
+              )}
+            >
+              {filename}
+            </span>
+          )}
+        </div>
+        <div data-code-actions className="flex flex-wrap items-center gap-2">
+          <FontSizeControl />
+          <CopyButton text={code} />
+          {/* Code gets the capture dialog (line choice, window style, preview); CSV tables keep the one-click capture. */}
+          {isCsv ? (
+            <CaptureButton targetRef={cardRef} filename={filename} />
+          ) : (
+            <CaptureDialogButton code={code} filename={filename} topics={topics} output={output} />
+          )}
+        </div>
+      </div>
+      <div
+        ref={containerRef}
+        className={cn(!isCsv && 'code-scroll overflow-x-auto py-3 leading-relaxed')}
+        {...(isCsv ? {} : { tabIndex: 0, role: 'group', 'aria-label': 'Code, scrollable' })}
+      >
+        {isCsv ? (
+          <CsvTable code={code} />
+        ) : html ? (
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          <pre className="px-4 font-mono text-[var(--color-code-ink-dim)]">{code}</pre>
+        )}
+      </div>
+    </div>
+  )
+}

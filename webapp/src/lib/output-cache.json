@@ -1,0 +1,734 @@
+{
+ "phase1-javascript/lesson1/lesson1a.js": {
+  "capturedAt": "2026-11-09T11:33:25.380Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "My name is Maruf and I am 22 years old.\nstring\nnumber\nboolean\nnumber\n",
+      "segments": [
+       [
+        13,
+        "My name is Maruf and I am 22 years old.\n",
+        0
+       ],
+       [
+        16,
+        "string\n",
+        0
+       ],
+       [
+        17,
+        "number\n",
+        0
+       ],
+       [
+        18,
+        "boolean\n",
+        0
+       ],
+       [
+        19,
+        "number\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson1/lesson1b.js": {
+  "capturedAt": "2026-11-09T11:33:25.441Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "Hot\nfalse\ntrue\nfalse\ntrue\n",
+      "segments": [
+       [
+        7,
+        "Hot\n",
+        0
+       ],
+       [
+        15,
+        "false\n",
+        0
+       ],
+       [
+        16,
+        "true\n",
+        0
+       ],
+       [
+        17,
+        "false\n",
+        0
+       ],
+       [
+        18,
+        "true\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson1/lesson1c.js": {
+  "capturedAt": "2026-11-09T11:33:25.500Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "1\n2\n3\n4\n5\n2\n4\n6\n8\n10\nTotal score = 316 \nPassed student = 3\n",
+      "segments": [
+       [
+        5,
+        "1\n",
+        0
+       ],
+       [
+        5,
+        "2\n",
+        0
+       ],
+       [
+        5,
+        "3\n",
+        0
+       ],
+       [
+        5,
+        "4\n",
+        0
+       ],
+       [
+        5,
+        "5\n",
+        0
+       ],
+       [
+        11,
+        "2\n",
+        0
+       ],
+       [
+        11,
+        "4\n",
+        0
+       ],
+       [
+        11,
+        "6\n",
+        0
+       ],
+       [
+        11,
+        "8\n",
+        0
+       ],
+       [
+        11,
+        "10\n",
+        0
+       ],
+       [
+        33,
+        "Total score = 316 \nPassed student = 3\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson2/lesson2.js": {
+  "capturedAt": "2026-11-09T11:33:25.559Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "63.2\ntrue\nfalse\ntrue\n20\n16\nNaN\n3\n",
+      "segments": [
+       [
+        12,
+        "63.2\n",
+        0
+       ],
+       [
+        17,
+        "true\n",
+        0
+       ],
+       [
+        18,
+        "false\n",
+        0
+       ],
+       [
+        19,
+        "true\n",
+        0
+       ],
+       [
+        28,
+        "20\n",
+        0
+       ],
+       [
+        29,
+        "16\n",
+        0
+       ],
+       [
+        38,
+        "NaN\n",
+        0
+       ],
+       [
+        39,
+        "3\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson3/lesson3.js": {
+  "capturedAt": "2026-11-09T11:33:25.616Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "1 2\n10 20\n[ 1, 2 ] [ 1, 2, 3 ]\n{ a: 1, b: 2 } { a: 1, b: 99, c: 3 }\nMina js\nName: Aisha, Score: 82\n{ name: 'Rahim', score: 45, tags: [ 'web' ] }\n{ name: 'Rahim', score: 70, tags: [ 'web' ] }\n[\n  { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] },\n  { name: 'Rahim', score: 45, tags: [ 'web' ] },\n  { name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] },\n  { name: 'Noman', score: 99, tags: [ 'ml', 'java', 'python' ] }\n]\nAisha: 82: ml,python\n10\n5\n0\n",
+      "segments": [
+       [
+        8,
+        "1 2\n",
+        0
+       ],
+       [
+        13,
+        "10 20\n",
+        0
+       ],
+       [
+        18,
+        "[ 1, 2 ] [ 1, 2, 3 ]\n",
+        0
+       ],
+       [
+        23,
+        "{ a: 1, b: 2 } { a: 1, b: 99, c: 3 }\n",
+        0
+       ],
+       [
+        34,
+        "Mina js\n",
+        0
+       ],
+       [
+        39,
+        "Name: Aisha, Score: 82\n",
+        0
+       ],
+       [
+        44,
+        "{ name: 'Rahim', score: 45, tags: [ 'web' ] }\n",
+        0
+       ],
+       [
+        45,
+        "{ name: 'Rahim', score: 70, tags: [ 'web' ] }\n",
+        0
+       ],
+       [
+        52,
+        "[\n  { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] },\n  { name: 'Rahim', score: 45, tags: [ 'web' ] },\n  { name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] },\n  { name: 'Noman', score: 99, tags: [ 'ml', 'java', 'python' ] }\n]\n",
+        0
+       ],
+       [
+        57,
+        "Aisha: 82: ml,python\n",
+        0
+       ],
+       [
+        69,
+        "10\n",
+        0
+       ],
+       [
+        70,
+        "5\n",
+        0
+       ],
+       [
+        71,
+        "0\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson4/lesson4a.js": {
+  "capturedAt": "2026-11-09T11:33:25.668Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "Original: 82,45,91,60,38\nUpdated: 87,50,96,65,43\nPassed: 82,91,60\nNames: Aisha,Rahim,Mina,Noman\n{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\nundefined\n[ 'Aisha', 'Mina', 'Noman' ]\n[ undefined, undefined, undefined, undefined, undefined ]\n",
+      "segments": [
+       [
+        13,
+        "Original: 82,45,91,60,38\nUpdated: 87,50,96,65,43\n",
+        0
+       ],
+       [
+        17,
+        "Passed: 82,91,60\n",
+        0
+       ],
+       [
+        21,
+        "Names: Aisha,Rahim,Mina,Noman\n",
+        0
+       ],
+       [
+        25,
+        "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
+        0
+       ],
+       [
+        28,
+        "undefined\n",
+        0
+       ],
+       [
+        36,
+        "[ 'Aisha', 'Mina', 'Noman' ]\n",
+        0
+       ],
+       [
+        40,
+        "[ undefined, undefined, undefined, undefined, undefined ]\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson4/lesson4b.js": {
+  "capturedAt": "2026-11-09T11:33:25.723Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "Anyone above 90? true\nEveryone at least 40? false\n316\n63.2\n91\n[ 82, 45, 91, 60, 38 ]\n[ 91, 82, 60, 45, 38 ]\n[ 'Aisha', 'Rahim', 'Mina', 'Noman' ]\n[ 'Noman', 'Mina', 'Aisha', 'Rahim' ]\n[ 100, 25, 3 ]\n",
+      "segments": [
+       [
+        14,
+        "Anyone above 90? true\n",
+        0
+       ],
+       [
+        15,
+        "Everyone at least 40? false\n",
+        0
+       ],
+       [
+        19,
+        "316\n",
+        0
+       ],
+       [
+        23,
+        "63.2\n",
+        0
+       ],
+       [
+        31,
+        "91\n",
+        0
+       ],
+       [
+        36,
+        "[ 82, 45, 91, 60, 38 ]\n",
+        0
+       ],
+       [
+        37,
+        "[ 91, 82, 60, 45, 38 ]\n",
+        0
+       ],
+       [
+        43,
+        "[ 'Aisha', 'Rahim', 'Mina', 'Noman' ]\n",
+        0
+       ],
+       [
+        44,
+        "[ 'Noman', 'Mina', 'Aisha', 'Rahim' ]\n",
+        0
+       ],
+       [
+        49,
+        "[ 100, 25, 3 ]\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson5/main.js": {
+  "capturedAt": "2026-11-09T11:33:25.794Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "editable": false,
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "5 20\n10\n[ 'Aisha', 'Mina', 'Noman' ]\n",
+      "segments": [
+       [
+        10,
+        "5 20\n",
+        0
+       ],
+       [
+        14,
+        "10\n",
+        0
+       ],
+       [
+        18,
+        "[ 'Aisha', 'Mina', 'Noman' ]\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson5/mathUtils.js": {
+  "capturedAt": "2026-11-09T11:33:25.843Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "",
+      "segments": []
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson5/scratch.js": {
+  "capturedAt": "2026-11-09T11:33:25.895Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "runtime-error",
+    "expectError": true,
+    "editable": false,
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "phase1-javascript/lesson5/scratch.js:5\nimport { students } from \"./students.js\";\n         ^^^^^^^^\nSyntaxError: The requested module './students.js' does not provide an export named 'students'\n",
+      "segments": [
+       [
+        2,
+        "phase1-javascript/lesson5/scratch.js:5\nimport { students } from \"./students.js\";\n         ^^^^^^^^\nSyntaxError: The requested module './students.js' does not provide an export named 'students'\n",
+        1
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson5/students.js": {
+  "capturedAt": "2026-11-09T11:33:25.945Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "",
+      "segments": []
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson6/basics.js": {
+  "capturedAt": "2026-11-09T11:33:28.004Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "A\nHi!\nB\nHi!\nHi!\nHi!\nA\nB\nundefined\nHi! after 2 sec\n",
+      "segments": [
+       [
+        11,
+        "A\n",
+        0
+       ],
+       [
+        8,
+        "Hi!\n",
+        0
+       ],
+       [
+        13,
+        "B\n",
+        0
+       ],
+       [
+        8,
+        "Hi!\n",
+        0
+       ],
+       [
+        8,
+        "Hi!\n",
+        0
+       ],
+       [
+        8,
+        "Hi!\n",
+        0
+       ],
+       [
+        31,
+        "A\n",
+        0
+       ],
+       [
+        33,
+        "B\n",
+        0
+       ],
+       [
+        53,
+        "undefined\n",
+        0
+       ],
+       [
+        32,
+        "Hi! after 2 sec\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson6/lesson6.js": {
+  "capturedAt": "2026-11-09T11:33:29.066Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "A\nC\nB\n{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\nStudent not found\n87\nitem 5, next then received: undefined\n1 sec passed\n",
+      "segments": [
+       [
+        17,
+        "A\n",
+        0
+       ],
+       [
+        19,
+        "C\n",
+        0
+       ],
+       [
+        18,
+        "B\n",
+        0
+       ],
+       [
+        53,
+        "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
+        0
+       ],
+       [
+        58,
+        "Student not found\n",
+        0
+       ],
+       [
+        66,
+        "87\n",
+        0
+       ],
+       [
+        79,
+        "item 5, next then received: undefined\n",
+        0
+       ],
+       [
+        30,
+        "1 sec passed\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson7/lesson7.js": {
+  "capturedAt": "2026-11-09T11:33:30.130Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "start\nafter calling pause\nPromise { <pending> }\nundefined\nMina scored 91\nStudent not found\n87\n1 second later\n",
+      "segments": [
+       [
+        42,
+        "start\n",
+        0
+       ],
+       [
+        47,
+        "after calling pause\n",
+        0
+       ],
+       [
+        95,
+        "Promise { <pending> }\n",
+        0
+       ],
+       [
+        96,
+        "undefined\n",
+        0
+       ],
+       [
+        55,
+        "Mina scored 91\n",
+        0
+       ],
+       [
+        67,
+        "Student not found\n",
+        1
+       ],
+       [
+        80,
+        "87\n",
+        0
+       ],
+       [
+        44,
+        "1 second later\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson8/lesson8.js": {
+  "capturedAt": "2026-11-09T11:33:30.179Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "",
+      "segments": []
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson9/lesson9.js": {
+  "capturedAt": "2026-11-09T11:33:30.226Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "3": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "",
+      "segments": []
+     }
+    ]
+   }
+  }
+ }
+}
