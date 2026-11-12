@@ -25,6 +25,11 @@ export interface BlockRun {
   /** False for a block that needs the files beside it (an import): it shows its output but has no Edit button. */
   editable?: boolean
   scenarios: Scenario[]
+  /**
+   * A practice file shown one question at a time: what each question printed, keyed by the line of its marker
+   * ("0" is what ran before the first question). Recorded by the capture, so the page does not work it out.
+   */
+  parts?: Record<string, { stdout: string; segments: OutputSegment[] }>
 }
 
 export interface LessonRuns {

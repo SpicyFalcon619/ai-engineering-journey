@@ -14,7 +14,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, 
 import { dirname, extname, join, relative, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import os from 'node:os'
-import { splitBlocks } from './lib/blocks.mjs'
+import { splitBlocks, splitQuestions } from './lib/blocks.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(__dirname, '..', '..')
@@ -142,6 +142,24 @@ async function captureBlock(lessonFile, relPath, index, block, wholeFile) {
   }
 }
 
+/**
+ * What each question of a practice file printed, kept with the lesson so the page only has to show it. Keyed by the
+ * line of the question's marker; "0" is what ran before the first question, and "rest" is anything that could not be
+ * placed (a line outside every question).
+ */
+function partsOf(segments, questions) {
+  const parts = { 0: { stdout: '', segments: [] }, rest: { stdout: '', segments: [] } }
+  for (const q of questions) parts[q.line] = { stdout: '', segments: [] }
+  for (const segment of segments) {
+    const line = segment[0]
+    const question = questions.find((q) => line >= q.line && line <= q.end)
+    const key = question ? question.line : line > 0 && line < questions[0].line ? '0' : 'rest'
+    parts[key].segments.push(segment)
+    parts[key].stdout += segment[1]
+  }
+  return parts
+}
+
 const cache = {}
 const counts = { ok: 0, 'runtime-error': 0, timeout: 0, 'launch-error': 0 }
 const problems = []
@@ -155,8 +173,10 @@ for (const dir of contentDirs) {
     lessons++
     const results = await Promise.all(blocks.map((block, i) => captureBlock(file, relPath, i, block, blocks.length === 1)))
     const byLine = {}
+    const questions = blocks.length === 1 ? splitQuestions(readFileSync(file, 'utf8')) : []
     blocks.forEach((block, i) => {
       const { wholeFile: _whole, ...entry } = results[i]
+      if (questions.length) entry.parts = partsOf(entry.scenarios[0].segments, questions)
       byLine[block.line] = entry
       counts[entry.status] = (counts[entry.status] ?? 0) + 1
       if (entry.status === 'runtime-error' && !block.expectError) {

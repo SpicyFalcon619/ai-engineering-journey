@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { Marked } from 'marked'
 import type { HighlighterCore } from 'shiki/core'
@@ -218,21 +219,26 @@ export function NotesView({ markdown }: { markdown: string }) {
   return (
     <>
       <div className="notes-md" onClick={onClick} onPointerOver={onPointerOver} onPointerOut={onPointerOut} dangerouslySetInnerHTML={{ __html: html }} />
-      {pop && entry && (
-        <span
-          role="tooltip"
-          className="guide-term-pop"
-          // On a phone the card slides up from the bottom (see the stylesheet); elsewhere it sits beside the word.
-          style={phone ? undefined : { position: 'fixed', top: pop.top, left: pop.left }}
-          onPointerEnter={() => window.clearTimeout(closing.current)}
-          onPointerLeave={closeSoon}
-        >
-          <strong>{entry.term}</strong> {entry.short}{' '}
-          <Link to={`/glossary?term=${pop.id}`} className="guide-term-more">
-            More in the glossary
-          </Link>
-        </span>
-      )}
+      {pop &&
+        entry &&
+        // Drawn on the page itself, not inside the lesson: the lesson fades in with a transform, and a transformed
+        // ancestor would become the reference for `position: fixed`, shifting the card away from its word.
+        createPortal(
+          <span
+            role="tooltip"
+            className="guide-term-pop"
+            // On a phone the card slides up from the bottom (see the stylesheet); elsewhere it sits beside the word.
+            style={phone ? undefined : { position: 'fixed', top: pop.top, left: pop.left }}
+            onPointerEnter={() => window.clearTimeout(closing.current)}
+            onPointerLeave={closeSoon}
+          >
+            <strong>{entry.term}</strong> {entry.short}{' '}
+            <Link to={`/glossary?term=${pop.id}`} className="guide-term-more">
+              More in the glossary
+            </Link>
+          </span>,
+          document.body,
+        )}
     </>
   )
 }

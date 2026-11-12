@@ -36,6 +36,8 @@ export type LessonBlock =
   | { type: 'topic'; line: number; eyebrow?: string; title: string }
   | { type: 'prose'; line: number; nodes: ProseNode[] }
   | { type: 'code'; line: number; code: string; inputs?: InputScenario[]; files?: PreparedFile[] }
+  /** Written explanation in markdown (a practice file's explanation of a question), drawn like the study notes. */
+  | { type: 'markdown'; line: number; markdown: string }
 
 /** One run of a block: the lines typed for its Scanner calls. */
 export interface InputScenario {

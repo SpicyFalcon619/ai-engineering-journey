@@ -13,6 +13,7 @@ import { CodeBlock } from '@/components/code/CodeBlock'
 import { GuidedLesson } from '@/components/snippet/GuidedLesson'
 import { NotesView } from '@/components/snippet/NotesView'
 import { getNotesFor, noteHeadings } from '@/lib/notes'
+import { parseExercises } from '@/lib/exercises'
 import { hasGuide, parseLesson } from '@/lib/lesson'
 import { toBareCode } from '@/lib/bare'
 import { cn } from '@/lib/cn'
@@ -70,6 +71,11 @@ export function SnippetPage() {
   // A lesson without a guide has only its code.
   const activeView: LessonView = guided ? view : 'code'
   const viewTopics = activeView === 'bare' ? (bare?.topics ?? []) : (snippet?.topics ?? [])
+  // A plain practice file with marked questions is shown one question at a time in the Guided view.
+  const questions = useMemo(
+    () => (snippet && activeView === 'guided' && blocks.every((b) => b.type === 'code') ? parseExercises(snippet.code)?.exercises : undefined),
+    [snippet, activeView, blocks],
+  )
 
   function setView(next: LessonView) {
     setViewState(next)
@@ -203,6 +209,7 @@ export function SnippetPage() {
           leading={viewSwitcher}
           blocks={blocks}
           code={snippet.code}
+          path={snippet.path}
           filename={snippet.filename}
           topics={snippet.topics}
           output={output}
@@ -233,7 +240,11 @@ export function SnippetPage() {
       <PrevNext snippet={snippet} prev={prev} next={next} />
       </div>
 
-      <Outline snippet={{ ...snippet, topics: viewTopics }} notes={activeView === 'guided' ? outlineNotes : undefined} />
+      <Outline
+        snippet={{ ...snippet, topics: viewTopics }}
+        notes={activeView === 'guided' ? outlineNotes : undefined}
+        questions={questions}
+      />
     </div>
   )
 }

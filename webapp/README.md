@@ -36,6 +36,27 @@ Every top-level folder of the repository (except `webapp`, `Test` and `tools`) i
 
 Edit `NOTES.md`, commit, and the site shows the change at the next deploy. Nothing needs capturing for the notes (only for the code's output).
 
+## Practice files, one question at a time
+
+A plain practice file (no `///` explanation) is shown in the Guided view the way the other guides show a lesson: one section per question, each with a numbered heading, the question and the explanation as text, the code answer under it, and a button for its output. A question is marked by a comment line of dashes:
+
+```js
+// --- 3. The network fails ---
+// In a try/catch, fetch a domain that does not exist and print error.name.   <- the question
+// Predict first: does this reach catch?                                       <- shown as "Predict first"
+// My prediction: yes                                                          <- shown as "Your prediction"
+// Actual: it prints TypeError fetch failed.                                   <- shown as "What happened"
+async function testNetworkFailure() { ... }                                    <- the code, up to the next marker
+```
+
+- The title can start with a number (`1. `) or `Step 1: `, or have neither. `// ===== Title =====` works as a marker too.
+- The comment lines right below a marker are the question. Lines starting `Question:`, `Predict first:` / `Predict:`, `My prediction:` / `Prediction:`, `My answer:`, `Actual:` / `Result:` become labelled rows; anything else in that run is the question text. A bare `// TODO` marks a question that is not written yet.
+- Everything before the first marker is shown as "Before you start": the header comments and any shared code (a constant, the imports).
+- **Preloaded output per question.** The page never runs the lesson. The capture runs the whole file once, records which line caused each printed line (the outermost line of the lesson on the call stack, in `scripts/lib/trace.mjs`), and stores what each question printed in `output-cache.json` (`parts`, keyed by the marker's line). `scripts/lib/blocks.mjs` (`splitQuestions`) and `src/lib/exercises.ts` must agree about where a question starts. Run `npm run capture-outputs` after changing a lesson, and commit the result.
+- **Written explanations.** Put a file beside the lesson with the same name and `.explain.md` (`lesson8/lesson8b.explain.md`) and give each question a `##` section with the same title (the number does not matter). It is shown under the code and its output as ordinary text. It is plain markdown, with the same glossary underlines and code blocks as the study notes. For a question that is not written yet it works as a hint.
+
+A file needs at least two markers to get this view; the Full code and Bare code tabs are unchanged.
+
 ## Writing a lesson
 
 A plain practice file needs nothing special: the whole file is one block, shown with the output it printed. To write a **guided** lesson, with explanation between blocks, use the same conventions as the Java guide, which work in JavaScript because `///` is an ordinary comment:

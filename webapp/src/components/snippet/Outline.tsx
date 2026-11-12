@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Snippet } from '@/types'
 import type { NoteHeading } from '@/lib/notes'
+import type { Exercise } from '@/lib/exercises'
 import { jumpToLine } from '@/lib/scroll'
 import { cn } from '@/lib/cn'
 
@@ -22,19 +23,27 @@ const scrollToId = (id: string) => document.getElementById(id)?.scrollIntoView({
 // A lesson's table of contents, with the section you are reading highlighted as you scroll. It lists the headings of
 // the lesson's notes when there are notes (ending with "Your code"), and otherwise the lesson's own `### Topic ###`
 // sections. Shown beside the lesson on wide screens; narrower screens keep the jump chips under the title.
-export function Outline({ snippet, notes = [] }: { snippet: Snippet; notes?: NoteHeading[] }) {
+export function Outline({ snippet, notes = [], questions = [] }: { snippet: Snippet; notes?: NoteHeading[]; questions?: Exercise[] }) {
   const [active, setActive] = useState<string | null>(null)
   const { topics } = snippet
 
   const entries = useMemo<Entry[]>(() => {
+    // A plain practice file is shown one question at a time, and each question is an entry of its own.
+    const asked = (depth: number): Entry[] =>
+      questions.map((q) => {
+        const id = `L${q.line}`
+        return { id, label: q.number ? `${q.number}. ${q.title}` : q.title, depth, go: () => scrollToId(id) }
+      })
     if (notes.length > 0) {
       return [
         ...notes.map((h) => ({ id: h.id, label: h.label, depth: h.depth, go: () => scrollToId(h.id) })),
         { id: 'your-code', label: 'Your code', depth: 2, go: () => scrollToId('your-code') },
+        ...asked(3),
       ]
     }
+    if (questions.length > 0) return asked(2)
     return topics.map((t) => ({ id: `L${t.line}`, label: t.label, depth: 2, go: () => jumpToLine(t.line) }))
-  }, [notes, topics])
+  }, [notes, topics, questions])
 
   useEffect(() => {
     if (entries.length === 0) return

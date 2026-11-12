@@ -2,6 +2,8 @@ import { createContext, lazy, Suspense, useContext, useEffect, useMemo, useRef, 
 import { Link } from 'react-router-dom'
 import { ArrowDown, PencilLine, Play } from 'lucide-react'
 import { getTerm, TERM_PATTERN, termIdOf, termsIn } from '@/lib/glossary'
+import { practiceToGuide } from '@/lib/practiceGuide'
+import { NotesView } from '@/components/snippet/NotesView'
 import { jsRunner } from '@/lib/jsRunner'
 import { chunkTransformer, getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
 import type { BannerSection, LessonBlock, ProseNode } from '@/lib/lesson'
@@ -22,6 +24,8 @@ interface GuidedLessonProps {
   leading?: ReactNode
   blocks: LessonBlock[]
   code: string
+  /** The lesson's path in the repo, which a question's written explanation is looked up by. */
+  path: string
   filename: string
   topics: Topic[]
   /** What every code block of this lesson printed when Node ran it, while the site was built. */
@@ -351,7 +355,15 @@ function PartRun({
   )
 }
 
-export function GuidedLesson({ leading, blocks, code, filename, topics, output, focusLine, notes }: GuidedLessonProps) {
+export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filename, topics, output: sourceOutput, focusLine, notes }: GuidedLessonProps) {
+  // A plain practice file with its questions marked ("// --- 2. Title ---") is shown as one section per question,
+  // each with a heading, its explanation, the code and its preloaded output, like the other guides.
+  const practice = useMemo(
+    () => (sourceBlocks.every((b) => b.type === 'code') ? practiceToGuide(code, path, sourceOutput) : null),
+    [sourceBlocks, code, path, sourceOutput],
+  )
+  const blocks = practice?.blocks ?? sourceBlocks
+  const output = practice ? practice.output : sourceOutput
   const [siteTheme] = useTheme()
   const [chunks, setChunks] = useState<Record<number, string>>({})
   // The sample output under a block is open unless the reader hid it.
@@ -440,6 +452,12 @@ export function GuidedLesson({ leading, blocks, code, filename, topics, output, 
             <TermsContext.Provider value={termsByBlock.get(block.line) ?? NO_TERMS}>
               <Prose nodes={block.nodes} />
             </TermsContext.Provider>
+          </div>
+        )
+      case 'markdown':
+        return (
+          <div key={`m${block.line}`} className="scroll-mt-24">
+            <NotesView markdown={block.markdown} />
           </div>
         )
       case 'code': {
