@@ -1795,7 +1795,7 @@ You should not need me to tell you whether it is right. These facts about the re
 
 ### Exercise status
 
-`lesson9/lesson9.js`: starter written, not started.
+`lesson9/lesson9.js`: all six steps done (2026-11-13): `getJson`, `loadData` (returns an object), `buildReport` (map and filter, then `async` removed because nothing is awaited inside), `printReport` with `console.table`, `findTopUser` (two passes, handles the tie between Chelsey Dietrich and Clementina DuBuque at 12) and `main()` with one `try`/`catch`. A wrong path prints only "An error occurred: Request failed: 404". Slips along the way: a stray comma in the error message, `userID` instead of `userId`, a `map` callback without `return`, an unneeded `async`, and old test code left at the top level that ran the job twice. Predictions were mostly left blank.
 
 # Quick reference (Lesson 1)
 

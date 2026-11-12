@@ -347,7 +347,7 @@ function PartRun({
               ))}
             </pre>
           ) : (
-            <p className="guide-part-none">This block prints nothing.</p>
+            <p className="guide-part-none">This code prints nothing by itself. What it defines prints where it is called.</p>
           )}
         </div>
       )}

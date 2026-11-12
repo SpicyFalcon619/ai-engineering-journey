@@ -33,8 +33,8 @@ The path from JavaScript to a complete AI-powered application: a React frontend,
   - [x] JSON.stringify and JSON.parse
   - [x] GET requests with fetch
   - [x] Status codes, POST requests, error handling
-- [ ] **Lesson 9: Mini project**
-  - [ ] Fetch data from a public API and process it
+- [x] **Lesson 9: Mini project**
+  - [x] Fetch data from a public API and process it
 
 ## BASECAMP 2: React fundamentals (about 4-6 weeks)
 
