@@ -4,15 +4,15 @@ Last updated: 2026-11-13
 
 ## Current Status
 
-- **Current phase:** Phase 1 - JavaScript Fundamentals and Revision
-- **Current topic:** Phase 1 final check. Lesson 9 (the mini project) is done. Before Phase 2 starts, retype three things from memory (see "To revisit"). Lesson plan and notes: `phase1-javascript/NOTES.md`
-- **Next learning task:** the Phase 1 final check: write `applyTwice(fn, x)`, `sum(...nums)` and a `filter` then `map` chain from memory, in a new scratch file. Then Phase 2 (React fundamentals) starts.
+- **Current phase:** Phase 2 - React Fundamentals (about to start). Phase 1 (JavaScript) is complete, 2026-11-13.
+- **Current topic:** none yet. Phase 2 begins with what React is, Vite setup, JSX and components. Phase 1 notes: `phase1-javascript/NOTES.md`
+- **Next learning task:** choose the Phase 2 learning resource, then set up a Vite + React project and write a first component.
 
 ## Roadmap
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| 1 | JavaScript fundamentals and revision | In progress |
+| 1 | JavaScript fundamentals and revision | Complete (2026-11-13) |
 | 2 | React fundamentals (Vite, JSX, props, state, effects, forms) | Not started |
 | 3 | Backend with Python and FastAPI | Not started |
 | 4 | React + FastAPI integration | Not started |
@@ -30,6 +30,7 @@ Last updated: 2026-11-13
 - JS Lesson 8 part 1: `JSON.stringify` and `JSON.parse`, GET with `fetch`, the second `await` for `response.json()`, a 404 does not reject (`response.ok` is false) - 2026-11-09. Item 2 prediction was wrong (`fetch(url)` prints `Promise { <pending> }`).
 ## Topics I Understand
 
+- Phase 1 final check (2026-11-13): wrote `applyTwice`, `sum(...nums)` and a `filter` then `map` chain correctly; explained rest vs spread (`sum(...nums)` vs `sum(...[4, 5, 6])`) and why `map` with braces and no `return` gives `undefined` values.
 - Programming fundamentals: strong prior experience in C, C++ and Java (self-reported). JavaScript is the unfamiliar part, so lessons focus on how JS differs.
 - JS Lesson 1 topics, verified by exercises (lesson1/lesson1a.js, lesson1b.js, lesson1c.js)
 - Functions as values and callbacks: `sayHi` vs `sayHi()`, passing a function to another function, and why a timer runs it later (Lesson 6 basics, steps 1-3, answered correctly in their own words, 2026-11-08). Arrow functions (with and without braces) and returning vs printing a value (Step 4, after one correction).
@@ -47,10 +48,7 @@ Last updated: 2026-11-13
 
 ## To revisit
 
-Retype these from memory in a later session, to check they have really stuck:
-- `applyTwice(fn, x)` (passing a function as an argument)
-- `sum(...nums)` (rest parameters)
-- A `filter` with two conditions followed by a `map` (chaining array methods)
+Retype these from memory in a later session, to check they have really stuck. (`applyTwice`, `sum(...nums)` and a `filter` then `map` chain were checked on 2026-11-13.)
 - `wait(ms)` and `getStudent(name)` with `resolve` and `reject` (promises)
 - A POST with `fetch` (`method`, `headers`, `JSON.stringify` body) and `createPost(title, body)` with an `ok` check
 
