@@ -300,7 +300,7 @@ function PartRun({
                 : 'border-[var(--color-code-border)] bg-[var(--color-code-surface)] text-[var(--color-code-ink-dim)] hover:border-[var(--color-code-border-strong)] hover:bg-[var(--color-code-surface-hover)] hover:text-[var(--color-code-ink)]',
             )}
           >
-            <Play className="h-3 w-3" aria-hidden /> {open ? 'Hide output' : 'Run'}
+            <Play className="h-3 w-3" aria-hidden /> {open ? 'Hide output' : 'Show output'}
           </button>
           {open && run.scenarios.length > 1 && (
             <div className="flex items-center gap-2 text-xs text-[var(--color-code-ink-faint)]">
@@ -366,14 +366,14 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
   const output = practice ? practice.output : sourceOutput
   const [siteTheme] = useTheme()
   const [chunks, setChunks] = useState<Record<number, string>>({})
-  // The sample output under a block is open unless the reader hid it.
-  const [hiddenParts, setHiddenParts] = useState<Set<number>>(() => new Set())
+  // The sample output under a block starts hidden, so a prediction is not given away. The reader opens it.
+  const [shownParts, setShownParts] = useState<Set<number>>(() => new Set())
   // Blocks the reader opened as a live editor, and whether pressing Run on them started the program at once.
   const [live, setLive] = useState<Map<number, boolean>>(() => new Map())
   const [scenarios, setScenarios] = useState<Record<number, number>>({})
 
   const togglePart = (line: number) =>
-    setHiddenParts((current) => {
+    setShownParts((current) => {
       const next = new Set(current)
       if (!next.delete(line)) next.add(line)
       return next
@@ -495,7 +495,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
                 {run && (
                   <PartRun
                     run={run}
-                    open={!hiddenParts.has(block.line)}
+                    open={shownParts.has(block.line)}
                     onToggle={() => togglePart(block.line)}
                     scenario={scenarios[block.line] ?? 0}
                     onScenario={(index) => setScenarios((current) => ({ ...current, [block.line]: index }))}
