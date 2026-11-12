@@ -540,6 +540,14 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
             <h2 id="your-code" className="guide-topic scroll-mt-24">
               Your code
             </h2>
+            {practice && (
+              <div className="guide-prose">
+                <p>
+                  Your exercises from this lesson, one at a time: the task, the code you wrote, and what it printed. Open the output under any
+                  piece of code to see it.
+                </p>
+              </div>
+            )}
           </>
         )}
         {body}

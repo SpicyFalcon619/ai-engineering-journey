@@ -123,6 +123,8 @@ export function parseExercises(source: string): ExerciseSet | null {
     let current: string[] | null = null
     const loose: string[] = []
     for (const line of commentLines) {
+      // A bare TODO is a placeholder, not part of the question.
+      if (line.trim().toUpperCase() === 'TODO') continue
       const label = line.match(LABEL)
       if (label) {
         const key = label[1]

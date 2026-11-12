@@ -48,13 +48,14 @@ export function practiceToGuide(code: string, path: string, output: CapturedOutp
     }
   }
 
-  // Before the first question: what the file says about itself, and any shared code.
+  // Before the first question: what the file says about itself, and any shared code. It has no heading of its own:
+  // it sits right under the lesson's "Your code" heading, or at the top of the page.
   if (set.intro.length > 0 || set.setupCode) {
-    blocks.push({ type: 'topic', line: -1, title: 'Before you start' })
     if (set.intro.length > 0) blocks.push({ type: 'prose', line: -2, nodes: set.intro.map((text): ProseNode => ({ type: 'p', text })) })
     if (set.setupCode) {
       blocks.push({ type: 'code', line: set.setupLine, code: set.setupCode })
-      addRun(set.setupLine, '0')
+      // Shared setup (a constant, the imports) usually prints nothing, so it only gets an output button when it does.
+      if (parts['0']?.stdout) addRun(set.setupLine, '0')
     }
   }
 
