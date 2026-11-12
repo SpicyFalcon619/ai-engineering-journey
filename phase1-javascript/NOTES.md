@@ -18,11 +18,11 @@ phase1-javascript/
   lesson5/   main.js  mathUtils.js  students.js  scratch.js  package.json
   lesson6/   lesson6.js
   lesson7/   lesson7.js
-  lesson8/   lesson8.js
+  lesson8/   lesson8a.js  lesson8b.js
   lesson9/   lesson9.js
 ```
 
-(`lesson4a.js` was originally called `lesson4.js`, and was renamed to match `lesson1a`, `lesson1b` and so on.)
+(`lesson4a.js` was originally called `lesson4.js`, and `lesson8a.js` was `lesson8.js`; both were renamed to match `lesson1a`, `lesson1b` and so on.)
 
 Running any file: from `phase1-javascript`, run `node lesson2/lesson2.js`, or `cd` into the lesson folder and run `node lesson2.js`. For `lesson5`, `cd lesson5` first and run `node main.js`. Stop a program that never ends with `Ctrl+C`.
 
@@ -1639,7 +1639,7 @@ Part 2 covers handling this properly, and POST requests.
 
 ### Exercise status
 
-`lesson8/lesson8.js`: items 1 to 5 done (2026-11-09). Item 2's prediction was wrong: `console.log(fetch(url))` prints `Promise { <pending> }`, not the server's metadata, because the response only exists after `await`. Item 5's prediction (`undefined undefined`) matched the output, but the reason is that `user` is a promise and a promise has no `name`; nothing throws, so this bug is silent. Use `https://jsonplaceholder.typicode.com`.
+`lesson8/lesson8a.js`: items 1 to 5 done (2026-11-09). Item 2's prediction was wrong: `console.log(fetch(url))` prints `Promise { <pending> }`, not the server's metadata, because the response only exists after `await`. Item 5's prediction (`undefined undefined`) matched the output, but the reason is that `user` is a promise and a promise has no `name`; nothing throws, so this bug is silent. Use `https://jsonplaceholder.typicode.com`.
 
 1. JSON warm-up (no network): `JSON.stringify` a student, print the result and its `typeof`, then `JSON.parse` it back and print the name. Predict first what `typeof JSON.stringify(student)` gives.
 2. `async function`: fetch user 1 and print the user's name and email. Before you write it, predict what `console.log(fetch(url))` prints, then check.
@@ -1647,9 +1647,155 @@ Part 2 covers handling this properly, and POST requests.
 4. Fetch `/users/9999` and print its `status` and `ok`.
 5. Predict, then check: in item 2, remove the second `await`. What is `user`, and what does `user.name` give?
 
-## Part 2: status codes, POST, and handling errors (not started)
+## Part 2: status codes, errors and POST (done, 2026-11-13)
+
+All outputs below were run in Node against the same practice API.
+
+### Two different ways a request can fail
+
+1. **The server answered, but said no.** The status is 404, 500 and so on. `fetch` does **not** reject. You check `response.ok`.
+2. **The request never got an answer** (no internet, a wrong domain). The promise **rejects**, so `catch` runs.
+
+`try`/`catch` only sees the second kind. To handle both in one place, turn the first kind into a thrown error yourself:
+
+```js
+async function getUser(id) {
+  const response = await fetch(`${BASE}/users/${id}`);
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+  return await response.json();
+}
+
+try {
+  const user = await getUser(1);
+  console.log("found:", user.name);          // found: Leanne Graham
+  await getUser(9999);                       // throws, so the next line never runs
+  console.log("never printed");
+} catch (error) {
+  console.log("caught:", error.message);     // caught: Request failed: 404
+}
+
+try {
+  await fetch("https://this-domain-does-not-exist-xyz.example/users");
+} catch (error) {
+  console.log(error.name, error.message);    // TypeError fetch failed
+}
+```
+
+`throw` inside an `async` function makes its promise reject, which is exactly what `await` plus `catch` expects (Lesson 7). The helper hides the two kinds of failure behind one `catch`.
+
+### Status codes you will see
+
+| Code | Meaning | `response.ok` |
+|---|---|---|
+| 200 | OK, here is what you asked for | true |
+| 201 | Created, your POST made something new | true |
+| 400 | Bad request, the server could not understand what you sent | false |
+| 401 / 403 | Not logged in / not allowed | false |
+| 404 | Not found | false |
+| 500 | The server itself crashed | false |
+
+`response.ok` is simply `true` for any status from 200 to 299.
+
+### What "GET" and "POST" mean
+
+Every `fetch` is a message to another computer (a server). The message starts with a **verb** that says what you want done. This verb is called the **HTTP method**. Two matter for now:
+
+| Method | Plain meaning | Does the server change? | Real-life version |
+|---|---|---|---|
+| **GET** | "Give me something." | No, you only read | Asking a librarian to bring you a book |
+| **POST** | "Here is something, store it." | Yes, something new is created | Handing the librarian a form to add a new book |
+
+- Everything you did in Part 1 and in items 1 to 3 was a GET. `fetch(url)` with nothing else **is** a GET: writing `fetch(url, { method: "GET" })` gives the identical result (both returned the same 100 posts).
+- Other methods exist (`PUT` to replace, `DELETE` to remove). You do not need them yet.
+- Later, in FastAPI, you write the **server side** of these: `@app.get(...)` handles a GET and `@app.post(...)` handles a POST. A React form will POST what the user typed to your Python backend. In Python's `requests` library the same two are `requests.get(url)` and `requests.post(url, json=data)`.
+
+### POST: sending data
+
+A GET needs nothing except the address. A POST also has to carry the data, so `fetch` takes a **second argument**, an options object, with three parts. Think of posting a letter: `method` is what is written on the front ("please store this"), `headers` is a label saying what language the letter is in, and `body` is the letter itself.
+
+```js
+const newPost = { title: "My first post", body: "Hello from fetch", userId: 1 };
+
+const response = await fetch(`${BASE}/posts`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(newPost),
+});
+
+console.log(response.status, response.ok);   // 201 true
+console.log(await response.json());
+// { title: 'My first post', body: 'Hello from fetch', userId: 1, id: 101 }
+```
+
+- `method`: `"GET"` is the default. A POST must say so.
+- `headers`: labels sent with the request. `Content-Type: application/json` tells the server the body is JSON.
+- `body`: must be a **string** (or similar), so an object goes through `JSON.stringify` (Part 1). This is the same job as `requests.post(url, json=data)` in Python, which does the stringify and the header for you.
+- The status is **201**, not 200: something was created. The server replied with the new post, now with an `id`. (This practice API pretends to save it; it is not really stored.)
+
+### Common mistakes
+
+- Passing the object as the body without `JSON.stringify`. JavaScript quietly turns it into the text `"[object Object]"` (the same thing that happens to `${student}` in a template literal). The request is still sent, but the server cannot read that text as JSON and answers with status **500** and a plain-text error. Your code then calls `response.json()` on that text, which fails with `SyntaxError: ... is not valid JSON`. The real problem (the 500) shows up one step later than the cause. Checking `response.ok` before `response.json()` would have caught it with a clear message.
+- Leaving out the `Content-Type` header. This practice API forgives it (it replied `201` with only `{ id: 101 }`, so your fields were lost), but a real server often will not.
+- Expecting `catch` to run on a 404. It only runs if you throw (the `getUser` pattern above) or the network fails.
+
+### Exercise status
+
+`lesson8/lesson8b.js`: items 1 to 6 done (2026-11-13). `getUser`, one `try` for both users, the network failure (`TypeError fetch failed`), a POST (status 201, the server adds an `id`), a POST without `JSON.stringify` (status 500, caught by the `ok` check) and a two-argument `createPost`. The terms GET and POST had not been explained before this part, so items 4 to 6 were re-taught from scratch. Several predictions were skipped; write them down next time, because that is where the learning happens.
+
 
 ---
+
+# Lesson 9: Mini project, a user activity report
+
+You have now met every piece you need: `fetch`, `async`/`await`, `try`/`catch`, and the array methods. This lesson uses them together on a real API, with nothing new to learn. The point is the habit of building something **in small, tested steps**.
+
+## What you will build
+
+A script that loads three lists from the practice API (`https://jsonplaceholder.typicode.com`), combines them, and prints a report:
+
+- `/users`: 10 users (each has a `name` and an `address.city`)
+- `/posts`: 100 posts, each with a `userId` saying who wrote it
+- `/todos`: 200 todos, each with a `userId` and a `completed` flag (`true` or `false`)
+
+For every user the report shows their **name, city, number of posts, number of completed todos and total todos**. Then it names the user who completed the most todos.
+
+## How to build it: one function, one job
+
+Do not write it all at once. Write one small function, run it, check it, and only then write the next.
+
+| Step | Function | Job | Tools you already know |
+|---|---|---|---|
+| 1 | `getJson(path)` | Fetch `BASE + path`, throw if `!response.ok`, return the parsed JSON | `fetch`, `await`, `throw` (like `getUser`) |
+| 2 | `loadData()` | Get users, posts and todos with `getJson` and return all three | `await` three times |
+| 3 | `buildReport(users, posts, todos)` | Return one object per user: `{ name, city, posts, doneTodos, totalTodos }` | `map`, `filter`, `.length` |
+| 4 | print | Show the report | `console.table(report)` or a loop with template literals |
+| 5 | `findTopUser(report)` | The user with the most completed todos | `reduce`, or `sort` |
+| 6 | `main()` | Call the steps inside `try`/`catch` and print `error.message` | `try`/`catch` |
+
+### Hints
+
+- To count one user's posts: filter the posts where `post.userId === user.id`, then take `.length`.
+- Destructuring helps: `const [users, posts, todos] = await loadData();` if `loadData` returns an array of three.
+- `console.table(array)` prints an array of objects as a table. It is new, but it is only a nicer `console.log`.
+
+## Check your own work
+
+You should not need me to tell you whether it is right. These facts about the real data let you check:
+
+- There are 10 users, and each has exactly 10 posts and 20 todos.
+- The completed-todo counts for users 1 to 10, in order, are `11, 8, 7, 6, 12, 6, 9, 11, 8, 12`, which add up to **90**.
+- **Careful:** two users tie for the most completed todos (12 each). Decide what your program should print when there is a tie. Printing only the first one hides the other.
+- To test your error handling, change one path to something that does not exist (for example `"/userz"`). The report should be replaced by a clear `Request failed: 404`, not a crash.
+
+## Stretch (optional)
+
+`Promise.all([...])` runs several promises at once and waits for all of them. You could use it in `loadData` so the three requests run together instead of one after another. It is not needed for the project.
+
+### Exercise status
+
+`lesson9/lesson9.js`: starter written, not started.
 
 # Quick reference (Lesson 1)
 

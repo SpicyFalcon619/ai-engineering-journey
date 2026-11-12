@@ -1,12 +1,12 @@
 # Learning Progress
 
-Last updated: 2026-11-09
+Last updated: 2026-11-13
 
 ## Current Status
 
 - **Current phase:** Phase 1 - JavaScript Fundamentals and Revision
-- **Current topic:** Lesson 8 part 2, status codes, POST and error handling (next). Part 1 (JSON and fetch) is done. Lesson plan and notes: `phase1-javascript/NOTES.md`
-- **Next learning task:** Lesson 8 part 2 (check `response.ok`, handle errors with `try`/`catch`, send a POST request), then Lesson 9 (mini project that fetches from a public API)
+- **Current topic:** Lesson 9, mini project (a user activity report from three API lists). Lesson 8 is done. Lesson plan and notes: `phase1-javascript/NOTES.md`
+- **Next learning task:** `phase1-javascript/lesson9/lesson9.js`, steps 1 to 6 in order. Then Phase 1 is finished and Phase 2 (React) starts.
 
 ## Roadmap
 
@@ -25,6 +25,7 @@ Last updated: 2026-11-09
 - JS Lesson 2: functions (declarations, arrow functions, default parameters, callbacks, hoisting, scope) - 2026-11-05.- JS Lesson 3: objects, arrays, destructuring, spread, rest parameters - 2026-11-06.- JS Lesson 4 part 1: map, filter, find - 2026-11-06.- JS Lesson 5: modules (named and default exports, imports, renaming, ES modules in Node) - 2026-11-06.- JS Lesson 7: async/await (`async` functions, `await`, `try`/`catch`, forgetting `await` gives a promise) - 2026-11-09. Item 5 prediction first mixed up "missing await" (gives a promise) with "missing return" (gives undefined).
 - JS Lesson 6: promises (a promise as a box, `resolve` and `reject` as buttons, `then`, `catch`, chaining) - 2026-11-08. Started with three small steps on functions as values and arrow functions, because the first explanation was too fast.
 - JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
+- JS Lesson 8 part 2: errors and POST (`response.ok`, throwing on a bad status, network failure vs a 404, GET vs POST, `method`/`headers`/`body`, why the body needs `JSON.stringify`) - 2026-11-13. The terms GET and POST had to be taught from scratch.
 - JS Lesson 8 part 1: `JSON.stringify` and `JSON.parse`, GET with `fetch`, the second `await` for `response.json()`, a 404 does not reject (`response.ok` is false) - 2026-11-09. Item 2 prediction was wrong (`fetch(url)` prints `Promise { <pending> }`).
 ## Topics I Understand
 
@@ -39,6 +40,8 @@ Last updated: 2026-11-09
 - Arrow functions with braces: forgot that `{ }` needs an explicit `return` (Lesson 4 item 6 prediction was wrong). Watch for this again.
 - Promises (Lesson 6): the first explanation was too fast. The gap underneath is passing a function to another function to be run later (callbacks), so Lesson 6 now starts with three small steps from zero.
 - Chaining array methods: each step receives the previous step's output, so `map` before `filter` loses the data `filter` needed (Lesson 4 item 5).
+- HTTP basics (Lesson 8 part 2): the words GET and POST were used before they were explained, so the POST items needed a re-teach from scratch. Explain a new term before using it.
+- Writing predictions: several "My prediction:" lines in Lesson 8 were left blank. The prediction is the learning step, so do it before running.
 - No diagnostic was taken; other weak spots will show up in exercises.
 
 ## To revisit
@@ -48,6 +51,7 @@ Retype these from memory in a later session, to check they have really stuck:
 - `sum(...nums)` (rest parameters)
 - A `filter` with two conditions followed by a `map` (chaining array methods)
 - `wait(ms)` and `getStudent(name)` with `resolve` and `reject` (promises)
+- A POST with `fetch` (`method`, `headers`, `JSON.stringify` body) and `createPost(title, body)` with an `ok` check
 
 ## Exercises Completed
 
@@ -62,7 +66,8 @@ Retype these from memory in a later session, to check they have really stuck:
 - lesson6/basics.js (functions as values, callbacks, arrow functions, printing vs returning)
 - lesson6/lesson6.js (print order, wait, getStudent with resolve and reject, then chain, missing return)
 - lesson7/lesson7.js (pause, showScore, try/catch, Aisha plus 5, forgetting await)
-- lesson8/lesson8.js (JSON stringify and parse, fetch one user, fetch all users, a 404, forgetting the second await)
+- lesson8/lesson8a.js (JSON stringify and parse, fetch one user, fetch all users, a 404, forgetting the second await)
+- lesson8/lesson8b.js (getUser with an ok check, one try/catch, network failure, POST, a POST without JSON.stringify, createPost)
 
 ## Projects Completed
 

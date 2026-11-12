@@ -697,23 +697,6 @@
    }
   }
  },
- "phase1-javascript/lesson8/lesson8.js": {
-  "capturedAt": "2026-11-09T11:33:30.179Z",
-  "node": "v24.14.0",
-  "blocks": {
-   "2": {
-    "status": "ok",
-    "scenarios": [
-     {
-      "label": "",
-      "inputs": [],
-      "stdout": "",
-      "segments": []
-     }
-    ]
-   }
-  }
- },
  "phase1-javascript/lesson9/lesson9.js": {
   "capturedAt": "2026-11-09T11:33:30.226Z",
   "node": "v24.14.0",
@@ -726,6 +709,122 @@
       "inputs": [],
       "stdout": "",
       "segments": []
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson8/lesson8a.js": {
+  "capturedAt": "2026-11-09T13:32:34.926Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\nundefined undefined\n404 false\nLeanne Graham Sincere@april.biz\n[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
+      "segments": [
+       [
+        18,
+        "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\n",
+        0
+       ],
+       [
+        19,
+        "string\n",
+        0
+       ],
+       [
+        23,
+        "Aisha\n",
+        0
+       ],
+       [
+        72,
+        "undefined undefined\n",
+        0
+       ],
+       [
+        57,
+        "404 false\n",
+        0
+       ],
+       [
+        34,
+        "Leanne Graham Sincere@april.biz\n",
+        0
+       ],
+       [
+        46,
+        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
+        0
+       ]
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "phase1-javascript/lesson8/lesson8b.js": {
+  "capturedAt": "2026-11-12T18:25:04.722Z",
+  "node": "v24.14.0",
+  "blocks": {
+   "2": {
+    "status": "ok",
+    "scenarios": [
+     {
+      "label": "",
+      "inputs": [],
+      "stdout": "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\nUser 1: Leanne Graham\nCaught an error: Request failed: 404\nTypeError fetch failed\n201 true\nSuccess:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n500 false\nError:  Request failed: 500\nCreated: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
+      "segments": [
+       [
+        23,
+        "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\n",
+        0
+       ],
+       [
+        36,
+        "User 1: Leanne Graham\n",
+        0
+       ],
+       [
+        41,
+        "Caught an error: Request failed: 404\n",
+        0
+       ],
+       [
+        62,
+        "TypeError fetch failed\n",
+        0
+       ],
+       [
+        83,
+        "201 true\n",
+        0
+       ],
+       [
+        99,
+        "Success:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n",
+        0
+       ],
+       [
+        119,
+        "500 false\n",
+        0
+       ],
+       [
+        132,
+        "Error:  Request failed: 500\n",
+        0
+       ],
+       [
+        160,
+        "Created: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
+        0
+       ]
+      ]
      }
     ]
    }

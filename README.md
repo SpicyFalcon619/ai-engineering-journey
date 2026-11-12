@@ -20,7 +20,7 @@ Each stage is learned only after the one before it makes sense, and each ends wi
 
 | Basecamp | What it covers | Status |
 |---|---|---|
-| 1. JavaScript fundamentals | Variables, functions, objects, array methods, modules, promises, `async`/`await`, `fetch` and JSON | In progress (lesson 8 of 9) |
+| 1. JavaScript fundamentals | Variables, functions, objects, array methods, modules, promises, `async`/`await`, `fetch` and JSON | In progress (lesson 9 of 9, the mini project) |
 | 2. React fundamentals | Vite, JSX, components, props, state, effects, forms; a task manager and a public-API app | Not started |
 | 3. Backend with Python and FastAPI | HTTP and REST, GET and POST endpoints, Pydantic validation, errors, CORS, testing | Not started |
 | 4. React and FastAPI together | `fetch` from React to FastAPI, loading and error states, environment variables | Not started |
@@ -60,8 +60,8 @@ The lessons so far:
 | 5 | Modules: `import` and `export` |
 | 6 | Promises, built up from functions as values and arrow functions |
 | 7 | `async` and `await` |
-| 8 | JSON and `fetch` (in progress) |
-| 9 | A small project that fetches data from a public API (next) |
+| 8 | JSON and `fetch`: GET, POST, status codes and error handling |
+| 9 | A small project: a user activity report from a public API (in progress) |
 
 ## Running the code
 

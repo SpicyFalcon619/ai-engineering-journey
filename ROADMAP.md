@@ -29,10 +29,10 @@ The path from JavaScript to a complete AI-powered application: a React frontend,
 - [x] **Lesson 7: async and await**
   - [x] async functions and await
   - [x] try and catch
-- [ ] **Lesson 8: fetch and JSON**
-  - [ ] JSON.stringify and JSON.parse
-  - [ ] GET requests with fetch
-  - [ ] Status codes, POST requests, error handling
+- [x] **Lesson 8: fetch and JSON**
+  - [x] JSON.stringify and JSON.parse
+  - [x] GET requests with fetch
+  - [x] Status codes, POST requests, error handling
 - [ ] **Lesson 9: Mini project**
   - [ ] Fetch data from a public API and process it
 
