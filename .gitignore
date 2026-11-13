@@ -6,6 +6,9 @@ CLAUDE.md
 test.js
 tempCodeRunnerFile.js
 
+# Personal editor settings (for example the Live Server port)
+.vscode/
+
 node_modules/
 .env
 .env.local
