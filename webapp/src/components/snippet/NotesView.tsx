@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Marked } from 'marked'
 import type { HighlighterCore } from 'shiki/core'
 import { getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
@@ -9,9 +9,11 @@ import { useTheme } from '@/hooks/useTheme'
 import { makeSlugger } from '@/lib/notes'
 
 // The lesson's explanation: the author's study notes (phase1-javascript/NOTES.md), drawn as readable text. Each
-// JavaScript example in them can be copied, or sent to the Sandbox to be edited and run.
+// JavaScript example in them can be copied, or edited and run right where it is, in the reader's browser.
 
-const SANDBOX_KEY = 'aefg-sandbox-code'
+// The editor and the runner load only when a reader opens an example.
+const LiveJs = lazy(() => import('@/components/code/LiveJs'))
+
 const JS_LANGS = new Set(['js', 'javascript', 'mjs'])
 
 const escapeHtml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -77,6 +79,8 @@ function underlineTerms(html: string): string {
 function render(markdown: string, highlighter: HighlighterCore | null, theme: string): string {
   // The same slugger the outline uses, called in the same order, so every heading gets the id the outline links to.
   const slug = makeSlugger()
+  // Each code block gets a number, so an open editor can find its block again if the page is drawn afresh.
+  let blockNumber = 0
   const marked = new Marked({
     gfm: true,
     renderer: {
@@ -91,9 +95,9 @@ function render(markdown: string, highlighter: HighlighterCore | null, theme: st
             ? highlighter.codeToHtml(text, { lang: 'javascript', theme })
             : `<pre class="notes-plain"><code>${escapeHtml(text)}</code></pre>`
         const actions = isJs
-          ? `<button type="button" data-notes-try>Try it in the Sandbox</button><button type="button" data-notes-copy>Copy</button>`
+          ? `<button type="button" data-notes-run>Edit and run</button><button type="button" data-notes-copy>Copy</button>`
           : `<button type="button" data-notes-copy>Copy</button>`
-        return `<div class="notes-code code-font" data-code="${escapeHtml(text)}"><div class="notes-code-bar">${actions}</div>${body}</div>\n`
+        return `<div class="notes-code code-font" data-idx="${blockNumber++}" data-code="${escapeHtml(text)}"><div class="notes-code-bar">${actions}</div>${body}</div>\n`
       },
       link({ href, title, tokens }) {
         const inner = this.parser.parseInline(tokens)
@@ -116,11 +120,23 @@ const PHONE_WIDTH = 640
 
 export function NotesView({ markdown }: { markdown: string }) {
   const [siteTheme] = useTheme()
-  const navigate = useNavigate()
   const [highlighter, setHighlighter] = useState<HighlighterCore | null>(null)
   const [copied, setCopied] = useState<string | null>(null)
   const [pop, setPop] = useState<Popover | null>(null)
   const closing = useRef(0)
+  const rootRef = useRef<HTMLDivElement>(null)
+  // The examples the reader opened as an editor (by block number), what they have typed, and where each editor is drawn.
+  const [openBlocks, setOpenBlocks] = useState<ReadonlySet<number>>(() => new Set())
+  const [hosts, setHosts] = useState<Record<number, HTMLElement>>({})
+  const typed = useRef<Record<number, string>>({})
+
+  // A different lesson has different examples, so nothing stays open from the last one.
+  const [shownFor, setShownFor] = useState(markdown)
+  if (shownFor !== markdown) {
+    setShownFor(markdown)
+    setOpenBlocks(new Set())
+    typed.current = {}
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -134,6 +150,10 @@ export function NotesView({ markdown }: { markdown: string }) {
 
   // Plain text first, then the same text with its code coloured once the highlighter has loaded.
   const html = useMemo(() => render(markdown, highlighter, SHIKI_THEME_BY_SITE_THEME[siteTheme]), [markdown, highlighter, siteTheme])
+
+  // The same object on every render. React writes the HTML into the page whenever this object changes, and a new object
+  // each time would wipe the editors and the "Copied" labels that are placed inside it.
+  const innerHtml = useMemo(() => ({ __html: html }), [html])
 
   // A glossary word: hover (mouse) or tap shows its short meaning. The card is placed by the word, and kept on screen.
   function openTerm(button: HTMLElement) {
@@ -190,13 +210,10 @@ export function NotesView({ markdown }: { markdown: string }) {
     const box = target.closest<HTMLElement>('.notes-code')
     if (!box) return
     const code = box.dataset.code ?? ''
-    if (target.closest('[data-notes-try]')) {
-      try {
-        window.localStorage.setItem(SANDBOX_KEY, code + '\n')
-      } catch {
-        // The Sandbox then opens with its own starting example, which is fine.
-      }
-      navigate('/sandbox')
+    if (target.closest('[data-notes-run]')) {
+      const index = Number(box.dataset.idx)
+      typed.current[index] = typed.current[index] ?? code
+      setOpenBlocks((current) => new Set(current).add(index))
     } else if (target.closest('[data-notes-copy]')) {
       void navigator.clipboard?.writeText(code).then(() => {
         setCopied(code)
@@ -204,6 +221,31 @@ export function NotesView({ markdown }: { markdown: string }) {
       })
     }
   }
+
+  // An open example hides its plain code and shows an editor in its place. The text is an HTML string, so the editor is
+  // placed with a portal into a host element inside the example's box, and re-placed if the text is drawn afresh.
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const next: Record<number, HTMLElement> = {}
+    root.querySelectorAll<HTMLElement>('.notes-code').forEach((box) => {
+      const index = Number(box.dataset.idx)
+      let host = box.querySelector<HTMLElement>(':scope > .notes-live-host')
+      if (!openBlocks.has(index)) {
+        host?.remove()
+        box.removeAttribute('data-live')
+        return
+      }
+      box.setAttribute('data-live', 'true')
+      if (!host) {
+        host = document.createElement('div')
+        host.className = 'notes-live-host guide-code code-font'
+        box.appendChild(host)
+      }
+      next[index] = host
+    })
+    setHosts(next)
+  }, [html, openBlocks])
 
   // The copy button says "Copied" for a moment. It lives in the HTML string, so it is updated directly.
   useEffect(() => {
@@ -218,7 +260,31 @@ export function NotesView({ markdown }: { markdown: string }) {
 
   return (
     <>
-      <div className="notes-md" onClick={onClick} onPointerOver={onPointerOver} onPointerOut={onPointerOut} dangerouslySetInnerHTML={{ __html: html }} />
+      <div ref={rootRef} className="notes-md" onClick={onClick} onPointerOver={onPointerOver} onPointerOut={onPointerOut} dangerouslySetInnerHTML={innerHtml} />
+      {Object.entries(hosts).map(([key, host]) => {
+        const index = Number(key)
+        return createPortal(
+          <Suspense fallback={<p className="guide-part-none">Opening the editor...</p>}>
+            <LiveJs
+              initialCode={typed.current[index] ?? ''}
+              label="Editable JavaScript example"
+              onCodeChange={(next) => {
+                typed.current[index] = next
+              }}
+              onClose={() => {
+                delete typed.current[index]
+                setOpenBlocks((current) => {
+                  const next = new Set(current)
+                  next.delete(index)
+                  return next
+                })
+              }}
+            />
+          </Suspense>,
+          host,
+          key,
+        )
+      })}
       {pop &&
         entry &&
         // Drawn on the page itself, not inside the lesson: the lesson fades in with a transform, and a transformed

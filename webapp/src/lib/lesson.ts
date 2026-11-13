@@ -35,7 +35,7 @@ export type LessonBlock =
   | { type: 'banner'; kind: 'learn' | 'practice' | 'note'; line: number; sections: BannerSection[] }
   | { type: 'topic'; line: number; eyebrow?: string; title: string }
   | { type: 'prose'; line: number; nodes: ProseNode[] }
-  | { type: 'code'; line: number; code: string; inputs?: InputScenario[]; files?: PreparedFile[] }
+  | { type: 'code'; line: number; code: string; inputs?: InputScenario[]; files?: PreparedFile[]; full?: { canRun: boolean } }
   /** Written explanation in markdown (a practice file's explanation of a question), drawn like the study notes. */
   | { type: 'markdown'; line: number; markdown: string }
 

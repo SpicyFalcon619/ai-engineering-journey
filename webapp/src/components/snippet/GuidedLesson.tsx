@@ -20,6 +20,9 @@ import { cn } from '@/lib/cn'
 // The editor and the runner load only when a reader presses Edit on a block.
 const LiveJs = lazy(() => import('@/components/code/LiveJs'))
 
+// The whole file at the bottom of a practice lesson has no stored output. It only offers Edit and run.
+const FULL_FILE_RUN: BlockRun = { status: 'ok', scenarios: [{ label: '', inputs: [], stdout: '', segments: [] }] }
+
 interface GuidedLessonProps {
   /** Shown at the left of the toolbar (the lesson's view switcher). */
   leading?: ReactNode
@@ -268,7 +271,7 @@ function PartRun({
   scenario,
   onScenario,
   onLive,
-  emptyNote,
+  liveOnly,
 }: {
   run: BlockRun
   open: boolean
@@ -277,8 +280,8 @@ function PartRun({
   onScenario: (index: number) => void
   /** Open the block as an editor and, with `true`, run it at once. */
   onLive: (andRun: boolean) => void
-  /** What to say when the block printed nothing. */
-  emptyNote?: string
+  /** The whole file at the bottom: no stored output, only Edit and run. */
+  liveOnly?: boolean
 }) {
   const current = run.scenarios[Math.min(scenario, run.scenarios.length - 1)]
   // Output and error text interleave in the order they happened; the error stream is drawn as an error.
@@ -293,6 +296,7 @@ function PartRun({
     <>
       <div className="guide-part-bar">
         <div className="flex flex-wrap items-center gap-2">
+          {!liveOnly && (
           <button
             type="button"
             onClick={onToggle}
@@ -306,6 +310,7 @@ function PartRun({
           >
             <Play className="h-3 w-3" aria-hidden /> {open ? 'Hide output' : 'Show output'}
           </button>
+          )}
           {open && run.scenarios.length > 1 && (
             <div className="flex items-center gap-2 text-xs text-[var(--color-code-ink-faint)]">
               <span>Typed input</span>
@@ -334,12 +339,12 @@ function PartRun({
               className="flex min-h-6 cursor-pointer items-center gap-1.5 rounded-md border border-[var(--color-code-border)] bg-[var(--color-code-surface)] px-2.5 py-0.5 text-[13px] text-[var(--color-code-ink-dim)] transition-colors hover:border-[var(--color-code-border-strong)] hover:bg-[var(--color-code-surface-hover)] hover:text-[var(--color-code-ink)]"
               title="Change the code and run your own version, live in your browser"
             >
-              <PencilLine className="h-3 w-3" aria-hidden /> Edit
+              <PencilLine className="h-3 w-3" aria-hidden /> {liveOnly ? 'Edit and run' : 'Edit'}
             </button>
           </div>
         )}
       </div>
-      {open && (
+      {open && !liveOnly && (
         <div className="guide-part-out" role="region" aria-label="Output of this block">
           {pieces.length > 0 && <p className="live-meta live-caption">Sample output</p>}
           {pieces.length ? (
@@ -351,7 +356,7 @@ function PartRun({
               ))}
             </pre>
           ) : (
-            <p className="guide-part-none">{emptyNote ?? 'This block prints nothing.'}</p>
+            <p className="guide-part-none">This block prints nothing.</p>
           )}
         </div>
       )}
@@ -363,11 +368,12 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
   // A plain practice file with its questions marked ("// --- 2. Title ---") is shown as one section per question,
   // each with a heading, its explanation, the code and its preloaded output, like the other guides.
   const practice = useMemo(
-    () => (PRACTICE_VIEW && sourceBlocks.every((b) => b.type === 'code') ? practiceToGuide(code, path, sourceOutput) : null),
-    [sourceBlocks, code, path, sourceOutput],
+    () => (PRACTICE_VIEW && sourceBlocks.every((b) => b.type === 'code') ? practiceToGuide(code, path) : null),
+    [sourceBlocks, code, path],
   )
   const blocks = practice?.blocks ?? sourceBlocks
-  const output = practice ? practice.output : sourceOutput
+  // A practice file taught question by question shows no stored output (the Capture dialog still uses it).
+  const output = practice ? undefined : sourceOutput
   const [siteTheme] = useTheme()
   const [chunks, setChunks] = useState<Record<number, string>>({})
   // The sample output under a block starts hidden, so a prediction is not given away. The reader opens it.
@@ -465,7 +471,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
           </div>
         )
       case 'code': {
-        const run = output?.runs.blocks[String(block.line)]
+        const run = block.full ? (block.full.canRun ? FULL_FILE_RUN : undefined) : output?.runs.blocks[String(block.line)]
         const editing = live.has(block.line)
         return (
           <div
@@ -501,7 +507,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
                     run={run}
                     open={shownParts.has(block.line)}
                     onToggle={() => togglePart(block.line)}
-                    emptyNote={practice ? 'This code prints nothing by itself. What it defines prints where it is called.' : undefined}
+                    liveOnly={Boolean(block.full)}
                     scenario={scenarios[block.line] ?? 0}
                     onScenario={(index) => setScenarios((current) => ({ ...current, [block.line]: index }))}
                     onLive={(andRun) => {
@@ -528,7 +534,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
           </span>
           <CopyButton text={code} />
           <span className="hidden sm:contents">
-            <CaptureDialogButton code={code} filename={filename} topics={topics} output={output} />
+            <CaptureDialogButton code={code} filename={filename} topics={topics} output={sourceOutput} />
           </span>
         </div>
       </div>
@@ -548,8 +554,8 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
             {practice && (
               <div className="guide-prose">
                 <p>
-                  Your exercises from this lesson, one at a time: the task, the code you wrote, and what it printed. Open the output under any
-                  piece of code to see it.
+                  Your exercises from this lesson, one at a time: the task, the code you wrote, and an explanation. The whole file is at the
+                  bottom.
                 </p>
               </div>
             )}

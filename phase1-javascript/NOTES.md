@@ -1661,6 +1661,8 @@ All outputs below were run in Node against the same practice API.
 `try`/`catch` only sees the second kind. To handle both in one place, turn the first kind into a thrown error yourself:
 
 ```js
+const BASE = "https://jsonplaceholder.typicode.com";
+
 async function getUser(id) {
   const response = await fetch(`${BASE}/users/${id}`);
   if (!response.ok) {
@@ -1718,6 +1720,8 @@ Every `fetch` is a message to another computer (a server). The message starts wi
 A GET needs nothing except the address. A POST also has to carry the data, so `fetch` takes a **second argument**, an options object, with three parts. Think of posting a letter: `method` is what is written on the front ("please store this"), `headers` is a label saying what language the letter is in, and `body` is the letter itself.
 
 ```js
+const BASE = "https://jsonplaceholder.typicode.com";
+
 const newPost = { title: "My first post", body: "Hello from fetch", userId: 1 };
 
 const response = await fetch(`${BASE}/posts`, {

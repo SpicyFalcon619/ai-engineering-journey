@@ -62,7 +62,7 @@ function App() {
 
 ### Exercise status
 
-`lesson1/lesson1.jsx`: starter written, not started. Item 1 is only questions, so you can answer it now. Items 2 to 5 need the project from Part 2.
+`app/src/lessons/lesson1/lesson1.jsx`: starter written, not started. The file stays clean: the exercises are listed here and explained in the lesson, not written as comments inside it. It is shown on the page by `app/src/App.jsx` (Part 2 shows how). Keep `npm run dev` running inside `phase2-react/app` and save the file to see your work.
 
 1. Predict first (no code): what appears on the page when `App` is shown, what goes wrong if `Greeting` is renamed `greeting`, and why is everything in `App` wrapped in one `<div>`?
 2. Write a `Greeting` component that returns an `<h1>` saying "Hello," and your name.
@@ -88,6 +88,31 @@ npm run dev
 
 The creator tool may ask a few questions (for example which language). Choose plain JavaScript, not TypeScript. If you are unsure, stop and ask.
 
+### The words, in plain language
+
+A web page has three parts: HTML (the structure), CSS (how it looks) and JavaScript (what it does). React builds the page part with JavaScript, and Vite runs and prepares your React code.
+
+| Word | What it is |
+|---|---|
+| **React** | A JavaScript library (code written by others that you import, started at Meta, free to use) for building the screen out of small reusable pieces called components. It draws the screen. Things like page navigation or fetching data are separate tools you add as needed. |
+| **Node.js** | What you used in Phase 1: it takes the JavaScript engine from the browser and lets it run on your own computer (`node lesson1.js` is like `python lesson1.py`). In a React project it only runs the tools (Vite and npm, which comes with Node). Your React code itself runs in the browser. Node can also build servers, but the backend in Phase 3 uses Python and FastAPI. |
+| **TypeScript** | JavaScript with types added (`let age: number = 22`), like Java or C++ declarations. The editor and a compiler catch mistakes before you run, such as a misspelled property. Browsers cannot run it, so a tool such as Vite converts it to plain JavaScript first. Files end in `.ts` and `.tsx`. Optional for now: this project uses plain JavaScript (`.jsx`). The Field Guide website is written in TypeScript. |
+| **@types/react** | A set of type descriptions that helps the editor give hints and autocomplete, even in plain JavaScript. It does not change how the code runs. |
+| **npm** | JavaScript's package manager, like `pip` in Python. `npm install react` is like `pip install numpy`. |
+| **package.json** | Like `requirements.txt`, and it also lists your scripts (`npm run dev` runs `vite`). |
+| **node_modules** | The folder of downloaded packages, one per project. Never edit it, and never commit it. |
+| **Vite** | A tool (said "veet", French for "quick") with three jobs: a **dev server** (a small web server on your own PC, usually http://localhost:5173, that only you can see), translating JSX into ordinary JavaScript the browser can read, and **hot reload** (the page updates the moment you save, without refreshing). |
+| **Build** | `npm run build` makes the small, optimised files you would put on a real website. The Field Guide site is built this way: it is a Vite + React project too. |
+| **Project generator** | `npm create vite@latest` downloads Vite's starter-project maker, runs it once, and gives you a folder of starting files. |
+| **Linter** (Oxlint or ESLint) | A tool that reads your code and warns about likely mistakes, like `pylint` or `flake8` in Python. It never changes how the app runs. Oxlint needs no configuration, so it is the simple choice. |
+
+How they fit together:
+
+```
+you write .jsx files  ->  Vite translates them and serves them  ->  your browser shows the page
+       (React)                (Node runs Vite, npm installed it)
+```
+
 ### What the tool creates
 
 I ran the tool in a scratch folder (version 9.3.4; yours may differ slightly) so these notes describe what really appears:
@@ -104,9 +129,48 @@ I ran the tool in a scratch folder (version 9.3.4; yours may differ slightly) so
 | `.gitignore` | Keeps `node_modules` out of git. |
 | `node_modules/` | Appears after `npm install`. The downloaded packages. Never edit it. |
 
+### Reading the generated `src/App.jsx`
+
+Most of the file is template filler (links and icons). The parts that matter:
+
+```jsx
+import { useState } from 'react'          // imports (Lesson 5); you can import images and CSS too
+function App() {                          // a component is a function, like Greeting
+  const [count, setCount] = useState(0)   // a later lesson (state): ignore for now
+  return (                                // what to show
+    <>                                    // a "fragment": the one parent a component must return
+      ...
+    </>
+  )
+}
+export default App                        // main.jsx imports it: import App from './App.jsx'
+```
+
+Where JSX differs from HTML:
+
+| In JSX | Why |
+|---|---|
+| `className="hero"` instead of `class` | `class` is already a JavaScript keyword |
+| `{heroImg}`, `{count}` | Curly braces put a JavaScript value into the markup, like `${...}` in a template literal |
+| `<img ... />` | Every tag must be closed. A tag with nothing inside closes itself. |
+
+Experiments: delete the `<>` and `</>` wrapper and read the error (a component must return one parent), then undo; add `const name = "..."` above `return` and write `<h1>Hello, {name}</h1>`.
+
 ### Exercise status
 
 Not started. After the project runs, we will:
 
 1. Change the text in `src/App.jsx`, save, and watch the page update without a reload.
-2. Move the Lesson 1 exercise file into the project and show it from `App`, so you can see your own components on screen.
+2. Show the Lesson 1 exercise file from `App`, so you can see your own components on screen. The exercise file lives at `app/src/lessons/lesson1/lesson1.jsx`, and `src/App.jsx` becomes:
+
+```jsx
+import Lesson1 from './lessons/lesson1/lesson1.jsx'
+
+function App() {
+  return <Lesson1 />
+}
+
+export default App
+```
+
+The import path is a normal Lesson 5 import: `./` means "the folder this file is in", then down into `lessons/lesson1/`. `<Lesson1 />` uses the default export of that file as a component, like `<Greeting />`.

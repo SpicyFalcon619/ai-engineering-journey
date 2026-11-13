@@ -36,11 +36,11 @@ Every top-level folder of the repository (except `webapp`, `Test` and `tools`) i
 
 Edit `NOTES.md`, commit, and the site shows the change at the next deploy. Nothing needs capturing for the notes (only for the code's output).
 
-## Practice files, one question at a time (switched off)
+## Practice files, one question at a time
 
-This view is off by default. Set `PRACTICE_VIEW` to `true` in `src/lib/features.ts` to use it, and capture with `PARTS=1 npm run capture-outputs` so each question's output is stored. With it off, the Guided view shows a plain practice file as one block with the output of the whole run, under the study notes.
+A plain practice file (no `///` explanation) is taught in the Guided view the way the other guides teach a lesson: one section per question, each with a numbered heading, the question and the explanation as text, and the code for that question. After the last question comes **the full code** as one block, which can be edited and run in the page (**Edit and run**, a live run in the reader's browser). There is no stored sample output in this view: what a program prints is seen by running it. A file that imports its neighbours (`import x from "./other.js"`) cannot run in the page, so its full code has no run button.
 
-A plain practice file (no `///` explanation) is shown in the Guided view the way the other guides show a lesson: one section per question, each with a numbered heading, the question and the explanation as text, the code answer under it, and a button for its output. A question is marked by a comment line of dashes:
+The view is switched by `PRACTICE_VIEW` in `src/lib/features.ts`. Set it to `false` to show a plain file as one block with the stored output of the whole run instead. A question is marked by a comment line of dashes:
 
 ```js
 // --- 3. The network fails ---
@@ -53,8 +53,8 @@ async function testNetworkFailure() { ... }                                    <
 
 - The title can start with a number (`1. `) or `Step 1: `, or have neither. `// ===== Title =====` works as a marker too.
 - The comment lines right below a marker are the question. Lines starting `Question:`, `Predict first:` / `Predict:`, `My prediction:` / `Prediction:`, `My answer:`, `Actual:` / `Result:` become labelled rows; anything else in that run is the question text. A bare `// TODO` marks a question that is not written yet.
-- Everything before the first marker is shown as "Before you start": the header comments and any shared code (a constant, the imports).
-- **Preloaded output per question.** The page never runs the lesson. The capture runs the whole file once, records which line caused each printed line (the outermost line of the lesson on the call stack, in `scripts/lib/trace.mjs`), and stores what each question printed in `output-cache.json` (`parts`, keyed by the marker's line). `scripts/lib/blocks.mjs` (`splitQuestions`) and `src/lib/exercises.ts` must agree about where a question starts. Run `npm run capture-outputs` after changing a lesson, and commit the result.
+- Everything before the first marker is shown at the top, with no heading of its own: the header comments and any shared code (a constant, the imports).
+- **Output.** This view shows no stored output. The capture (`npm run capture-outputs`) still records, for every printed piece, the line that printed it and the statement that started the work (`[line, text, stream, starting line]` in `output-cache.json`), which the Capture dialog uses to show only the output of the selected lines.
 - **Written explanations.** Put a file beside the lesson with the same name and `.explain.md` (`lesson8/lesson8b.explain.md`) and give each question a `##` section with the same title (the number does not matter). It is shown under the code and its output as ordinary text. It is plain markdown, with the same glossary underlines and code blocks as the study notes. For a question that is not written yet it works as a hint.
 
 A file needs at least two markers to get this view; the Full code and Bare code tabs are unchanged.

@@ -77,19 +77,3 @@ export function splitBlocks(source) {
   flush()
   return blocks
 }
-
-// A plain practice file marks its questions with a comment line such as `// --- 2. Fetch one user ---` (or `// ===== X =====`).
-// This must agree with parseExercises in src/lib/exercises.ts about where a question starts. Each question runs from its
-// marker to the line before the next one. The capture stores what each printed, so the page never works it out itself.
-const QUESTION_MARKER = /^\/\/\s*(?:-{3,}|={3,})\s*(.+?)\s*(?:-{3,}|={3,})\s*$/
-
-/** [{ line, end }] (1-based, inclusive), or [] when the file has fewer than two markers. */
-export function splitQuestions(source) {
-  const lines = source.replace(/\r\n/g, '\n').split('\n')
-  const starts = []
-  lines.forEach((text, i) => {
-    if (QUESTION_MARKER.test(text.trim())) starts.push(i + 1)
-  })
-  if (starts.length < 2) return []
-  return starts.map((line, i) => ({ line, end: i + 1 < starts.length ? starts[i + 1] - 1 : lines.length }))
-}

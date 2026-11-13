@@ -1665,3 +1665,12 @@ main:focus {
   font-size: 0.72em !important;
   vertical-align: 0.08em;
 }
+
+/* An open example in the notes shows its editor in place of the plain code. */
+.notes-code[data-live='true'] > :not(.notes-live-host) {
+  display: none;
+}
+.notes-code[data-live='true'] {
+  border: 0;
+  background: transparent;
+}

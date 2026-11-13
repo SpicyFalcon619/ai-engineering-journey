@@ -1,7 +1,5 @@
-// Shows a plain practice file in the Guided view as one section per question (heading, explanation, code and its
-// own output), built from the `// --- N. Title ---` markers and the lesson's .explain.md file. Off by default: the
-// Guided view shows the whole file as one block with the output of the whole run, as it did before.
-//
-// To use it, set this to true, and run the capture with PARTS=1 so each question's output is stored:
-//   PARTS=1 npm run capture-outputs
-export const PRACTICE_VIEW = false
+// Shows a plain practice file in the Guided view as one section per question (heading, explanation and the code for
+// that question), built from the `// --- N. Title ---` markers and the lesson's .explain.md file, with the whole file
+// at the bottom to edit and run. It shows no stored output. Set to false to show the whole file as one block with the
+// output of the whole run instead.
+export const PRACTICE_VIEW = true
