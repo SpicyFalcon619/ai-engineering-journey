@@ -1674,3 +1674,12 @@ main:focus {
   border: 0;
   background: transparent;
 }
+
+/* The result of a React lesson: a plain white page in a frame, under the editor. */
+.react-preview {
+  margin: 0.4rem 0.9rem 0.9rem;
+  overflow: hidden;
+  border: 1px solid var(--color-code-border);
+  border-radius: 4px;
+  background: #fff;
+}

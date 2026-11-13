@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "build:react-runner": "vite build --config vite.runner.config.ts",
     "preview": "vite preview",
     "capture-outputs": "node scripts/capture-outputs.mjs"
   },
@@ -37,6 +38,7 @@
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1",
     "shiki": "^4.3.1",
+    "sucrase": "^3.35.1",
     "tailwindcss": "^4.3.2"
   },
   "devDependencies": {

@@ -16,6 +16,8 @@ interface JsEditorProps {
   /** The number shown beside the first line, so a lesson's blocks keep their real line numbers. */
   firstLine?: number
   label: string
+  /** Understand JSX (React lessons). */
+  jsx?: boolean
 }
 
 // The colours come from the site's own variables, so the editor follows whichever theme is on.
@@ -51,7 +53,7 @@ const editorTheme = EditorView.theme({
   '.cm-completionIcon': { opacity: '0.8', width: '1.1em' },
 })
 
-export default function JsEditor({ value, onChange, onRun, firstLine = 1, label }: JsEditorProps) {
+export default function JsEditor({ value, onChange, onRun, firstLine = 1, label, jsx = false }: JsEditorProps) {
   const host = useRef<HTMLDivElement>(null)
   const view = useRef<EditorView | null>(null)
   // Callbacks change on every render; the editor reads the latest through these.
@@ -87,7 +89,7 @@ export default function JsEditor({ value, onChange, onRun, firstLine = 1, label 
           autocompletion({ override: jsCompletions, icons: true, maxRenderedOptions: 14 }),
           indentUnit.of('  '),
           EditorState.tabSize.of(2),
-          javascript(),
+          javascript({ jsx }),
           syntaxHighlighting(classHighlighter),
           editorTheme,
           EditorView.contentAttributes.of({

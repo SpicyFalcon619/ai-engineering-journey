@@ -19,6 +19,8 @@ import { cn } from '@/lib/cn'
 
 // The editor and the runner load only when a reader presses Edit on a block.
 const LiveJs = lazy(() => import('@/components/code/LiveJs'))
+// A React lesson is edited with its result drawn underneath (a sandboxed frame that runs React).
+const LiveReact = lazy(() => import('@/components/code/LiveReact'))
 
 // The whole file at the bottom of a practice lesson has no stored output. It only offers Edit and run.
 const FULL_FILE_RUN: BlockRun = { status: 'ok', scenarios: [{ label: '', inputs: [], stdout: '', segments: [] }] }
@@ -471,7 +473,9 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
           </div>
         )
       case 'code': {
-        const run = block.full ? (block.full.canRun ? FULL_FILE_RUN : undefined) : output?.runs.blocks[String(block.line)]
+        // A React file (.jsx) has no stored output: it only offers Edit and run, which shows the result in the page.
+        const isReact = filename.endsWith('.jsx')
+        const run = block.full ? (block.full.canRun ? FULL_FILE_RUN : undefined) : isReact ? FULL_FILE_RUN : output?.runs.blocks[String(block.line)]
         const editing = live.has(block.line)
         return (
           <div
@@ -481,19 +485,33 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
           >
             {editing ? (
               <Suspense fallback={<p className="guide-part-none">Opening the editor...</p>}>
-                <LiveJs
-                  initialCode={block.code}
-                  firstLine={block.line}
-                  autoRun={live.get(block.line)}
-                  label={`Editable JavaScript code, lesson line ${block.line}`}
-                  onClose={() =>
-                    setLive((current) => {
-                      const next = new Map(current)
-                      next.delete(block.line)
-                      return next
-                    })
-                  }
-                />
+                {isReact ? (
+                  <LiveReact
+                    initialCode={block.code}
+                    firstLine={block.line}
+                    onClose={() =>
+                      setLive((current) => {
+                        const next = new Map(current)
+                        next.delete(block.line)
+                        return next
+                      })
+                    }
+                  />
+                ) : (
+                  <LiveJs
+                    initialCode={block.code}
+                    firstLine={block.line}
+                    autoRun={live.get(block.line)}
+                    label={`Editable JavaScript code, lesson line ${block.line}`}
+                    onClose={() =>
+                      setLive((current) => {
+                        const next = new Map(current)
+                        next.delete(block.line)
+                        return next
+                      })
+                    }
+                  />
+                )}
               </Suspense>
             ) : (
               <>
@@ -507,7 +525,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
                     run={run}
                     open={shownParts.has(block.line)}
                     onToggle={() => togglePart(block.line)}
-                    liveOnly={Boolean(block.full)}
+                    liveOnly={Boolean(block.full) || isReact}
                     scenario={scenarios[block.line] ?? 0}
                     onScenario={(index) => setScenarios((current) => ({ ...current, [block.line]: index }))}
                     onLive={(andRun) => {
@@ -554,8 +572,8 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
             {filename.endsWith('.jsx') && (
               <div className="guide-prose">
                 <p>
-                  This is React code. It runs in your own Vite project (<code>npm run dev</code> inside <code>phase2-react/app</code>), not in this page,
-                  so there is no run button. The code is shown as written.
+                  This is React code. Press Edit and run to see what it draws, right here: change the code and the result changes as you type. In
+                  the real project it runs through Vite (<code>npm run dev</code> inside <code>phase2-react/app</code>).
                 </p>
               </div>
             )}
