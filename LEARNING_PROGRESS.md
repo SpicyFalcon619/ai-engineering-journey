@@ -5,8 +5,8 @@ Last updated: 2026-11-13
 ## Current Status
 
 - **Current phase:** Phase 2 - React Fundamentals. Phase 1 (JavaScript) is complete, 2026-11-13.
-- **Current topic:** Lesson 1 part 1, what React is, components and JSX (taught, exercise pending). Then part 2, setting up a Vite + React project by hand. Notes: `phase2-react/NOTES.md`
-- **Next learning task:** Lesson 1 items 4 and 5 in `phase2-react/app/src/lessons/lesson1/lesson1.jsx` (a `Profile` component, and renaming `Greeting` to lowercase on purpose), then answer item 1. Items 2 and 3 (`Greeting` used twice) are done.
+- **Current topic:** Lesson 2, props (taught, exercise pending). Lesson 1 (components, JSX, Vite setup) is done. Notes: `phase2-react/NOTES.md`
+- **Next learning task:** Lesson 2 in `phase2-react/app/src/lessons/lesson2/lesson2.jsx`, items 1 to 4: switch `src/App.jsx` to show `Lesson2`, then write `Greeting` with a `name` prop.
 
 ## Roadmap
 
@@ -25,6 +25,7 @@ Last updated: 2026-11-13
 - JS Lesson 2: functions (declarations, arrow functions, default parameters, callbacks, hoisting, scope) - 2026-11-05.- JS Lesson 3: objects, arrays, destructuring, spread, rest parameters - 2026-11-06.- JS Lesson 4 part 1: map, filter, find - 2026-11-06.- JS Lesson 5: modules (named and default exports, imports, renaming, ES modules in Node) - 2026-11-06.- JS Lesson 7: async/await (`async` functions, `await`, `try`/`catch`, forgetting `await` gives a promise) - 2026-11-09. Item 5 prediction first mixed up "missing await" (gives a promise) with "missing return" (gives undefined).
 - JS Lesson 6: promises (a promise as a box, `resolve` and `reject` as buttons, `then`, `catch`, chaining) - 2026-11-08. Started with three small steps on functions as values and arrow functions, because the first explanation was too fast.
 - JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
+- React Lesson 1: components as functions with capital names, JSX, one parent element, using a component twice, a second component, the lowercase mistake, and setting up a Vite project by hand (`npm create vite`, `npm install`, `npm run dev`, hot reload) - 2026-11-13.
 - JS Lesson 9: mini project, a user activity report (`getJson`, `loadData`, `buildReport` with `map`/`filter`, `console.table`, a two-pass `findTopUser` that handles a tie, `main()` with one `try`/`catch`) - 2026-11-13. Wrote `buildReport` and the tie handling themselves, working from a step-by-step plan.
 - JS Lesson 8 part 2: errors and POST (`response.ok`, throwing on a bad status, network failure vs a 404, GET vs POST, `method`/`headers`/`body`, why the body needs `JSON.stringify`) - 2026-11-13. The terms GET and POST had to be taught from scratch.
 - JS Lesson 8 part 1: `JSON.stringify` and `JSON.parse`, GET with `fetch`, the second `await` for `response.json()`, a 404 does not reject (`response.ok` is false) - 2026-11-09. Item 2 prediction was wrong (`fetch(url)` prints `Promise { <pending> }`).
@@ -37,6 +38,7 @@ Last updated: 2026-11-13
 
 ## Topics I Struggle With
 
+- React Lesson 1: why a component returns one parent element needed a plain-language explanation, and a lowercase component name fails silently (no error, nothing shown).
 - Destructuring and spread (needed a second, step-by-step explanation in Lesson 3; warm-ups B, C, D then correct).
 - Rest parameters (`...nums` in a parameter list) were unclear at first.
 - Arrow functions with braces: forgot that `{ }` needs an explicit `return` (Lesson 4 item 6 prediction was wrong). Watch for this again.
@@ -48,6 +50,7 @@ Last updated: 2026-11-13
 
 ## To revisit
 
+- React Lesson 1: explain from memory why a lowercase `<greeting />` shows nothing, and why a component returns one parent element. The written answers to item 1 were supplied in the notes, not by you.
 Retype these from memory in a later session, to check they have really stuck. (`applyTwice`, `sum(...nums)` and a `filter` then `map` chain were checked on 2026-11-13.)
 - `wait(ms)` and `getStudent(name)` with `resolve` and `reject` (promises)
 - A POST with `fetch` (`method`, `headers`, `JSON.stringify` body) and `createPost(title, body)` with an `ok` check

@@ -10,7 +10,7 @@ React files end in `.jsx` instead of `.js`, because they contain JSX (explained 
 
 # Lesson 1: Components and JSX
 
-## Part 1: what React is, components, JSX (taught, exercise pending)
+## Part 1: what React is, components, JSX (done, 2026-11-13)
 
 ### The problem React solves
 
@@ -69,6 +69,12 @@ Write these in `app/src/lessons/lesson1/lesson1.jsx` (keep `npm run dev` running
 3. Use `Greeting` twice inside `Lesson1`. Predict first what you will see.
 4. Write a `Profile` component (an `<h2>` with your name and a `<p>` with your university) and use it in `Lesson1`, under the greetings.
 5. Rename `Greeting` to lowercase and look at the page. Predict first. Then rename it back.
+
+### Answers to the questions in item 1
+
+- **What appears when `App` is shown?** In the notes' example, two headings reading "Hello, Maruf", one under the other, because `Greeting` is drawn twice.
+- **What goes wrong with a lowercase `greeting`?** Nothing visible, and no error. React reads a lowercase tag as an ordinary HTML tag, so it puts an unknown `<greeting></greeting>` element on the page and never runs your function. The browser console warns: "The tag <greeting> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter."
+- **Why is everything in `App` wrapped in one `<div>`?** A component is a function, and a function returns one value. JSX is turned into a function call that makes one element, so two tags side by side would be two values. A `<div>` is one element that holds both. If you do not want an extra element on the page, use the empty wrapper `<>...</>` (a fragment).
 
 ## Part 2: setting up a React project with Vite (done, 2026-11-13)
 
@@ -174,3 +180,87 @@ export default App
 ```
 
 The import path is a normal Lesson 5 import: `./` means "the folder this file is in", then down into `lessons/lesson1/`. `<Lesson1 />` uses the default export of that file as a component, like `<Greeting />`.
+
+---
+
+# Lesson 2: Props
+
+## Part 1: passing data into a component (taught, exercise pending)
+
+### The problem
+
+In Lesson 1, `Greeting` always says "Hello, Maruf". To greet someone else you would have to write another component. Components get their data from outside, the way a function gets arguments. That data is called **props** (short for properties).
+
+### Passing and receiving props
+
+You pass props like HTML attributes:
+
+```jsx
+<Greeting name="Aisha" />
+```
+
+React calls your component function with **one object** holding all the props: `{ name: "Aisha" }`. You can read it in two ways:
+
+```jsx
+function Greeting(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+// The same, with destructuring (Lesson 3 of JavaScript): pick the props you need in the parameter list
+function Greeting({ name }) {
+  return <h1>Hello, {name}</h1>;
+}
+```
+
+`{name}` is JavaScript inside JSX, like `${name}` in a template literal. Now one component serves any name:
+
+```jsx
+<Greeting name="Aisha" />
+<Greeting name="Rahim" />
+```
+
+In Python terms: the component is a function, and props are its parameters. `<Greeting name="Aisha" />` is like `greeting(name="Aisha")`.
+
+### What goes in the quotes and what goes in braces
+
+| You write | The prop is |
+|---|---|
+| `name="Aisha"` | the string `"Aisha"` |
+| `age={22}` | the number `22` |
+| `age="22"` | the **string** `"22"` (a common mix-up) |
+| `student={{ name: "Aisha" }}` | an object (the outer braces say "JavaScript here", the inner ones are the object) |
+| `passed={true}` | a boolean |
+
+Anything that is not a plain string goes inside `{ }`.
+
+### Default values
+
+If a prop is missing, it is `undefined`. A default value in the parameter list covers that:
+
+```jsx
+function Greeting({ name = "friend" }) {
+  return <h1>Hello, {name}</h1>;
+}
+
+// <Greeting /> shows "Hello, friend"
+```
+
+### Props are read-only
+
+A component must never change its own props. Data flows one way: down, from the parent that writes the tag to the child that receives it. (Changing data over time is state, a later lesson.)
+
+### Common mistakes
+
+- Writing the prop without quotes or braces (`name=Aisha`) is a syntax error.
+- Using the wrong name: `<Greeting nme="Aisha" />` gives no error, and `name` is `undefined`, so the heading shows "Hello, " with nothing after it. Check the spelling on both sides.
+- Passing a number as a string (`age="22"`) when you meant a number (`age={22}`).
+- Forgetting the braces around a value inside JSX: `Hello, name` prints the word "name", and `Hello, {name}` prints its value.
+
+### Your exercises
+
+Write these in `app/src/lessons/lesson2/lesson2.jsx`. To see it, change the import in `src/App.jsx` to `Lesson2` from `./lessons/lesson2/lesson2.jsx` (and `<Lesson2 />`).
+
+1. Predict first: what does `<Greeting name="Aisha" />` show, if `Greeting` is `function Greeting({ name }) { return <h1>Hello, {name}</h1>; }`?
+2. Write that `Greeting` and use it three times with three different names.
+3. Write a `Profile` component that takes two props, `name` and `university`, and shows them in an `<h2>` and a `<p>`. Use it twice with two different people.
+4. Use `<Greeting />` with no `name`. Predict first what you will see. Then add a default value `"friend"`.
