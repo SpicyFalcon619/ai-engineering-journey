@@ -136,7 +136,7 @@ I ran the tool in a scratch folder (version 9.3.4; yours may differ slightly) so
 | `index.html` | The one HTML page. It has an empty `<div id="root">` and loads `/src/main.jsx`. |
 | `src/main.jsx` | The starting point. It finds the `root` div and tells React to draw `<App />` inside it: `createRoot(document.getElementById('root')).render(<App />)`. It wraps it in `<StrictMode>`, which adds extra checks while you develop. |
 | `src/App.jsx` | The first component, `App`. The template fills it with a demo (logos and a counter button). You will replace its contents. |
-| `src/App.css`, `src/index.css` | Styles. |
+| `src/App.css`, `src/index.css` | Styles. `main.jsx` loads `index.css`, so it styles the whole page. The template's own version centres everything inside `#root` and sets colours, which makes your own components look different from the code you wrote (a list shows with centred text and bullets at the left edge). In this project `index.css` is replaced by a few plain lines, and `App.css` is not used. |
 | `src/assets/`, `public/` | Images and files served as they are. |
 | `package.json` | The project's name, its scripts (`npm run dev` runs `vite`), and the packages it needs: `react` and `react-dom`, plus Vite and its React plugin as development tools. |
 | `vite.config.js` | Vite's settings (it switches on the React plugin, so JSX works). |
