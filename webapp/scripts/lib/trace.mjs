@@ -3,6 +3,8 @@
 // the file named in TRACE_RESULT when the program ends. Output order is the order of the calls.
 import { writeFileSync } from 'node:fs'
 import { formatWithOptions } from 'node:util'
+import { Console } from 'node:console'
+import { Writable } from 'node:stream'
 import { pathToFileURL } from 'node:url'
 
 const resultFile = process.env.TRACE_RESULT
@@ -30,6 +32,23 @@ function callerLine() {
   return found
 }
 
+// console.table draws a table of box characters. A Console that writes into a string gives exactly Node's own table.
+let tableText = ''
+const tableConsole = new Console({
+  stdout: new Writable({
+    write(chunk, _encoding, done) {
+      tableText += chunk
+      done()
+    },
+  }),
+  colorMode: false,
+})
+const renderTable = (...args) => {
+  tableText = ''
+  tableConsole.table(...args)
+  return tableText.replace(/\n$/, '')
+}
+
 const streams = { log: 0, info: 0, debug: 0, dir: 0, table: 0, error: 1, warn: 1, trace: 1 }
 let indent = ''
 console.group = (...args) => {
@@ -41,7 +60,7 @@ console.groupEnd = () => {
 }
 for (const [name, stream] of Object.entries(streams)) {
   console[name] = (...args) => {
-    const text = formatWithOptions({ colors: false }, ...args)
+    const text = name === 'table' ? renderTable(...args) : formatWithOptions({ colors: false }, ...args)
     segments.push([callerLine(), (indent ? text.split('\n').map((l) => indent + l).join('\n') : text) + '\n', stream])
   }
 }

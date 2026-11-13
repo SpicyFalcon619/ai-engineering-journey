@@ -161,6 +161,7 @@ function partsOf(segments, questions) {
   return parts
 }
 
+const WITH_PARTS = process.env.PARTS === '1'
 const cache = {}
 const counts = { ok: 0, 'runtime-error': 0, timeout: 0, 'launch-error': 0 }
 const problems = []
@@ -177,7 +178,8 @@ for (const dir of contentDirs) {
     const questions = blocks.length === 1 ? splitQuestions(readFileSync(file, 'utf8')) : []
     blocks.forEach((block, i) => {
       const { wholeFile: _whole, ...entry } = results[i]
-      if (questions.length) entry.parts = partsOf(entry.scenarios[0].segments, questions)
+      // Per-question output is for the optional question-by-question view (src/lib/features.ts), so it is only stored on request.
+      if (WITH_PARTS && questions.length) entry.parts = partsOf(entry.scenarios[0].segments, questions)
       byLine[block.line] = entry
       counts[entry.status] = (counts[entry.status] ?? 0) + 1
       if (entry.status === 'runtime-error' && !block.expectError) {

@@ -36,7 +36,9 @@ Every top-level folder of the repository (except `webapp`, `Test` and `tools`) i
 
 Edit `NOTES.md`, commit, and the site shows the change at the next deploy. Nothing needs capturing for the notes (only for the code's output).
 
-## Practice files, one question at a time
+## Practice files, one question at a time (switched off)
+
+This view is off by default. Set `PRACTICE_VIEW` to `true` in `src/lib/features.ts` to use it, and capture with `PARTS=1 npm run capture-outputs` so each question's output is stored. With it off, the Guided view shows a plain practice file as one block with the output of the whole run, under the study notes.
 
 A plain practice file (no `///` explanation) is shown in the Guided view the way the other guides show a lesson: one section per question, each with a numbered heading, the question and the explanation as text, the code answer under it, and a button for its output. A question is marked by a comment line of dashes:
 

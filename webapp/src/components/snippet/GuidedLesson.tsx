@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowDown, PencilLine, Play } from 'lucide-react'
 import { getTerm, TERM_PATTERN, termIdOf, termsIn } from '@/lib/glossary'
 import { practiceToGuide } from '@/lib/practiceGuide'
+import { PRACTICE_VIEW } from '@/lib/features'
 import { NotesView } from '@/components/snippet/NotesView'
 import { jsRunner } from '@/lib/jsRunner'
 import { chunkTransformer, getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
@@ -267,6 +268,7 @@ function PartRun({
   scenario,
   onScenario,
   onLive,
+  emptyNote,
 }: {
   run: BlockRun
   open: boolean
@@ -275,6 +277,8 @@ function PartRun({
   onScenario: (index: number) => void
   /** Open the block as an editor and, with `true`, run it at once. */
   onLive: (andRun: boolean) => void
+  /** What to say when the block printed nothing. */
+  emptyNote?: string
 }) {
   const current = run.scenarios[Math.min(scenario, run.scenarios.length - 1)]
   // Output and error text interleave in the order they happened; the error stream is drawn as an error.
@@ -347,7 +351,7 @@ function PartRun({
               ))}
             </pre>
           ) : (
-            <p className="guide-part-none">This code prints nothing by itself. What it defines prints where it is called.</p>
+            <p className="guide-part-none">{emptyNote ?? 'This block prints nothing.'}</p>
           )}
         </div>
       )}
@@ -359,7 +363,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
   // A plain practice file with its questions marked ("// --- 2. Title ---") is shown as one section per question,
   // each with a heading, its explanation, the code and its preloaded output, like the other guides.
   const practice = useMemo(
-    () => (sourceBlocks.every((b) => b.type === 'code') ? practiceToGuide(code, path, sourceOutput) : null),
+    () => (PRACTICE_VIEW && sourceBlocks.every((b) => b.type === 'code') ? practiceToGuide(code, path, sourceOutput) : null),
     [sourceBlocks, code, path, sourceOutput],
   )
   const blocks = practice?.blocks ?? sourceBlocks
@@ -497,6 +501,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
                     run={run}
                     open={shownParts.has(block.line)}
                     onToggle={() => togglePart(block.line)}
+                    emptyNote={practice ? 'This code prints nothing by itself. What it defines prints where it is called.' : undefined}
                     scenario={scenarios[block.line] ?? 0}
                     onScenario={(index) => setScenarios((current) => ({ ...current, [block.line]: index }))}
                     onLive={(andRun) => {

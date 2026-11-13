@@ -1,12 +1,10 @@
 // Lesson 1: what React is, components and JSX
 //
-// Read Lesson 1 in NOTES.md first. To see your work on screen:
-//   1. In a terminal, go to the phase2-react folder (cd phase2-react).
-//   2. First time only: npm install
-//   3. npm run dev, then open the address it prints (usually http://localhost:5173).
-//   4. Click "lesson1/lesson1.jsx" at the top. Save this file and the page updates by itself.
+// Read Lesson 1 in NOTES.md first.
 //
-// The page shows whatever the default export of this file returns (the App component below).
+// Item 1 is only questions: answer it in the comments now.
+// Items 2 to 5 are code. To see them on screen you need a React project, which you set up in NOTES.md,
+// Lesson 1 part 2. After that, this file moves into the project and App shows it.
 
 // --- 1. Predict first (no code) ---
 // Look at the Greeting and App example in NOTES.md (Lesson 1).

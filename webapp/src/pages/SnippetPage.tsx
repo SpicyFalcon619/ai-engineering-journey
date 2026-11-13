@@ -14,6 +14,7 @@ import { GuidedLesson } from '@/components/snippet/GuidedLesson'
 import { NotesView } from '@/components/snippet/NotesView'
 import { getNotesFor, noteHeadings } from '@/lib/notes'
 import { parseExercises } from '@/lib/exercises'
+import { PRACTICE_VIEW } from '@/lib/features'
 import { hasGuide, parseLesson } from '@/lib/lesson'
 import { toBareCode } from '@/lib/bare'
 import { cn } from '@/lib/cn'
@@ -73,7 +74,7 @@ export function SnippetPage() {
   const viewTopics = activeView === 'bare' ? (bare?.topics ?? []) : (snippet?.topics ?? [])
   // A plain practice file with marked questions is shown one question at a time in the Guided view.
   const questions = useMemo(
-    () => (snippet && activeView === 'guided' && blocks.every((b) => b.type === 'code') ? parseExercises(snippet.code)?.exercises : undefined),
+    () => (PRACTICE_VIEW && snippet && activeView === 'guided' && blocks.every((b) => b.type === 'code') ? parseExercises(snippet.code)?.exercises : undefined),
     [snippet, activeView, blocks],
   )
 

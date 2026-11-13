@@ -47,7 +47,7 @@ phase1-javascript/
 phase2-react/
   NOTES.md        the study reference for the React lessons
   lesson1/ ...    one folder per lesson, with a .jsx exercise file
-  src/main.jsx    a small viewer that shows whichever lesson you pick (npm run dev)
+  app/            your Vite + React project (created in Lesson 1, part 2)
 webapp/           the website, and the script that captures each lesson's output
 ROADMAP.md        the six basecamps as a checklist
 LEARNING_PROGRESS.md

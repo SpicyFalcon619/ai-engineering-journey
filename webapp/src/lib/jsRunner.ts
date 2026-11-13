@@ -116,7 +116,32 @@ const RUNNER_PAGE = `<!doctype html><html><head><meta charset="utf-8"></head><bo
   var groupIndent = ''
   ;['log', 'info', 'debug'].forEach(function (name) { console[name] = function () { emit(0, groupIndent + format(arguments)) } })
   ;['error', 'warn', 'trace'].forEach(function (name) { console[name] = function () { emit(1, groupIndent + format(arguments)) } })
-  console.table = console.dir = function () { emit(0, groupIndent + format(arguments)) }
+  console.dir = function () { emit(0, groupIndent + format(arguments)) }
+  // console.table: a table of box characters, laid out the way Node lays it out.
+  console.table = function (data) {
+    if (data === null || typeof data !== 'object') { emit(0, groupIndent + format(arguments)); return }
+    var cell = function (v) { return inspect(v, 1, []) }
+    var keys = Array.isArray(data) ? data.map(function (_, i) { return String(i) }) : Object.keys(data)
+    var columns = []
+    var hasValues = false
+    var rows = keys.map(function (key) {
+      var row = data[key]
+      var out = { key: key, cells: {}, plain: false, value: '' }
+      if (row !== null && typeof row === 'object') {
+        Object.keys(row).forEach(function (k) { if (columns.indexOf(k) === -1) columns.push(k); out.cells[k] = cell(row[k]) })
+      } else { out.plain = true; out.value = cell(row); hasValues = true }
+      return out
+    })
+    var head = ['(index)'].concat(columns, hasValues ? ['Values'] : [])
+    var body = rows.map(function (r) {
+      return [r.key].concat(columns.map(function (c) { return c in r.cells ? r.cells[c] : '' }), hasValues ? [r.plain ? r.value : ''] : [])
+    })
+    var width = head.map(function (h, i) { return Math.max.apply(null, [h.length].concat(body.map(function (b) { return b[i].length }))) + 2 })
+    var rule = function (l, m, r) { return l + width.map(function (w) { return new Array(w + 1).join('\u2500') }).join(m) + r }
+    var line = function (cells) { return '\u2502' + cells.map(function (c, i) { return ' ' + c + new Array(width[i] - c.length).join(' ') }).join('\u2502') + '\u2502' }
+    var lines = [rule('\u250c', '\u252c', '\u2510'), line(head), rule('\u251c', '\u253c', '\u2524')].concat(body.map(line), [rule('\u2514', '\u2534', '\u2518')])
+    emit(0, groupIndent + lines.join('\\n'))
+  }
   console.group = function () { if (arguments.length) emit(0, groupIndent + format(arguments)); groupIndent += '  ' }
   console.groupEnd = function () { groupIndent = groupIndent.slice(2) }
   console.assert = function (ok) { if (!ok) emit(1, 'Assertion failed' + (arguments.length > 1 ? ': ' + format(Array.prototype.slice.call(arguments, 1)) : '')) }

@@ -1,6 +1,6 @@
 {
  "phase1-javascript/lesson1/lesson1a.js": {
-  "capturedAt": "2026-11-12T18:49:55.952Z",
+  "capturedAt": "2026-11-13T06:57:13.507Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -38,61 +38,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "",
-      "segments": []
-     },
-     "12": {
-      "stdout": "My name is Maruf and I am 22 years old.\n",
-      "segments": [
-       [
-        13,
-        "My name is Maruf and I am 22 years old.\n",
-        0
-       ]
-      ]
-     },
-     "15": {
-      "stdout": "string\nnumber\nboolean\nnumber\n",
-      "segments": [
-       [
-        16,
-        "string\n",
-        0
-       ],
-       [
-        17,
-        "number\n",
-        0
-       ],
-       [
-        18,
-        "boolean\n",
-        0
-       ],
-       [
-        19,
-        "number\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson1/lesson1b.js": {
-  "capturedAt": "2026-11-12T18:49:55.996Z",
+  "capturedAt": "2026-11-13T06:57:13.552Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -130,57 +81,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "Hot\n",
-      "segments": [
-       [
-        7,
-        "Hot\n",
-        0
-       ]
-      ]
-     },
-     "14": {
-      "stdout": "false\ntrue\nfalse\ntrue\n",
-      "segments": [
-       [
-        15,
-        "false\n",
-        0
-       ],
-       [
-        16,
-        "true\n",
-        0
-       ],
-       [
-        17,
-        "false\n",
-        0
-       ],
-       [
-        18,
-        "true\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson1/lesson1c.js": {
-  "capturedAt": "2026-11-12T18:49:56.038Z",
+  "capturedAt": "2026-11-13T06:57:13.602Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -248,96 +154,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "1\n2\n3\n4\n5\n",
-      "segments": [
-       [
-        5,
-        "1\n",
-        0
-       ],
-       [
-        5,
-        "2\n",
-        0
-       ],
-       [
-        5,
-        "3\n",
-        0
-       ],
-       [
-        5,
-        "4\n",
-        0
-       ],
-       [
-        5,
-        "5\n",
-        0
-       ]
-      ]
-     },
-     "8": {
-      "stdout": "2\n4\n6\n8\n10\n",
-      "segments": [
-       [
-        11,
-        "2\n",
-        0
-       ],
-       [
-        11,
-        "4\n",
-        0
-       ],
-       [
-        11,
-        "6\n",
-        0
-       ],
-       [
-        11,
-        "8\n",
-        0
-       ],
-       [
-        11,
-        "10\n",
-        0
-       ]
-      ]
-     },
-     "15": {
-      "stdout": "",
-      "segments": []
-     },
-     "26": {
-      "stdout": "Total score = 316 \nPassed student = 3\n",
-      "segments": [
-       [
-        33,
-        "Total score = 316 \nPassed student = 3\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson2/lesson2.js": {
-  "capturedAt": "2026-11-12T18:49:56.079Z",
+  "capturedAt": "2026-11-13T06:57:13.646Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -390,82 +212,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "63.2\n",
-      "segments": [
-       [
-        12,
-        "63.2\n",
-        0
-       ]
-      ]
-     },
-     "14": {
-      "stdout": "true\nfalse\ntrue\n",
-      "segments": [
-       [
-        17,
-        "true\n",
-        0
-       ],
-       [
-        18,
-        "false\n",
-        0
-       ],
-       [
-        19,
-        "true\n",
-        0
-       ]
-      ]
-     },
-     "21": {
-      "stdout": "20\n16\n",
-      "segments": [
-       [
-        28,
-        "20\n",
-        0
-       ],
-       [
-        29,
-        "16\n",
-        0
-       ]
-      ]
-     },
-     "31": {
-      "stdout": "NaN\n3\n",
-      "segments": [
-       [
-        38,
-        "NaN\n",
-        0
-       ],
-       [
-        39,
-        "3\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson3/lesson3.js": {
-  "capturedAt": "2026-11-12T18:49:56.122Z",
+  "capturedAt": "2026-11-13T06:57:13.691Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -543,126 +295,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "1 2\n10 20\n[ 1, 2 ] [ 1, 2, 3 ]\n{ a: 1, b: 2 } { a: 1, b: 99, c: 3 }\n",
-      "segments": [
-       [
-        8,
-        "1 2\n",
-        0
-       ],
-       [
-        13,
-        "10 20\n",
-        0
-       ],
-       [
-        18,
-        "[ 1, 2 ] [ 1, 2, 3 ]\n",
-        0
-       ],
-       [
-        23,
-        "{ a: 1, b: 2 } { a: 1, b: 99, c: 3 }\n",
-        0
-       ]
-      ]
-     },
-     "25": {
-      "stdout": "",
-      "segments": []
-     },
-     "33": {
-      "stdout": "Mina js\n",
-      "segments": [
-       [
-        34,
-        "Mina js\n",
-        0
-       ]
-      ]
-     },
-     "36": {
-      "stdout": "Name: Aisha, Score: 82\n",
-      "segments": [
-       [
-        39,
-        "Name: Aisha, Score: 82\n",
-        0
-       ]
-      ]
-     },
-     "41": {
-      "stdout": "{ name: 'Rahim', score: 45, tags: [ 'web' ] }\n{ name: 'Rahim', score: 70, tags: [ 'web' ] }\n",
-      "segments": [
-       [
-        44,
-        "{ name: 'Rahim', score: 45, tags: [ 'web' ] }\n",
-        0
-       ],
-       [
-        45,
-        "{ name: 'Rahim', score: 70, tags: [ 'web' ] }\n",
-        0
-       ]
-      ]
-     },
-     "47": {
-      "stdout": "[\n  { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] },\n  { name: 'Rahim', score: 45, tags: [ 'web' ] },\n  { name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] },\n  { name: 'Noman', score: 99, tags: [ 'ml', 'java', 'python' ] }\n]\n",
-      "segments": [
-       [
-        52,
-        "[\n  { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] },\n  { name: 'Rahim', score: 45, tags: [ 'web' ] },\n  { name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] },\n  { name: 'Noman', score: 99, tags: [ 'ml', 'java', 'python' ] }\n]\n",
-        0
-       ]
-      ]
-     },
-     "54": {
-      "stdout": "Aisha: 82: ml,python\n",
-      "segments": [
-       [
-        57,
-        "Aisha: 82: ml,python\n",
-        0
-       ]
-      ]
-     },
-     "59": {
-      "stdout": "10\n5\n0\n",
-      "segments": [
-       [
-        69,
-        "10\n",
-        0
-       ],
-       [
-        70,
-        "5\n",
-        0
-       ],
-       [
-        71,
-        "0\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson4/lesson4a.js": {
-  "capturedAt": "2026-11-12T18:49:56.165Z",
+  "capturedAt": "2026-11-13T06:57:13.739Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -710,87 +348,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "11": {
-      "stdout": "Original: 82,45,91,60,38\nUpdated: 87,50,96,65,43\n",
-      "segments": [
-       [
-        13,
-        "Original: 82,45,91,60,38\nUpdated: 87,50,96,65,43\n",
-        0
-       ]
-      ]
-     },
-     "15": {
-      "stdout": "Passed: 82,91,60\n",
-      "segments": [
-       [
-        17,
-        "Passed: 82,91,60\n",
-        0
-       ]
-      ]
-     },
-     "19": {
-      "stdout": "Names: Aisha,Rahim,Mina,Noman\n",
-      "segments": [
-       [
-        21,
-        "Names: Aisha,Rahim,Mina,Noman\n",
-        0
-       ]
-      ]
-     },
-     "23": {
-      "stdout": "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\nundefined\n",
-      "segments": [
-       [
-        25,
-        "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
-        0
-       ],
-       [
-        28,
-        "undefined\n",
-        0
-       ]
-      ]
-     },
-     "30": {
-      "stdout": "[ 'Aisha', 'Mina', 'Noman' ]\n",
-      "segments": [
-       [
-        36,
-        "[ 'Aisha', 'Mina', 'Noman' ]\n",
-        0
-       ]
-      ]
-     },
-     "38": {
-      "stdout": "[ undefined, undefined, undefined, undefined, undefined ]\n",
-      "segments": [
-       [
-        40,
-        "[ undefined, undefined, undefined, undefined, undefined ]\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson4/lesson4b.js": {
-  "capturedAt": "2026-11-12T18:49:56.208Z",
+  "capturedAt": "2026-11-13T06:57:13.783Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -853,102 +416,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "11": {
-      "stdout": "Anyone above 90? true\nEveryone at least 40? false\n",
-      "segments": [
-       [
-        14,
-        "Anyone above 90? true\n",
-        0
-       ],
-       [
-        15,
-        "Everyone at least 40? false\n",
-        0
-       ]
-      ]
-     },
-     "17": {
-      "stdout": "316\n63.2\n",
-      "segments": [
-       [
-        19,
-        "316\n",
-        0
-       ],
-       [
-        23,
-        "63.2\n",
-        0
-       ]
-      ]
-     },
-     "25": {
-      "stdout": "91\n",
-      "segments": [
-       [
-        31,
-        "91\n",
-        0
-       ]
-      ]
-     },
-     "33": {
-      "stdout": "[ 82, 45, 91, 60, 38 ]\n[ 91, 82, 60, 45, 38 ]\n",
-      "segments": [
-       [
-        36,
-        "[ 82, 45, 91, 60, 38 ]\n",
-        0
-       ],
-       [
-        37,
-        "[ 91, 82, 60, 45, 38 ]\n",
-        0
-       ]
-      ]
-     },
-     "39": {
-      "stdout": "[ 'Aisha', 'Rahim', 'Mina', 'Noman' ]\n[ 'Noman', 'Mina', 'Aisha', 'Rahim' ]\n",
-      "segments": [
-       [
-        43,
-        "[ 'Aisha', 'Rahim', 'Mina', 'Noman' ]\n",
-        0
-       ],
-       [
-        44,
-        "[ 'Noman', 'Mina', 'Aisha', 'Rahim' ]\n",
-        0
-       ]
-      ]
-     },
-     "46": {
-      "stdout": "[ 100, 25, 3 ]\n",
-      "segments": [
-       [
-        49,
-        "[ 100, 25, 3 ]\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson5/main.js": {
-  "capturedAt": "2026-11-12T18:49:56.251Z",
+  "capturedAt": "2026-11-13T06:57:13.827Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -977,56 +450,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "8": {
-      "stdout": "5 20\n",
-      "segments": [
-       [
-        10,
-        "5 20\n",
-        0
-       ]
-      ]
-     },
-     "12": {
-      "stdout": "10\n",
-      "segments": [
-       [
-        14,
-        "10\n",
-        0
-       ]
-      ]
-     },
-     "16": {
-      "stdout": "[ 'Aisha', 'Mina', 'Noman' ]\n",
-      "segments": [
-       [
-        18,
-        "[ 'Aisha', 'Mina', 'Noman' ]\n",
-        0
-       ]
-      ]
-     },
-     "20": {
-      "stdout": "",
-      "segments": []
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson5/mathUtils.js": {
-  "capturedAt": "2026-11-12T18:49:56.295Z",
+  "capturedAt": "2026-11-13T06:57:13.869Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1043,7 +472,7 @@
   }
  },
  "phase1-javascript/lesson5/scratch.js": {
-  "capturedAt": "2026-11-12T18:49:56.337Z",
+  "capturedAt": "2026-11-13T06:57:13.912Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1068,7 +497,7 @@
   }
  },
  "phase1-javascript/lesson5/students.js": {
-  "capturedAt": "2026-11-12T18:49:56.381Z",
+  "capturedAt": "2026-11-13T06:57:13.959Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1085,7 +514,7 @@
   }
  },
  "phase1-javascript/lesson6/basics.js": {
-  "capturedAt": "2026-11-12T18:49:58.441Z",
+  "capturedAt": "2026-11-13T06:57:16.005Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -1148,92 +577,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "3": {
-      "stdout": "A\nHi!\nB\n",
-      "segments": [
-       [
-        11,
-        "A\n",
-        0
-       ],
-       [
-        12,
-        "Hi!\n",
-        0
-       ],
-       [
-        13,
-        "B\n",
-        0
-       ]
-      ]
-     },
-     "15": {
-      "stdout": "Hi!\nHi!\nHi!\n",
-      "segments": [
-       [
-        25,
-        "Hi!\n",
-        0
-       ],
-       [
-        25,
-        "Hi!\n",
-        0
-       ],
-       [
-        25,
-        "Hi!\n",
-        0
-       ]
-      ]
-     },
-     "27": {
-      "stdout": "A\nB\nHi! after 2 sec\n",
-      "segments": [
-       [
-        31,
-        "A\n",
-        0
-       ],
-       [
-        33,
-        "B\n",
-        0
-       ],
-       [
-        32,
-        "Hi! after 2 sec\n",
-        0
-       ]
-      ]
-     },
-     "35": {
-      "stdout": "undefined\n",
-      "segments": [
-       [
-        53,
-        "undefined\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson6/lesson6.js": {
-  "capturedAt": "2026-11-12T18:49:59.497Z",
+  "capturedAt": "2026-11-13T06:57:17.050Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1286,87 +635,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "14": {
-      "stdout": "A\nC\nB\n",
-      "segments": [
-       [
-        17,
-        "A\n",
-        0
-       ],
-       [
-        19,
-        "C\n",
-        0
-       ],
-       [
-        18,
-        "B\n",
-        0
-       ]
-      ]
-     },
-     "21": {
-      "stdout": "1 sec passed\n",
-      "segments": [
-       [
-        30,
-        "1 sec passed\n",
-        0
-       ]
-      ]
-     },
-     "32": {
-      "stdout": "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\nStudent not found\n",
-      "segments": [
-       [
-        53,
-        "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
-        0
-       ],
-       [
-        58,
-        "Student not found\n",
-        0
-       ]
-      ]
-     },
-     "60": {
-      "stdout": "87\n",
-      "segments": [
-       [
-        66,
-        "87\n",
-        0
-       ]
-      ]
-     },
-     "68": {
-      "stdout": "item 5, next then received: undefined\n",
-      "segments": [
-       [
-        79,
-        "item 5, next then received: undefined\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson7/lesson7.js": {
-  "capturedAt": "2026-11-12T18:50:00.570Z",
+  "capturedAt": "2026-11-13T06:57:18.127Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1419,87 +693,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "35": {
-      "stdout": "start\nafter calling pause\n1 second later\n",
-      "segments": [
-       [
-        46,
-        "start\n",
-        0
-       ],
-       [
-        47,
-        "after calling pause\n",
-        0
-       ],
-       [
-        44,
-        "1 second later\n",
-        0
-       ]
-      ]
-     },
-     "49": {
-      "stdout": "Mina scored 91\n",
-      "segments": [
-       [
-        55,
-        "Mina scored 91\n",
-        0
-       ]
-      ]
-     },
-     "60": {
-      "stdout": "Student not found\n",
-      "segments": [
-       [
-        67,
-        "Student not found\n",
-        1
-       ]
-      ]
-     },
-     "73": {
-      "stdout": "87\n",
-      "segments": [
-       [
-        80,
-        "87\n",
-        0
-       ]
-      ]
-     },
-     "85": {
-      "stdout": "Promise { <pending> }\nundefined\n",
-      "segments": [
-       [
-        99,
-        "Promise { <pending> }\n",
-        0
-       ],
-       [
-        99,
-        "undefined\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson8/lesson8a.js": {
-  "capturedAt": "2026-11-12T18:50:00.780Z",
+  "capturedAt": "2026-11-13T06:57:18.560Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1508,7 +707,7 @@
      {
       "label": "",
       "inputs": [],
-      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\n404 false\nundefined undefined\nLeanne Graham Sincere@april.biz\n[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
+      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\n[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\nundefined undefined\nLeanne Graham Sincere@april.biz\n404 false\n",
       "segments": [
        [
         18,
@@ -1526,8 +725,8 @@
         0
        ],
        [
-        57,
-        "404 false\n",
+        46,
+        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
         0
        ],
        [
@@ -1541,88 +740,18 @@
         0
        ],
        [
-        46,
-        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
-        0
-       ]
-      ]
-     }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "9": {
-      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\n",
-      "segments": [
-       [
-        18,
-        "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\n",
-        0
-       ],
-       [
-        19,
-        "string\n",
-        0
-       ],
-       [
-        23,
-        "Aisha\n",
-        0
-       ]
-      ]
-     },
-     "25": {
-      "stdout": "Leanne Graham Sincere@april.biz\n",
-      "segments": [
-       [
-        34,
-        "Leanne Graham Sincere@april.biz\n",
-        0
-       ]
-      ]
-     },
-     "39": {
-      "stdout": "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
-      "segments": [
-       [
-        46,
-        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
-        0
-       ]
-      ]
-     },
-     "51": {
-      "stdout": "404 false\n",
-      "segments": [
-       [
         57,
         "404 false\n",
         0
        ]
       ]
-     },
-     "62": {
-      "stdout": "undefined undefined\n",
-      "segments": [
-       [
-        72,
-        "undefined undefined\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
      }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson8/lesson8b.js": {
-  "capturedAt": "2026-11-12T18:50:02.363Z",
+  "capturedAt": "2026-11-13T06:57:20.491Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1680,97 +809,12 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "9": {
-      "stdout": "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\n",
-      "segments": [
-       [
-        22,
-        "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\n",
-        0
-       ]
-      ]
-     },
-     "26": {
-      "stdout": "User 1: Leanne Graham\nCaught an error: Request failed: 404\n",
-      "segments": [
-       [
-        45,
-        "User 1: Leanne Graham\n",
-        0
-       ],
-       [
-        45,
-        "Caught an error: Request failed: 404\n",
-        0
-       ]
-      ]
-     },
-     "47": {
-      "stdout": "TypeError fetch failed\n",
-      "segments": [
-       [
-        66,
-        "TypeError fetch failed\n",
-        0
-       ]
-      ]
-     },
-     "68": {
-      "stdout": "201 true\nSuccess:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n",
-      "segments": [
-       [
-        98,
-        "201 true\n",
-        0
-       ],
-       [
-        98,
-        "Success:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n",
-        0
-       ]
-      ]
-     },
-     "102": {
-      "stdout": "500 false\nError:  Request failed: 500\n",
-      "segments": [
-       [
-        129,
-        "500 false\n",
-        0
-       ],
-       [
-        132,
-        "Error:  Request failed: 500\n",
-        0
-       ]
-      ]
-     },
-     "135": {
-      "stdout": "Created: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
-      "segments": [
-       [
-        160,
-        "Created: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  },
  "phase1-javascript/lesson9/lesson9.js": {
-  "capturedAt": "2026-11-12T20:08:53.696Z",
+  "capturedAt": "2026-11-13T06:57:20.874Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -1779,11 +823,11 @@
      {
       "label": "",
       "inputs": [],
-      "stdout": "[\n  {\n    name: 'Leanne Graham',\n    city: 'Gwenborough',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Ervin Howell',\n    city: 'Wisokyburgh',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementine Bauch',\n    city: 'McKenziehaven',\n    posts: 10,\n    doneTodos: 7,\n    totalTodos: 20\n  },\n  {\n    name: 'Patricia Lebsack',\n    city: 'South Elvis',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Chelsey Dietrich',\n    city: 'Roscoeview',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  },\n  {\n    name: 'Mrs. Dennis Schulist',\n    city: 'South Christy',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Kurtis Weissnat',\n    city: 'Howemouth',\n    posts: 10,\n    doneTodos: 9,\n    totalTodos: 20\n  },\n  {\n    name: 'Nicholas Runolfsdottir V',\n    city: 'Aliyaview',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Glenna Reichert',\n    city: 'Bartholomebury',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementina DuBuque',\n    city: 'Lebsackbury',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  }\n]\nIt's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
+      "stdout": "┌─────────┬────────────────────────────┬──────────────────┬───────┬───────────┬────────────┐\n│ (index) │ name                       │ city             │ posts │ doneTodos │ totalTodos │\n├─────────┼────────────────────────────┼──────────────────┼───────┼───────────┼────────────┤\n│ 0       │ 'Leanne Graham'            │ 'Gwenborough'    │ 10    │ 11        │ 20         │\n│ 1       │ 'Ervin Howell'             │ 'Wisokyburgh'    │ 10    │ 8         │ 20         │\n│ 2       │ 'Clementine Bauch'         │ 'McKenziehaven'  │ 10    │ 7         │ 20         │\n│ 3       │ 'Patricia Lebsack'         │ 'South Elvis'    │ 10    │ 6         │ 20         │\n│ 4       │ 'Chelsey Dietrich'         │ 'Roscoeview'     │ 10    │ 12        │ 20         │\n│ 5       │ 'Mrs. Dennis Schulist'     │ 'South Christy'  │ 10    │ 6         │ 20         │\n│ 6       │ 'Kurtis Weissnat'          │ 'Howemouth'      │ 10    │ 9         │ 20         │\n│ 7       │ 'Nicholas Runolfsdottir V' │ 'Aliyaview'      │ 10    │ 11        │ 20         │\n│ 8       │ 'Glenna Reichert'          │ 'Bartholomebury' │ 10    │ 8         │ 20         │\n│ 9       │ 'Clementina DuBuque'       │ 'Lebsackbury'    │ 10    │ 12        │ 20         │\n└─────────┴────────────────────────────┴──────────────────┴───────┴───────────┴────────────┘\nIt's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
       "segments": [
        [
         110,
-        "[\n  {\n    name: 'Leanne Graham',\n    city: 'Gwenborough',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Ervin Howell',\n    city: 'Wisokyburgh',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementine Bauch',\n    city: 'McKenziehaven',\n    posts: 10,\n    doneTodos: 7,\n    totalTodos: 20\n  },\n  {\n    name: 'Patricia Lebsack',\n    city: 'South Elvis',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Chelsey Dietrich',\n    city: 'Roscoeview',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  },\n  {\n    name: 'Mrs. Dennis Schulist',\n    city: 'South Christy',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Kurtis Weissnat',\n    city: 'Howemouth',\n    posts: 10,\n    doneTodos: 9,\n    totalTodos: 20\n  },\n  {\n    name: 'Nicholas Runolfsdottir V',\n    city: 'Aliyaview',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Glenna Reichert',\n    city: 'Bartholomebury',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementina DuBuque',\n    city: 'Lebsackbury',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  }\n]\n",
+        "┌─────────┬────────────────────────────┬──────────────────┬───────┬───────────┬────────────┐\n│ (index) │ name                       │ city             │ posts │ doneTodos │ totalTodos │\n├─────────┼────────────────────────────┼──────────────────┼───────┼───────────┼────────────┤\n│ 0       │ 'Leanne Graham'            │ 'Gwenborough'    │ 10    │ 11        │ 20         │\n│ 1       │ 'Ervin Howell'             │ 'Wisokyburgh'    │ 10    │ 8         │ 20         │\n│ 2       │ 'Clementine Bauch'         │ 'McKenziehaven'  │ 10    │ 7         │ 20         │\n│ 3       │ 'Patricia Lebsack'         │ 'South Elvis'    │ 10    │ 6         │ 20         │\n│ 4       │ 'Chelsey Dietrich'         │ 'Roscoeview'     │ 10    │ 12        │ 20         │\n│ 5       │ 'Mrs. Dennis Schulist'     │ 'South Christy'  │ 10    │ 6         │ 20         │\n│ 6       │ 'Kurtis Weissnat'          │ 'Howemouth'      │ 10    │ 9         │ 20         │\n│ 7       │ 'Nicholas Runolfsdottir V' │ 'Aliyaview'      │ 10    │ 11        │ 20         │\n│ 8       │ 'Glenna Reichert'          │ 'Bartholomebury' │ 10    │ 8         │ 20         │\n│ 9       │ 'Clementina DuBuque'       │ 'Lebsackbury'    │ 10    │ 12        │ 20         │\n└─────────┴────────────────────────────┴──────────────────┴───────┴───────────┴────────────┘\n",
         0
        ],
        [
@@ -1793,52 +837,7 @@
        ]
       ]
      }
-    ],
-    "parts": {
-     "0": {
-      "stdout": "",
-      "segments": []
-     },
-     "11": {
-      "stdout": "",
-      "segments": []
-     },
-     "24": {
-      "stdout": "",
-      "segments": []
-     },
-     "36": {
-      "stdout": "",
-      "segments": []
-     },
-     "60": {
-      "stdout": "",
-      "segments": []
-     },
-     "68": {
-      "stdout": "",
-      "segments": []
-     },
-     "99": {
-      "stdout": "[\n  {\n    name: 'Leanne Graham',\n    city: 'Gwenborough',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Ervin Howell',\n    city: 'Wisokyburgh',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementine Bauch',\n    city: 'McKenziehaven',\n    posts: 10,\n    doneTodos: 7,\n    totalTodos: 20\n  },\n  {\n    name: 'Patricia Lebsack',\n    city: 'South Elvis',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Chelsey Dietrich',\n    city: 'Roscoeview',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  },\n  {\n    name: 'Mrs. Dennis Schulist',\n    city: 'South Christy',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Kurtis Weissnat',\n    city: 'Howemouth',\n    posts: 10,\n    doneTodos: 9,\n    totalTodos: 20\n  },\n  {\n    name: 'Nicholas Runolfsdottir V',\n    city: 'Aliyaview',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Glenna Reichert',\n    city: 'Bartholomebury',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementina DuBuque',\n    city: 'Lebsackbury',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  }\n]\nIt's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
-      "segments": [
-       [
-        110,
-        "[\n  {\n    name: 'Leanne Graham',\n    city: 'Gwenborough',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Ervin Howell',\n    city: 'Wisokyburgh',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementine Bauch',\n    city: 'McKenziehaven',\n    posts: 10,\n    doneTodos: 7,\n    totalTodos: 20\n  },\n  {\n    name: 'Patricia Lebsack',\n    city: 'South Elvis',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Chelsey Dietrich',\n    city: 'Roscoeview',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  },\n  {\n    name: 'Mrs. Dennis Schulist',\n    city: 'South Christy',\n    posts: 10,\n    doneTodos: 6,\n    totalTodos: 20\n  },\n  {\n    name: 'Kurtis Weissnat',\n    city: 'Howemouth',\n    posts: 10,\n    doneTodos: 9,\n    totalTodos: 20\n  },\n  {\n    name: 'Nicholas Runolfsdottir V',\n    city: 'Aliyaview',\n    posts: 10,\n    doneTodos: 11,\n    totalTodos: 20\n  },\n  {\n    name: 'Glenna Reichert',\n    city: 'Bartholomebury',\n    posts: 10,\n    doneTodos: 8,\n    totalTodos: 20\n  },\n  {\n    name: 'Clementina DuBuque',\n    city: 'Lebsackbury',\n    posts: 10,\n    doneTodos: 12,\n    totalTodos: 20\n  }\n]\n",
-        0
-       ],
-       [
-        112,
-        "It's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
-        0
-       ]
-      ]
-     },
-     "rest": {
-      "stdout": "",
-      "segments": []
-     }
-    }
+    ]
    }
   }
  }
