@@ -149,6 +149,8 @@ const rawModules = import.meta.glob(
     // Scratch files that .gitignore keeps out of the repository
     '!../../../**/test.js',
     '!../../../**/tempCodeRunnerFile.js',
+    // Tool configuration (the React lessons are served by Vite), not a lesson
+    '!../../../**/vite.config.js',
   ],
   { query: '?raw', import: 'default', eager: true },
 ) as Record<string, string>

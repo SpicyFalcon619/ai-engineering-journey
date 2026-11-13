@@ -44,6 +44,10 @@ The checklist behind this table is [ROADMAP.md](ROADMAP.md); the site reads it f
 phase1-javascript/
   NOTES.md        the study reference for every lesson
   lesson1/ ...    one folder per lesson, with its exercise files
+phase2-react/
+  NOTES.md        the study reference for the React lessons
+  lesson1/ ...    one folder per lesson, with a .jsx exercise file
+  src/main.jsx    a small viewer that shows whichever lesson you pick (npm run dev)
 webapp/           the website, and the script that captures each lesson's output
 ROADMAP.md        the six basecamps as a checklist
 LEARNING_PROGRESS.md

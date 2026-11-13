@@ -4,16 +4,16 @@ Last updated: 2026-11-13
 
 ## Current Status
 
-- **Current phase:** Phase 2 - React Fundamentals (about to start). Phase 1 (JavaScript) is complete, 2026-11-13.
-- **Current topic:** none yet. Phase 2 begins with what React is, Vite setup, JSX and components. Phase 1 notes: `phase1-javascript/NOTES.md`
-- **Next learning task:** choose the Phase 2 learning resource, then set up a Vite + React project and write a first component.
+- **Current phase:** Phase 2 - React Fundamentals. Phase 1 (JavaScript) is complete, 2026-11-13.
+- **Current topic:** Lesson 1 part 1, what React is, components and JSX (taught, exercise pending). Notes: `phase2-react/NOTES.md`
+- **Next learning task:** `phase2-react/lesson1/lesson1.jsx`, items 1 to 5. Run it with `npm install` then `npm run dev` inside `phase2-react`.
 
 ## Roadmap
 
 | Phase | Focus | Status |
 |-------|-------|--------|
 | 1 | JavaScript fundamentals and revision | Complete (2026-11-13) |
-| 2 | React fundamentals (Vite, JSX, props, state, effects, forms) | Not started |
+| 2 | React fundamentals (Vite, JSX, props, state, effects, forms) | In progress (Lesson 1) |
 | 3 | Backend with Python and FastAPI | Not started |
 | 4 | React + FastAPI integration | Not started |
 | 5 | Machine Learning integration (scikit-learn model behind an API) | Not started |
@@ -78,6 +78,8 @@ None yet.
 - JavaScript Tutorial for Beginners: Learn JavaScript in 1 Hour - Programming with Mosh (basics revision only; chapter timestamps not verified)
 - javascript.info - https://javascript.info/ (primary reference for the Phase 1 gaps)
 - MDN JavaScript Guide - https://developer.mozilla.org/en-US/docs/Web/JavaScript
+- Phase 2 (React), primary: the official Learn React docs - https://react.dev/learn (verified 2026-11-13; sections: creating and nesting components, JSX, styles, displaying data, conditional rendering, lists, events, updating the screen, hooks, sharing data between components). It does not mention Vite, so the project is set up with Vite alongside it.
+- Phase 2 (React), optional video: Learn the React JavaScript Library With This Free 10-Hour YouTube Course - John Smilga (Coding Addict), freeCodeCamp - https://www.youtube.com/watch?v=4UZrsTqkcW4 . Section titles verified from https://www.freecodecamp.org/news/react-10-hour-course/ , but it gives no timestamps and does not mention Vite. Use only the sections needed (JSX, props, useState, useEffect, forms, fetching data); do not watch all 10 hours.
 
 ## Notes
 

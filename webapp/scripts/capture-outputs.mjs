@@ -32,7 +32,8 @@ const walk = (dir) =>
     const full = join(dir, e.name)
     if (e.isDirectory()) return e.name === 'node_modules' ? [] : walk(full)
     // test.js and tempCodeRunnerFile.js are scratch files that .gitignore keeps out of the repository.
-    const scratch = e.name === 'test.js' || e.name === 'tempCodeRunnerFile.js'
+    // vite.config.js is tool configuration (a React lesson folder has one), not a lesson.
+    const scratch = e.name === 'test.js' || e.name === 'tempCodeRunnerFile.js' || e.name === 'vite.config.js'
     return e.isFile() && extname(e.name) === '.js' && !scratch ? [full] : []
   })
 

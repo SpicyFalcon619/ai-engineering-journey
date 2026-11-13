@@ -1,5 +1,7 @@
 # Phase 1: JavaScript Notes
 
+Phase 1 is complete (2026-11-13). The React notes continue in `../phase2-react/NOTES.md`.
+
 A study reference you can come back to. Each lesson has the same shape: what it is, why it exists, the rules with examples, Python comparisons, common mistakes, your own words, and the exercise status.
 
 Status key: not started / taught (explained, exercise pending) / done (exercise completed and understanding checked)
@@ -40,8 +42,8 @@ Each lesson is roughly 1 hour. At 3-4 hours per week, the whole phase is about 3
 | 5 | Modules | import, export, default vs named | done |
 | 6 | Promises | Why async exists, callbacks, Promise, then/catch | done |
 | 7 | async/await | async functions, await, try/catch | done |
-| 8 | fetch and JSON | JSON.stringify and parse, GET with fetch and response.json() (part 1); status codes, POST, error handling (part 2) | part 1 done; part 2 next |
-| 9 | Mini project | Fetch data from a public API and process it in Node | not started |
+| 8 | fetch and JSON | JSON.stringify and parse, GET with fetch and response.json() (part 1); status codes, POST, error handling (part 2) | done |
+| 9 | Mini project | Fetch three lists from a public API, combine them and print a report, in Node | done |
 
 Deliberately skipped: the browser DOM (document.querySelector and similar). React replaces direct DOM work, so you don't need it now.
 
@@ -1552,7 +1554,7 @@ You get the **box**, not the student. This is the same mistake as `aisha.map` in
 
 ---
 
-# Lesson 8: fetch and JSON
+# Lesson 8: fetch and JSON (done, 2026-11-13)
 
 ## Part 1: JSON and GET requests (done, 2026-11-09)
 
@@ -1747,7 +1749,7 @@ console.log(await response.json());
 
 ---
 
-# Lesson 9: Mini project, a user activity report
+# Lesson 9: Mini project, a user activity report (done, 2026-11-13)
 
 You have now met every piece you need: `fetch`, `async`/`await`, `try`/`catch`, and the array methods. This lesson uses them together on a real API, with nothing new to learn. The point is the habit of building something **in small, tested steps**.
 
@@ -1777,7 +1779,7 @@ Do not write it all at once. Write one small function, run it, check it, and onl
 ### Hints
 
 - To count one user's posts: filter the posts where `post.userId === user.id`, then take `.length`.
-- Destructuring helps: `const [users, posts, todos] = await loadData();` if `loadData` returns an array of three.
+- Destructuring helps: `const [users, posts, todos] = await loadData();` if `loadData` returns an array of three, or `const { users, posts, todos } = await loadData();` if it returns an object with those names.
 - `console.table(array)` prints an array of objects as a table. It is new, but it is only a nicer `console.log`.
 
 ## Check your own work
@@ -1793,9 +1795,62 @@ You should not need me to tell you whether it is right. These facts about the re
 
 `Promise.all([...])` runs several promises at once and waits for all of them. You could use it in `loadData` so the three requests run together instead of one after another. It is not needed for the project.
 
+### The shape of the finished program
+
+Each step is its own small function, and `main()` only puts them in order:
+
+```js
+async function main() {
+  try {
+    const { users, posts, todos } = await loadData();
+    const report = buildReport(users, posts, todos);
+    printReport(report);
+    findTopUser(report);
+  } catch (error) {
+    console.log("An error occurred:", error.message);
+  }
+}
+
+main();
+```
+
+Run normally, it prints the table of 10 users and then `It's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.` With a wrong path (`"/userz"`), it prints only `An error occurred: Request failed: 404`. The first failure jumps straight to `catch`, so no half-finished report appears.
+
+### How it maps to Python
+
+| JavaScript (this lesson) | Python you already know |
+|---|---|
+| `users.map((u) => u.name)` | `[u["name"] for u in users]` |
+| `posts.filter((p) => p.userId === user.id).length` | `len([p for p in posts if p["userId"] == user["id"]])` |
+| `console.table(report)` | printing a pandas DataFrame |
+| find the highest number, then `filter` for everyone who has it | `best = max(...)`, then a list comprehension for the ties |
+| `if (!response.ok) throw new Error(...)` | `response.raise_for_status()` in the `requests` library |
+| `try { ... } catch (error) { ... }` | `try: ... except Exception as error: ...` |
+
+### Common mistakes (all of these happened in this project)
+
+- A stray comma inside the template literal of an error message: `` `Request failed:, ${response.status}` `` prints a comma, because everything outside `${ }` is plain text.
+- `p.userID` instead of `p.userId`. A wrong property name gives `undefined`, so the `filter` silently finds nothing.
+- A `map` callback with braces and no `return`, which gives an array of `undefined` (the Lesson 4 trap, seen again).
+- Marking a function `async` when nothing inside it uses `await`. It then returns a promise, and forgetting the `await` when calling it gives `Promise { <pending> }` instead of the list.
+- Leaving old test code at the top level, so the whole job ran several times next to `main()`. Once `main()` exists, remove the earlier tests.
+- A function that both works something out and prints it (`findTopUser`) is harder to reuse than one that only returns the result. Keep computing and printing in separate functions where you can.
+
 ### Exercise status
 
 `lesson9/lesson9.js`: all six steps done (2026-11-13): `getJson`, `loadData` (returns an object), `buildReport` (map and filter, then `async` removed because nothing is awaited inside), `printReport` with `console.table`, `findTopUser` (two passes, handles the tie between Chelsey Dietrich and Clementina DuBuque at 12) and `main()` with one `try`/`catch`. A wrong path prints only "An error occurred: Request failed: 404". Slips along the way: a stray comma in the error message, `userID` instead of `userId`, a `map` callback without `return`, an unneeded `async`, and old test code left at the top level that ran the job twice. Predictions were mostly left blank.
+
+## Phase 1 wrap-up
+
+By the end of Phase 1 you can read and write: variables and types, comparisons and loops, functions and arrow functions, objects and arrays with destructuring, spread and rest, the array methods (`map`, `filter`, `find`, `some`, `every`, `reduce`, `sort`), modules, promises, `async`/`await`, `fetch`, JSON, GET and POST, and error handling with `try`/`catch`. The mini project used most of them together.
+
+Final check (2026-11-13): `applyTwice(fn, x)`, `sum(...nums)` and a `filter` then `map` chain were written correctly, and three variation questions were answered correctly: `applyTwice` with a string function gives `"hi!!"`, the difference between rest (`sum(...nums)`, packs arguments into an array) and spread (`sum(...[4, 5, 6])`, unpacks an array into arguments), and why a `map` callback with braces and no `return` gives an array of `undefined`.
+
+Still to revisit: calling `resolve` and `reject` inside a promise from memory, and writing a POST with `fetch` from memory.
+
+Next: Phase 2, React. Its notes are in `../phase2-react/NOTES.md`.
+
+---
 
 # Quick reference (Lesson 1)
 
@@ -1816,6 +1871,12 @@ while (count < 3) { count++; }                // repeat until false
 | Error | Meaning |
 |---|---|
 | `TypeError: Assignment to constant variable.` | You reassigned a `const`. Use `let` if it really has to change. |
+| `SyntaxError: The requested module './students.js' does not provide an export named 'students'` | You imported a default export with braces. Braces are for named exports (Lesson 5). |
+| `TypeError: recipe is not a function` | You passed the result of a call (`doThreeTimes(sayHi())`) instead of the function itself (`doThreeTimes(sayHi)`) (Lesson 6). |
+| `Promise { <pending> }` printed where data was expected | A missing `await`. You are looking at the promise, not what is inside it (Lessons 7 and 8). |
+| `TypeError: fetch failed` | No answer arrived at all (no internet, a wrong domain). A 404 is different: the server answered, and you check `response.ok` (Lesson 8). |
+| `SyntaxError: ... is not valid JSON` | `response.json()` was called on text that is not JSON, for example the server's plain-text error after a POST whose body was not run through `JSON.stringify` (Lesson 8). |
+| `Request failed: 404` | Your own message, thrown by the `response.ok` check in `getUser` / `getJson` (Lessons 8 and 9). |
 
 ---
 
