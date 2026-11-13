@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import type { ShikiTransformer } from 'shiki'
 import { Camera, Check, ChevronDown, Copy, Download, RotateCcw, X } from 'lucide-react'
 import { toBlob } from 'html-to-image'
-import { getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
+import { getHighlighter, langForFile, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
 import { THEME_OPTIONS, type ThemeId } from '@/lib/theme'
 import { useTheme } from '@/hooks/useTheme'
 import {
@@ -239,7 +239,7 @@ function CaptureDialog({ code, filename, topics = [], output, onClose }: Capture
       if (cancelled) return
       const draw = (theme: ThemeId) =>
         highlighter.codeToHtml(code, {
-          lang: 'javascript',
+          lang: langForFile(filename),
           theme: SHIKI_THEME_BY_SITE_THEME[theme],
           includeExplanation: true,
           transformers: [captureTransformer],

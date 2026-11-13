@@ -15,6 +15,8 @@ import { makeSlugger } from '@/lib/notes'
 const LiveJs = lazy(() => import('@/components/code/LiveJs'))
 
 const JS_LANGS = new Set(['js', 'javascript', 'mjs'])
+// React (JSX) examples are shown highlighted and can be copied, but cannot run in the page.
+const JSX_LANGS = new Set(['jsx'])
 
 const escapeHtml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -90,9 +92,10 @@ function render(markdown: string, highlighter: HighlighterCore | null, theme: st
       },
       code({ text, lang }) {
         const isJs = JS_LANGS.has((lang ?? '').toLowerCase())
+        const isJsx = JSX_LANGS.has((lang ?? '').toLowerCase())
         const body =
-          isJs && highlighter
-            ? highlighter.codeToHtml(text, { lang: 'javascript', theme })
+          (isJs || isJsx) && highlighter
+            ? highlighter.codeToHtml(text, { lang: isJsx ? 'jsx' : 'javascript', theme })
             : `<pre class="notes-plain"><code>${escapeHtml(text)}</code></pre>`
         const actions = isJs
           ? `<button type="button" data-notes-run>Edit and run</button><button type="button" data-notes-copy>Copy</button>`

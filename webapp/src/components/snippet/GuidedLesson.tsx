@@ -6,7 +6,7 @@ import { practiceToGuide } from '@/lib/practiceGuide'
 import { PRACTICE_VIEW } from '@/lib/features'
 import { NotesView } from '@/components/snippet/NotesView'
 import { jsRunner } from '@/lib/jsRunner'
-import { chunkTransformer, getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
+import { chunkTransformer, getHighlighter, langForFile, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
 import type { BannerSection, LessonBlock, ProseNode } from '@/lib/lesson'
 import type { BlockRun, CapturedOutput } from '@/lib/outputs'
 import type { Topic } from '@/types'
@@ -414,7 +414,7 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
       const next: Record<number, string> = {}
       for (const block of codeBlocks) {
         next[block.line] = highlighter.codeToHtml(block.code, {
-          lang: 'javascript',
+          lang: langForFile(filename),
           theme: SHIKI_THEME_BY_SITE_THEME[siteTheme],
           transformers: [chunkTransformer(block.line)],
         })
@@ -551,6 +551,14 @@ export function GuidedLesson({ leading, blocks: sourceBlocks, code, path, filena
             <h2 id="your-code" className="guide-topic scroll-mt-24">
               Your code
             </h2>
+            {filename.endsWith('.jsx') && (
+              <div className="guide-prose">
+                <p>
+                  This is React code. It runs in your own Vite project (<code>npm run dev</code> inside <code>phase2-react/app</code>), not in this page,
+                  so there is no run button. The code is shown as written.
+                </p>
+              </div>
+            )}
             {practice && (
               <div className="guide-prose">
                 <p>

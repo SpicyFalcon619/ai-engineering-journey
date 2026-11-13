@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import { chunkTransformer, getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
+import { chunkTransformer, getHighlighter, langForFile, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
 import { parseLesson } from '@/lib/lesson'
 import { getOutput } from '@/lib/outputs'
 import { allLessons } from '@/lib/progress'
@@ -43,7 +43,7 @@ export default function LessonPeek({ snippet, returning = false }: { snippet: Sn
       if (cancelled) return
       setHtml(
         highlighter.codeToHtml(code.text, {
-          lang: 'javascript',
+          lang: langForFile(snippet.filename),
           theme: SHIKI_THEME_BY_SITE_THEME[siteTheme],
           transformers: [chunkTransformer(code.line)],
         }),

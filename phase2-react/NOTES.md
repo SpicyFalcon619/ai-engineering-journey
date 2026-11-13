@@ -60,17 +60,17 @@ function App() {
 - Returning two elements side by side with no wrapper.
 - Forgetting the `return`, or writing `Greeting()` instead of `<Greeting />` when using it.
 
-### Exercise status
+### Your exercises
 
-`app/src/lessons/lesson1/lesson1.jsx`: starter written, not started. The file stays clean: the exercises are listed here and explained in the lesson, not written as comments inside it. It is shown on the page by `app/src/App.jsx` (Part 2 shows how). Keep `npm run dev` running inside `phase2-react/app` and save the file to see your work.
+Write these in `app/src/lessons/lesson1/lesson1.jsx` (keep `npm run dev` running and save to see the page). The file stays clean: the exercises are listed here, not written as comments inside it.
 
 1. Predict first (no code): what appears on the page when `App` is shown, what goes wrong if `Greeting` is renamed `greeting`, and why is everything in `App` wrapped in one `<div>`?
 2. Write a `Greeting` component that returns an `<h1>` saying "Hello," and your name.
-3. Use `Greeting` twice inside `App`. Predict first what you will see.
-4. Write a `Profile` component (an `<h2>` with your name and a `<p>` with your university) and use it in `App`.
+3. Use `Greeting` twice inside `Lesson1`. Predict first what you will see.
+4. Write a `Profile` component (an `<h2>` with your name and a `<p>` with your university) and use it in `Lesson1`, under the greetings.
 5. Rename `Greeting` to lowercase and look at the page. Predict first. Then rename it back.
 
-## Part 2: setting up a React project with Vite (not started)
+## Part 2: setting up a React project with Vite (done, 2026-11-13)
 
 You will type these commands yourself, in the terminal, from the `phase2-react` folder. Anything in angle brackets is for you to read, not type.
 
@@ -156,9 +156,9 @@ Where JSX differs from HTML:
 
 Experiments: delete the `<>` and `</>` wrapper and read the error (a component must return one parent), then undo; add `const name = "..."` above `return` and write `<h1>Hello, {name}</h1>`.
 
-### Exercise status
+### Your exercises
 
-Not started. After the project runs, we will:
+Once the project runs:
 
 1. Change the text in `src/App.jsx`, save, and watch the page update without a reload.
 2. Show the Lesson 1 exercise file from `App`, so you can see your own components on screen. The exercise file lives at `app/src/lessons/lesson1/lesson1.jsx`, and `src/App.jsx` becomes:

@@ -6,7 +6,7 @@ Last updated: 2026-11-13
 
 - **Current phase:** Phase 2 - React Fundamentals. Phase 1 (JavaScript) is complete, 2026-11-13.
 - **Current topic:** Lesson 1 part 1, what React is, components and JSX (taught, exercise pending). Then part 2, setting up a Vite + React project by hand. Notes: `phase2-react/NOTES.md`
-- **Next learning task:** show the Lesson 1 exercise file from `src/App.jsx`, then do the exercise in `phase2-react/app/src/lessons/lesson1/lesson1.jsx` (items 1 to 5). The Vite project is created and running.
+- **Next learning task:** Lesson 1 items 4 and 5 in `phase2-react/app/src/lessons/lesson1/lesson1.jsx` (a `Profile` component, and renaming `Greeting` to lowercase on purpose), then answer item 1. Items 2 and 3 (`Greeting` used twice) are done.
 
 ## Roadmap
 

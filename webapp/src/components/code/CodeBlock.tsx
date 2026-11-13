@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ShikiTransformer } from 'shiki'
-import { getHighlighter, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
+import { getHighlighter, langForFile, SHIKI_THEME_BY_SITE_THEME } from '@/lib/highlighter'
 import { useTheme } from '@/hooks/useTheme'
 import { computeFoldRanges } from '@/lib/foldRanges'
 import type { CapturedOutput } from '@/lib/outputs'
@@ -42,7 +42,7 @@ export function CodeBlock({ code, filename, focusLine, className, output, topics
     getHighlighter().then((highlighter) => {
       if (cancelled) return
       const out = highlighter.codeToHtml(code, {
-        lang: 'javascript',
+        lang: langForFile(filename),
         theme: SHIKI_THEME_BY_SITE_THEME[siteTheme],
         transformers: [lineIdTransformer],
       })

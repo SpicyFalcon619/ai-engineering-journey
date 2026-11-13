@@ -20,6 +20,7 @@ export interface Basecamp {
 // Which content categories (by categorySlug from content.ts) live under each basecamp.
 const BASECAMP_CATEGORY_MAP: Record<string, string[]> = {
   'basecamp-1': ['phase1-javascript'],
+  'basecamp-2': ['phase2-react'],
   // Later basecamps (React, FastAPI, ...) get their folders added here as they are written.
 }
 

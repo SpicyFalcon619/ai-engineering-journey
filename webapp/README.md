@@ -25,6 +25,12 @@ Every top-level folder of the repository (except `webapp`, `Test` and `tools`) i
 - **Order.** The number in a folder or file name sets the order (`lesson4`, `lesson4a.js`, `lesson4b.js`). Section names for the lesson folders are listed in `src/lib/content.ts` (`SECTION_LABELS`); a folder with no entry is named from its folder name.
 - **The roadmap.** `ROADMAP.md` in the repository root lists the six basecamps as a checklist; the site reads it for its Roadmap and Progress views. `src/lib/roadmap.ts` maps each basecamp to the track folders that belong to it: add a folder there when a new basecamp gets lessons, and write its blurb in `src/lib/categoryInfo.ts` and `src/lib/journey.ts`.
 
+## The React lessons
+
+`phase2-react/` is a Vite + React project (`phase2-react/app`). Its lesson files are the `.jsx` files in `phase2-react/app/src/lessons/lessonN/`, and the site shows only those (not `App.jsx`, `main.jsx` or the project's config). They appear as the **React** track, with the notes from `phase2-react/NOTES.md` (same `# Lesson N: ...` and `## Part k` layout as the JavaScript notes) above the code. `src/lib/content.ts` (`LESSON_ROOTS`, `SECTION_LABELS`) says where the lessons sit and what each section is called; give a new lesson folder a label there.
+
+React code runs in the learner's own Vite project, not in the page, so these lessons show the code (highlighted as JSX) and have no run button, and the notes' `jsx` examples can be copied but not run. A "// Lesson N: title" line within the first few lines of the file is its title.
+
 ## The study notes
 
 `phase1-javascript/NOTES.md` is the explanation of the lessons. The guided view reads it directly (`src/lib/notes.ts`), so there is one source and nothing to copy:

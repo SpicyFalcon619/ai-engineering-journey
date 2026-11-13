@@ -29,6 +29,7 @@ export const trackIndexOf = (categorySlug: string) => trackIndexBySlug.get(categ
 /** A few words on what each line covers, for the legend. */
 export const trackBlurb: Record<string, string> = {
   'phase1-javascript': 'Variables to fetch and JSON',
+  'phase2-react': 'Components to forms',
 }
 
 /** The CSS colour of a track's line. The five lines are derived from each theme's own accent. */

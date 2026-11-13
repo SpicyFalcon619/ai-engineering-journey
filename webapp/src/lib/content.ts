@@ -3,6 +3,13 @@ import type { Snippet, Topic } from '@/types'
 // Top-level folder name -> the track's name on the site.
 const CATEGORY_LABELS: Record<string, string> = {
   'phase1-javascript': 'JavaScript',
+  'phase2-react': 'React',
+}
+
+// Where a track's lessons live inside its folder, when they are not directly in it. The React lessons sit inside the
+// Vite project (phase2-react/app/src/lessons/lesson1/...), and the sidebar should show only "lesson1", not the project's folders.
+const LESSON_ROOTS: Record<string, string> = {
+  'phase2-react': 'app/src/lessons',
 }
 
 // Lesson folder inside a track -> its section name in the sidebar. A folder with no entry here is
@@ -17,6 +24,8 @@ const SECTION_LABELS: Record<string, string> = {
   lesson7: 'Lesson 7: async and await',
   lesson8: 'Lesson 8: fetch and JSON',
   lesson9: 'Lesson 9: Mini project',
+  // The React track has its own lesson numbers, so its sections are named by track and folder.
+  'phase2-react/lesson1': 'Lesson 1: Components and JSX',
 }
 
 // Files whose own header comment does not make a good title in the sidebar.
@@ -53,6 +62,8 @@ const API_KEYWORD_TAGS: [RegExp, string][] = [
   [/\btry\s*\{/, 'try catch error handling'],
   [/setTimeout|setInterval/, 'timers settimeout'],
   [/\bconsole\.(log|error)/, 'console log print'],
+  [/<[A-Z]\w*[\s/>]/, 'react component jsx'],
+  [/\buse(State|Effect|Ref|Memo|Callback)\b/, 'react hooks'],
 ]
 
 function titleCase(words: string): string {
@@ -89,9 +100,14 @@ function parseDocstringTitle(code: string): string | null {
       .trim()
       .replace(/\s+/g, ' ')
   } else {
-    const first = code.split('\n').find((l) => l.trim())
-    const line = first?.match(/^\/\/(?!\/)\s*(.+)$/)
-    if (line && /^Lesson\s+\w+/i.test(line[1])) body = line[1].trim()
+    // The "// Lesson N: title" line is the first line of a JavaScript lesson. A React lesson starts with its imports,
+    // so it is looked for in the first few lines.
+    const line = code
+      .split('\n')
+      .slice(0, 8)
+      .map((l) => l.match(/^\/\/(?!\/)\s*(Lesson\s+\w+.*)$/i))
+      .find(Boolean)
+    if (line) body = line[1].trim()
   }
   if (!body) return null
   const colonIndex = body.indexOf(':')
@@ -142,6 +158,7 @@ export function compareLessons(a: { orderKey: number[]; filename: string; title:
 const rawModules = import.meta.glob(
   [
     '../../../**/*.js',
+    '../../../phase2-react/app/src/lessons/**/*.jsx',
     '!../../../webapp/**',
     '!../../../Test/**',
     '!../../../tools/**',
@@ -161,23 +178,28 @@ function buildSnippets(): Snippet[] {
   for (const [modulePath, code] of Object.entries(rawModules)) {
     // modulePath looks like "../../../phase1-javascript/lesson6/lesson6.js"
     const relative = modulePath.replace(/^(\.\.\/)+/, '')
-    const segments = relative.split('/')
-    const categoryKey = segments[0]
-    const filename = segments[segments.length - 1]
-    const middleSegments = segments.slice(1, -1) // folders between category root and file
+    const categoryKey = relative.split('/')[0]
+    const lessonRoot = LESSON_ROOTS[categoryKey]
+    const prefix = lessonRoot ? `${categoryKey}/${lessonRoot}/` : ''
+    // The parts of the path inside the track, without the project folders in front of the lessons.
+    const inner = prefix && relative.startsWith(prefix) ? relative.slice(prefix.length).split('/') : relative.split('/').slice(1)
+    const filename = inner[inner.length - 1]
+    const middleSegments = inner.slice(0, -1) // folders between category root and file
 
     const categoryLabel = CATEGORY_LABELS[categoryKey] ?? prettifySegment(categoryKey)
     const categorySlug = slugify(categoryKey)
-    const subSegments = middleSegments.map((s) => SECTION_LABELS[s] ?? prettifySegment(s))
+    // A track other than the first has its own lesson numbers, so it only uses labels written for it.
+    const sectionLabel = (s: string) => SECTION_LABELS[`${categoryKey}/${s}`] ?? (categoryKey === 'phase1-javascript' ? SECTION_LABELS[s] : undefined) ?? prettifySegment(s)
+    const subSegments = middleSegments.map(sectionLabel)
 
     const docTitle = parseDocstringTitle(code)
-    const title = TITLE_OVERRIDES[relative] ?? docTitle ?? prettifySegment(filename.replace(/\.js$/, ''))
+    const title = TITLE_OVERRIDES[relative] ?? docTitle ?? prettifySegment(filename.replace(/\.jsx?$/, ''))
     const topics = parseTopics(code)
 
     const tagSet = new Set<string>()
     tagSet.add(categoryLabel.toLowerCase())
     subSegments.forEach((s) => tagSet.add(s.toLowerCase()))
-    prettifySegment(filename.replace(/\.js$/, ''))
+    prettifySegment(filename.replace(/\.jsx?$/, ''))
       .toLowerCase()
       .split(' ')
       .forEach((w) => w.length > 2 && tagSet.add(w))
@@ -186,7 +208,7 @@ function buildSnippets(): Snippet[] {
       if (pattern.test(code)) tagSet.add(tag)
     })
 
-    const id = slugify(relative.replace(/\.js$/, ''))
+    const id = slugify([categoryKey, ...inner].join('/').replace(/\.jsx?$/, ''))
 
     snippets.push({
       id,

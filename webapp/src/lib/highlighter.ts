@@ -2,6 +2,7 @@ import { createHighlighterCore, type HighlighterCore, type ThemeRegistrationRaw 
 import type { ShikiTransformer } from 'shiki'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import javascript from 'shiki/langs/javascript.mjs'
+import jsx from 'shiki/langs/jsx.mjs'
 import poimandres from 'shiki/themes/poimandres.mjs'
 import tokyoNight from 'shiki/themes/tokyo-night.mjs'
 import githubLight from 'shiki/themes/github-light.mjs'
@@ -54,6 +55,9 @@ export function chunkTransformer(firstLine: number): ShikiTransformer {
 
 let highlighterPromise: Promise<HighlighterCore> | null = null
 
+/** The highlighting language for a lesson file: React files (.jsx) need the JSX grammar, the rest are plain JavaScript. */
+export const langForFile = (filename?: string) => (filename?.endsWith('.jsx') ? 'jsx' : 'javascript')
+
 export function getHighlighter(): Promise<HighlighterCore> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighterCore({
@@ -66,7 +70,7 @@ export function getHighlighter(): Promise<HighlighterCore> {
         withReadableComments(githubLight as unknown as ThemeRegistrationRaw, '#636c76'),
         withReadableComments(vitesseBlack as unknown as ThemeRegistrationRaw, '#778a77'),
       ],
-      langs: [javascript],
+      langs: [javascript, jsx],
       engine: createJavaScriptRegexEngine(),
     })
   }

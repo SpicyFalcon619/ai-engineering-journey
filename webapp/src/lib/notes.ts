@@ -1,4 +1,5 @@
-import notesRaw from '../../../phase1-javascript/NOTES.md?raw'
+import phase1Notes from '../../../phase1-javascript/NOTES.md?raw'
+import phase2Notes from '../../../phase2-react/NOTES.md?raw'
 import type { Snippet } from '@/types'
 import { snippets } from '@/lib/content'
 
@@ -12,7 +13,11 @@ import { snippets } from '@/lib/content'
 //   main.js in lesson5           -> the whole lesson
 //   any other file of a lesson   -> a pointer to the file that carries the notes
 
-const NOTES = notesRaw.replace(/\r\n/g, '\n')
+// The notes file of each track, by the track's folder name. Each has its own "# Lesson N: ..." sections.
+const NOTE_FILES: [string, string][] = [
+  ['phase1-javascript', phase1Notes],
+  ['phase2-react', phase2Notes],
+]
 
 // "Part 1: Variables and types (done, 2026-11-05)" -> "Part 1: Variables and types"
 const STATUS_TAIL = /\s*\((?:done|taught|in progress|not started|exercise|skipped|completed)[^)]*\)\s*$/i
@@ -81,10 +86,11 @@ interface LessonNotes {
   parts: string[]
 }
 
-const lessons = new Map<number, LessonNotes>()
+const lessons = new Map<string, LessonNotes>()
+const lessonKey = (track: string, lesson: number) => `${track}/${lesson}`
 
-function build() {
-  const lines = NOTES.split('\n')
+function build(track: string, raw: string) {
+  const lines = raw.replace(/\r\n/g, '\n').split('\n')
   const tops = headingsOf(lines).filter((h) => h.depth === 1)
   tops.forEach((top, i) => {
     const m = top.title.match(/^Lesson (\d+):/)
@@ -97,10 +103,10 @@ function build() {
       const stop = k + 1 < partHeads.length ? partHeads[k + 1].index : bodyLines.length
       return bodyLines.slice(h.index, stop).join('\n').trim()
     })
-    lessons.set(Number(m[1]), { whole: body, parts })
+    lessons.set(lessonKey(track, Number(m[1])), { whole: body, parts })
   })
 }
-build()
+for (const [track, raw] of NOTE_FILES) build(track, raw)
 
 /** Makes the anchor ids for a lesson's headings. The page and the outline both use it, in the same order, so ids match. */
 export function makeSlugger() {
@@ -138,8 +144,8 @@ export function noteHeadings(markdown: string): NoteHeading[] {
 function identify(snippet: Snippet): { lesson: number; letter: string | null; primary: boolean } | null {
   const folder = snippet.path.match(/\/lesson(\d+)\//)
   if (!folder) return null
-  const letter = snippet.filename.match(/^lesson\d+([a-z])\.js$/)
-  const primary = /^lesson\d+[a-z]?\.js$/.test(snippet.filename) || snippet.filename === 'main.js'
+  const letter = snippet.filename.match(/^lesson\d+([a-z])\.jsx?$/)
+  const primary = /^lesson\d+[a-z]?\.jsx?$/.test(snippet.filename) || snippet.filename === 'main.js'
   return { lesson: Number(folder[1]), letter: letter ? letter[1] : null, primary }
 }
 
@@ -149,7 +155,7 @@ export type NotesFor = { kind: 'notes'; markdown: string } | { kind: 'pointer'; 
 export function getNotesFor(snippet: Snippet): NotesFor {
   const who = identify(snippet)
   if (!who) return null
-  const notes = lessons.get(who.lesson)
+  const notes = lessons.get(lessonKey(snippet.categorySlug, who.lesson))
   if (!notes) return null
 
   if (!who.primary) {
