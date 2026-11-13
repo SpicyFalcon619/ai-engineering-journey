@@ -5,8 +5,12 @@ import rawCache from './output-cache.json'
 
 export type BlockStatus = 'ok' | 'runtime-error' | 'timeout' | 'launch-error'
 
-/** [lesson line that printed it, text, stream]: stream 0 is normal output, 1 is the error stream. */
-export type OutputSegment = [number, string, number]
+/**
+ * [lesson line that printed it, text, stream, lesson line that started the work]: stream 0 is normal output, 1 is the
+ * error stream. The last number is the statement that caused the output (a call such as `main();`); it is the same line
+ * as the first for a console.log written straight in the file, and is missing in output captured before it existed.
+ */
+export type OutputSegment = [number, string, number, number?]
 
 /** One run of a block. */
 export interface Scenario {
@@ -73,6 +77,27 @@ export function getOutput(path: string): CapturedOutput | undefined {
     .filter(Boolean)
     .join('\n\n')
   return { status: stdout ? 'ok' : 'empty', stdout, runs }
+}
+
+/**
+ * What the chosen lines printed: every piece of output whose line is chosen, or whose starting statement is chosen
+ * (so picking a call such as `main();` gives what the call printed, and picking a console.log line gives that line's
+ * output). Pieces keep the order they were printed in. Returns null when the capture has no line information, so the
+ * caller can fall back to whole blocks.
+ */
+export function outputForSelection(runs: LessonRuns | undefined, chosen: Set<number>): string | null {
+  if (!runs) return null
+  const pieces: string[] = []
+  let known = false
+  for (const block of Object.values(runs.blocks)) {
+    const segments = block.scenarios[0]?.segments
+    if (!segments || segments.length === 0) continue
+    known = true
+    for (const [line, text, , outer] of segments) {
+      if (chosen.has(line) || (outer !== undefined && chosen.has(outer))) pieces.push(text)
+    }
+  }
+  return known ? pieces.join('').trim() : null
 }
 
 /** What the blocks overlapping the given lines printed (each block's first run), or '' for none. */

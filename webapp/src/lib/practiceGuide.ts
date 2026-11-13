@@ -22,8 +22,10 @@ function partsFor(runs: LessonRuns | undefined, ranges: { line: number; end: num
   const parts: Record<string, Part> = { 0: { stdout: '', segments: [] } }
   for (const r of ranges) parts[r.line] = { stdout: '', segments: [] }
   for (const segment of entry?.scenarios[0]?.segments ?? []) {
-    const range = ranges.find((r) => segment[0] >= r.line && segment[0] <= r.end)
-    const key = range ? String(range.line) : segment[0] > 0 && segment[0] < firstMarker ? '0' : null
+    // The statement that started the work, as in the capture's own split.
+    const at = segment[3] ?? segment[0]
+    const range = ranges.find((r) => at >= r.line && at <= r.end)
+    const key = range ? String(range.line) : at > 0 && at < firstMarker ? '0' : null
     if (key === null) continue
     parts[key].segments.push(segment)
     parts[key].stdout += segment[1]

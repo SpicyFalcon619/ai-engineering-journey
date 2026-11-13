@@ -1,6 +1,8 @@
 // Loaded into every captured run with `node --import`. It wraps console.* so each printed line is recorded
-// together with the line of the lesson that caused it (the outermost lesson frame on the call stack), and writes the record to
-// the file named in TRACE_RESULT when the program ends. Output order is the order of the calls.
+// together with the lines of the lesson it came from (read from the call stack), and writes the record to the file
+// named in TRACE_RESULT when the program ends. Output order is the order of the calls.
+// Each piece is [innermost line, text, stream, outermost line]: the line that printed it, and the statement of the
+// lesson that started the work (a call to a function defined elsewhere in the file, or the callback's own line).
 import { writeFileSync } from 'node:fs'
 import { formatWithOptions } from 'node:util'
 import { Console } from 'node:console'
@@ -16,20 +18,22 @@ const segments = []
 Error.stackTraceLimit = 60
 
 /**
- * The line, in the file being run, that the output belongs to (0 if none does). That is the OUTERMOST frame of the
- * lesson on the call stack: the statement that started the work. A function defined in one question and called from
- * another then counts as the second question's output, and a timer or promise callback counts as the place it was
- * written.
+ * The lines, in the file being run, that the output comes from (0 if none does): `inner` is the nearest frame of the
+ * lesson on the call stack (the console.log line itself), `outer` the farthest one (the statement that started the
+ * work, such as `main();`). They are the same line for a console.log written straight at the top of the file.
  */
-function callerLine() {
+function callerLines() {
   const frames = (new Error().stack ?? '').split('\n')
-  let found = 0
+  let inner = 0
+  let outer = 0
   for (const frame of frames) {
     if (!(frame.includes(targetUrl) || frame.includes(target))) continue
     const match = frame.match(/:(\d+):\d+\)?\s*$/)
-    if (match) found = Number(match[1])
+    if (!match) continue
+    if (!inner) inner = Number(match[1])
+    outer = Number(match[1])
   }
-  return found
+  return { inner, outer }
 }
 
 // console.table draws a table of box characters. A Console that writes into a string gives exactly Node's own table.
@@ -61,7 +65,8 @@ console.groupEnd = () => {
 for (const [name, stream] of Object.entries(streams)) {
   console[name] = (...args) => {
     const text = name === 'table' ? renderTable(...args) : formatWithOptions({ colors: false }, ...args)
-    segments.push([callerLine(), (indent ? text.split('\n').map((l) => indent + l).join('\n') : text) + '\n', stream])
+    const { inner, outer } = callerLines()
+    segments.push([inner, (indent ? text.split('\n').map((l) => indent + l).join('\n') : text) + '\n', stream, outer])
   }
 }
 

@@ -19,7 +19,7 @@ import {
   saveStyle,
   type CaptureStyle,
 } from '@/lib/captureSettings'
-import { outputForLines, type CapturedOutput } from '@/lib/outputs'
+import { outputForLines, outputForSelection, type CapturedOutput } from '@/lib/outputs'
 import { parseLesson } from '@/lib/lesson'
 import type { Topic } from '@/types'
 import { CaptureCard } from './CaptureCard'
@@ -266,12 +266,13 @@ function CaptureDialog({ code, filename, topics = [], output, onClose }: Capture
   const filtered = useMemo(() => (previewHtml ? keepLines(previewHtml, chosen, leaveOut) : null), [previewHtml, chosen, leaveOut])
   const wholeFile = selected.size === 0 || chosen.length === total
 
-  // The output under the picture matches the lines you picked: what the code blocks they touch printed
-  // (every block is a program of its own). The whole file shows the output of all of its blocks.
+  // The output under the picture matches the lines you picked: only what those lines printed (or, for a call such as
+  // `main();`, what the call printed). The whole file shows everything it printed. Output captured without line
+  // information falls back to the code blocks the lines belong to.
   const stdout = useMemo(() => {
     if (!fullStdout) return ''
     if (wholeFile) return fullStdout
-    return outputForLines(output?.runs, blockLines, new Set(chosen))
+    return outputForSelection(output?.runs, new Set(chosen)) ?? outputForLines(output?.runs, blockLines, new Set(chosen))
   }, [fullStdout, wholeFile, output, chosen, blockLines])
 
   function selectSection(index: number) {

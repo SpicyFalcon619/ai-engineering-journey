@@ -1,6 +1,6 @@
 {
  "phase1-javascript/lesson1/lesson1a.js": {
-  "capturedAt": "2026-11-13T06:57:13.507Z",
+  "capturedAt": "2026-11-13T08:14:14.173Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -14,27 +14,32 @@
        [
         13,
         "My name is Maruf and I am 22 years old.\n",
-        0
+        0,
+        13
        ],
        [
         16,
         "string\n",
-        0
+        0,
+        16
        ],
        [
         17,
         "number\n",
-        0
+        0,
+        17
        ],
        [
         18,
         "boolean\n",
-        0
+        0,
+        18
        ],
        [
         19,
         "number\n",
-        0
+        0,
+        19
        ]
       ]
      }
@@ -43,7 +48,7 @@
   }
  },
  "phase1-javascript/lesson1/lesson1b.js": {
-  "capturedAt": "2026-11-13T06:57:13.552Z",
+  "capturedAt": "2026-11-13T08:14:14.223Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -57,27 +62,32 @@
        [
         7,
         "Hot\n",
-        0
+        0,
+        7
        ],
        [
         15,
         "false\n",
-        0
+        0,
+        15
        ],
        [
         16,
         "true\n",
-        0
+        0,
+        16
        ],
        [
         17,
         "false\n",
-        0
+        0,
+        17
        ],
        [
         18,
         "true\n",
-        0
+        0,
+        18
        ]
       ]
      }
@@ -86,7 +96,7 @@
   }
  },
  "phase1-javascript/lesson1/lesson1c.js": {
-  "capturedAt": "2026-11-13T06:57:13.602Z",
+  "capturedAt": "2026-11-13T08:14:14.274Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -100,57 +110,68 @@
        [
         5,
         "1\n",
-        0
+        0,
+        5
        ],
        [
         5,
         "2\n",
-        0
+        0,
+        5
        ],
        [
         5,
         "3\n",
-        0
+        0,
+        5
        ],
        [
         5,
         "4\n",
-        0
+        0,
+        5
        ],
        [
         5,
         "5\n",
-        0
+        0,
+        5
        ],
        [
         11,
         "2\n",
-        0
+        0,
+        11
        ],
        [
         11,
         "4\n",
-        0
+        0,
+        11
        ],
        [
         11,
         "6\n",
-        0
+        0,
+        11
        ],
        [
         11,
         "8\n",
-        0
+        0,
+        11
        ],
        [
         11,
         "10\n",
-        0
+        0,
+        11
        ],
        [
         33,
         "Total score = 316 \nPassed student = 3\n",
-        0
+        0,
+        33
        ]
       ]
      }
@@ -159,7 +180,7 @@
   }
  },
  "phase1-javascript/lesson2/lesson2.js": {
-  "capturedAt": "2026-11-13T06:57:13.646Z",
+  "capturedAt": "2026-11-13T08:14:14.323Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -173,42 +194,50 @@
        [
         12,
         "63.2\n",
-        0
+        0,
+        12
        ],
        [
         17,
         "true\n",
-        0
+        0,
+        17
        ],
        [
         18,
         "false\n",
-        0
+        0,
+        18
        ],
        [
         19,
         "true\n",
-        0
+        0,
+        19
        ],
        [
         28,
         "20\n",
-        0
+        0,
+        28
        ],
        [
         29,
         "16\n",
-        0
+        0,
+        29
        ],
        [
         38,
         "NaN\n",
-        0
+        0,
+        38
        ],
        [
         39,
         "3\n",
-        0
+        0,
+        39
        ]
       ]
      }
@@ -217,7 +246,7 @@
   }
  },
  "phase1-javascript/lesson3/lesson3.js": {
-  "capturedAt": "2026-11-13T06:57:13.691Z",
+  "capturedAt": "2026-11-13T08:14:14.369Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -231,67 +260,80 @@
        [
         8,
         "1 2\n",
-        0
+        0,
+        8
        ],
        [
         13,
         "10 20\n",
-        0
+        0,
+        13
        ],
        [
         18,
         "[ 1, 2 ] [ 1, 2, 3 ]\n",
-        0
+        0,
+        18
        ],
        [
         23,
         "{ a: 1, b: 2 } { a: 1, b: 99, c: 3 }\n",
-        0
+        0,
+        23
        ],
        [
         34,
         "Mina js\n",
-        0
+        0,
+        34
        ],
        [
         39,
         "Name: Aisha, Score: 82\n",
-        0
+        0,
+        39
        ],
        [
         44,
         "{ name: 'Rahim', score: 45, tags: [ 'web' ] }\n",
-        0
+        0,
+        44
        ],
        [
         45,
         "{ name: 'Rahim', score: 70, tags: [ 'web' ] }\n",
-        0
+        0,
+        45
        ],
        [
         52,
         "[\n  { name: 'Aisha', score: 82, tags: [ 'ml', 'python' ] },\n  { name: 'Rahim', score: 45, tags: [ 'web' ] },\n  { name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] },\n  { name: 'Noman', score: 99, tags: [ 'ml', 'java', 'python' ] }\n]\n",
-        0
+        0,
+        52
        ],
        [
         57,
         "Aisha: 82: ml,python\n",
-        0
+        0,
+        57
        ],
        [
         69,
         "10\n",
-        0
+        0,
+        69
        ],
        [
         70,
         "5\n",
-        0
+        0,
+        70
        ],
        [
         71,
         "0\n",
-        0
+        0,
+        71
        ]
       ]
      }
@@ -300,7 +342,7 @@
   }
  },
  "phase1-javascript/lesson4/lesson4a.js": {
-  "capturedAt": "2026-11-13T06:57:13.739Z",
+  "capturedAt": "2026-11-13T08:14:14.418Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -314,37 +356,44 @@
        [
         13,
         "Original: 82,45,91,60,38\nUpdated: 87,50,96,65,43\n",
-        0
+        0,
+        13
        ],
        [
         17,
         "Passed: 82,91,60\n",
-        0
+        0,
+        17
        ],
        [
         21,
         "Names: Aisha,Rahim,Mina,Noman\n",
-        0
+        0,
+        21
        ],
        [
         25,
         "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
-        0
+        0,
+        25
        ],
        [
         28,
         "undefined\n",
-        0
+        0,
+        28
        ],
        [
         36,
         "[ 'Aisha', 'Mina', 'Noman' ]\n",
-        0
+        0,
+        36
        ],
        [
         40,
         "[ undefined, undefined, undefined, undefined, undefined ]\n",
-        0
+        0,
+        40
        ]
       ]
      }
@@ -353,7 +402,7 @@
   }
  },
  "phase1-javascript/lesson4/lesson4b.js": {
-  "capturedAt": "2026-11-13T06:57:13.783Z",
+  "capturedAt": "2026-11-13T08:14:14.462Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -367,52 +416,62 @@
        [
         14,
         "Anyone above 90? true\n",
-        0
+        0,
+        14
        ],
        [
         15,
         "Everyone at least 40? false\n",
-        0
+        0,
+        15
        ],
        [
         19,
         "316\n",
-        0
+        0,
+        19
        ],
        [
         23,
         "63.2\n",
-        0
+        0,
+        23
        ],
        [
         31,
         "91\n",
-        0
+        0,
+        31
        ],
        [
         36,
         "[ 82, 45, 91, 60, 38 ]\n",
-        0
+        0,
+        36
        ],
        [
         37,
         "[ 91, 82, 60, 45, 38 ]\n",
-        0
+        0,
+        37
        ],
        [
         43,
         "[ 'Aisha', 'Rahim', 'Mina', 'Noman' ]\n",
-        0
+        0,
+        43
        ],
        [
         44,
         "[ 'Noman', 'Mina', 'Aisha', 'Rahim' ]\n",
-        0
+        0,
+        44
        ],
        [
         49,
         "[ 100, 25, 3 ]\n",
-        0
+        0,
+        49
        ]
       ]
      }
@@ -421,7 +480,7 @@
   }
  },
  "phase1-javascript/lesson5/main.js": {
-  "capturedAt": "2026-11-13T06:57:13.827Z",
+  "capturedAt": "2026-11-13T08:14:14.511Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -436,17 +495,20 @@
        [
         10,
         "5 20\n",
-        0
+        0,
+        10
        ],
        [
         14,
         "10\n",
-        0
+        0,
+        14
        ],
        [
         18,
         "[ 'Aisha', 'Mina', 'Noman' ]\n",
-        0
+        0,
+        18
        ]
       ]
      }
@@ -455,7 +517,7 @@
   }
  },
  "phase1-javascript/lesson5/mathUtils.js": {
-  "capturedAt": "2026-11-13T06:57:13.869Z",
+  "capturedAt": "2026-11-13T08:14:14.558Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -472,7 +534,7 @@
   }
  },
  "phase1-javascript/lesson5/scratch.js": {
-  "capturedAt": "2026-11-13T06:57:13.912Z",
+  "capturedAt": "2026-11-13T08:14:14.601Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -488,7 +550,8 @@
        [
         2,
         "phase1-javascript/lesson5/scratch.js:5\nimport { students } from \"./students.js\";\n         ^^^^^^^^\nSyntaxError: The requested module './students.js' does not provide an export named 'students'\n",
-        1
+        1,
+        2
        ]
       ]
      }
@@ -497,7 +560,7 @@
   }
  },
  "phase1-javascript/lesson5/students.js": {
-  "capturedAt": "2026-11-13T06:57:13.959Z",
+  "capturedAt": "2026-11-13T08:14:14.646Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -514,7 +577,7 @@
   }
  },
  "phase1-javascript/lesson6/basics.js": {
-  "capturedAt": "2026-11-13T06:57:16.005Z",
+  "capturedAt": "2026-11-13T08:14:16.702Z",
   "node": "v24.14.0",
   "blocks": {
    "3": {
@@ -528,52 +591,62 @@
        [
         11,
         "A\n",
-        0
+        0,
+        11
        ],
        [
-        12,
+        8,
         "Hi!\n",
-        0
+        0,
+        12
        ],
        [
         13,
         "B\n",
-        0
+        0,
+        13
        ],
        [
-        25,
+        8,
         "Hi!\n",
-        0
+        0,
+        25
        ],
        [
-        25,
+        8,
         "Hi!\n",
-        0
+        0,
+        25
        ],
        [
-        25,
+        8,
         "Hi!\n",
-        0
+        0,
+        25
        ],
        [
         31,
         "A\n",
-        0
+        0,
+        31
        ],
        [
         33,
         "B\n",
-        0
+        0,
+        33
        ],
        [
         53,
         "undefined\n",
-        0
+        0,
+        53
        ],
        [
         32,
         "Hi! after 2 sec\n",
-        0
+        0,
+        32
        ]
       ]
      }
@@ -582,7 +655,7 @@
   }
  },
  "phase1-javascript/lesson6/lesson6.js": {
-  "capturedAt": "2026-11-13T06:57:17.050Z",
+  "capturedAt": "2026-11-13T08:14:17.760Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -596,42 +669,50 @@
        [
         17,
         "A\n",
-        0
+        0,
+        17
        ],
        [
         19,
         "C\n",
-        0
+        0,
+        19
        ],
        [
         18,
         "B\n",
-        0
+        0,
+        18
        ],
        [
         53,
         "{ name: 'Mina', score: 91, tags: [ 'ml', 'js', 'react' ] }\n",
-        0
+        0,
+        53
        ],
        [
         58,
         "Student not found\n",
-        0
+        0,
+        58
        ],
        [
         66,
         "87\n",
-        0
+        0,
+        66
        ],
        [
         79,
         "item 5, next then received: undefined\n",
-        0
+        0,
+        79
        ],
        [
         30,
         "1 sec passed\n",
-        0
+        0,
+        30
        ]
       ]
      }
@@ -640,7 +721,7 @@
   }
  },
  "phase1-javascript/lesson7/lesson7.js": {
-  "capturedAt": "2026-11-13T06:57:18.127Z",
+  "capturedAt": "2026-11-13T08:14:18.819Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -652,44 +733,52 @@
       "stdout": "start\nafter calling pause\nPromise { <pending> }\nundefined\nMina scored 91\nStudent not found\n87\n1 second later\n",
       "segments": [
        [
-        46,
+        42,
         "start\n",
-        0
+        0,
+        46
        ],
        [
         47,
         "after calling pause\n",
-        0
+        0,
+        47
        ],
        [
-        99,
+        95,
         "Promise { <pending> }\n",
-        0
+        0,
+        99
        ],
        [
-        99,
+        96,
         "undefined\n",
-        0
+        0,
+        99
        ],
        [
         55,
         "Mina scored 91\n",
-        0
+        0,
+        55
        ],
        [
         67,
         "Student not found\n",
-        1
+        1,
+        67
        ],
        [
         80,
         "87\n",
-        0
+        0,
+        80
        ],
        [
         44,
         "1 second later\n",
-        0
+        0,
+        44
        ]
       ]
      }
@@ -698,7 +787,7 @@
   }
  },
  "phase1-javascript/lesson8/lesson8a.js": {
-  "capturedAt": "2026-11-13T06:57:18.560Z",
+  "capturedAt": "2026-11-13T08:14:19.028Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -707,42 +796,49 @@
      {
       "label": "",
       "inputs": [],
-      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\n[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\nundefined undefined\nLeanne Graham Sincere@april.biz\n404 false\n",
+      "stdout": "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\nstring\nAisha\n404 false\nundefined undefined\nLeanne Graham Sincere@april.biz\n[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
       "segments": [
        [
         18,
         "{\"name\":\"Aisha\",\"score\":82,\"tags\":[\"ml\",\"python\"]}\n",
-        0
+        0,
+        18
        ],
        [
         19,
         "string\n",
-        0
+        0,
+        19
        ],
        [
         23,
         "Aisha\n",
-        0
-       ],
-       [
-        46,
-        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
-        0
-       ],
-       [
-        72,
-        "undefined undefined\n",
-        0
-       ],
-       [
-        34,
-        "Leanne Graham Sincere@april.biz\n",
-        0
+        0,
+        23
        ],
        [
         57,
         "404 false\n",
-        0
+        0,
+        57
+       ],
+       [
+        72,
+        "undefined undefined\n",
+        0,
+        72
+       ],
+       [
+        34,
+        "Leanne Graham Sincere@april.biz\n",
+        0,
+        34
+       ],
+       [
+        46,
+        "[\n  'Leanne Graham',\n  'Ervin Howell',\n  'Clementine Bauch',\n  'Patricia Lebsack',\n  'Chelsey Dietrich',\n  'Mrs. Dennis Schulist',\n  'Kurtis Weissnat',\n  'Nicholas Runolfsdottir V',\n  'Glenna Reichert',\n  'Clementina DuBuque'\n]\n",
+        0,
+        46
        ]
       ]
      }
@@ -751,7 +847,7 @@
   }
  },
  "phase1-javascript/lesson8/lesson8b.js": {
-  "capturedAt": "2026-11-13T06:57:20.491Z",
+  "capturedAt": "2026-11-13T08:14:20.506Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -763,49 +859,58 @@
       "stdout": "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\nUser 1: Leanne Graham\nCaught an error: Request failed: 404\nTypeError fetch failed\n201 true\nSuccess:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n500 false\nError:  Request failed: 500\nCreated: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
       "segments": [
        [
-        22,
+        23,
         "{\n  id: 9,\n  name: 'Glenna Reichert',\n  username: 'Delphine',\n  email: 'Chaim_McDermott@dana.io',\n  address: {\n    street: 'Dayna Park',\n    suite: 'Suite 449',\n    city: 'Bartholomebury',\n    zipcode: '76495-3109',\n    geo: { lat: '24.6463', lng: '-168.8889' }\n  },\n  phone: '(775)976-6794 x41206',\n  website: 'conrad.com',\n  company: {\n    name: 'Yost and Sons',\n    catchPhrase: 'Switchable contextually-based project',\n    bs: 'aggregate real-time technologies'\n  }\n}\n",
-        0
+        0,
+        22
        ],
        [
-        45,
+        36,
         "User 1: Leanne Graham\n",
-        0
+        0,
+        45
        ],
        [
-        45,
+        41,
         "Caught an error: Request failed: 404\n",
-        0
+        0,
+        45
        ],
        [
-        66,
+        62,
         "TypeError fetch failed\n",
-        0
+        0,
+        66
        ],
        [
-        98,
+        83,
         "201 true\n",
-        0
+        0,
+        98
        ],
        [
-        98,
+        99,
         "Success:  { title: 'New Post Title', body: 'New Post Body', userId: 1, id: 101 }\n",
-        0
+        0,
+        98
        ],
        [
-        129,
+        119,
         "500 false\n",
-        0
+        0,
+        129
        ],
        [
         132,
         "Error:  Request failed: 500\n",
-        0
+        0,
+        132
        ],
        [
         160,
         "Created: { title: 'Hello', body: 'First post', userId: 1, id: 101 }\n",
-        0
+        0,
+        160
        ]
       ]
      }
@@ -814,7 +919,7 @@
   }
  },
  "phase1-javascript/lesson9/lesson9.js": {
-  "capturedAt": "2026-11-13T06:57:20.874Z",
+  "capturedAt": "2026-11-13T08:14:20.907Z",
   "node": "v24.14.0",
   "blocks": {
    "2": {
@@ -826,14 +931,16 @@
       "stdout": "┌─────────┬────────────────────────────┬──────────────────┬───────┬───────────┬────────────┐\n│ (index) │ name                       │ city             │ posts │ doneTodos │ totalTodos │\n├─────────┼────────────────────────────┼──────────────────┼───────┼───────────┼────────────┤\n│ 0       │ 'Leanne Graham'            │ 'Gwenborough'    │ 10    │ 11        │ 20         │\n│ 1       │ 'Ervin Howell'             │ 'Wisokyburgh'    │ 10    │ 8         │ 20         │\n│ 2       │ 'Clementine Bauch'         │ 'McKenziehaven'  │ 10    │ 7         │ 20         │\n│ 3       │ 'Patricia Lebsack'         │ 'South Elvis'    │ 10    │ 6         │ 20         │\n│ 4       │ 'Chelsey Dietrich'         │ 'Roscoeview'     │ 10    │ 12        │ 20         │\n│ 5       │ 'Mrs. Dennis Schulist'     │ 'South Christy'  │ 10    │ 6         │ 20         │\n│ 6       │ 'Kurtis Weissnat'          │ 'Howemouth'      │ 10    │ 9         │ 20         │\n│ 7       │ 'Nicholas Runolfsdottir V' │ 'Aliyaview'      │ 10    │ 11        │ 20         │\n│ 8       │ 'Glenna Reichert'          │ 'Bartholomebury' │ 10    │ 8         │ 20         │\n│ 9       │ 'Clementina DuBuque'       │ 'Lebsackbury'    │ 10    │ 12        │ 20         │\n└─────────┴────────────────────────────┴──────────────────┴───────┴───────────┴────────────┘\nIt's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
       "segments": [
        [
-        110,
+        65,
         "┌─────────┬────────────────────────────┬──────────────────┬───────┬───────────┬────────────┐\n│ (index) │ name                       │ city             │ posts │ doneTodos │ totalTodos │\n├─────────┼────────────────────────────┼──────────────────┼───────┼───────────┼────────────┤\n│ 0       │ 'Leanne Graham'            │ 'Gwenborough'    │ 10    │ 11        │ 20         │\n│ 1       │ 'Ervin Howell'             │ 'Wisokyburgh'    │ 10    │ 8         │ 20         │\n│ 2       │ 'Clementine Bauch'         │ 'McKenziehaven'  │ 10    │ 7         │ 20         │\n│ 3       │ 'Patricia Lebsack'         │ 'South Elvis'    │ 10    │ 6         │ 20         │\n│ 4       │ 'Chelsey Dietrich'         │ 'Roscoeview'     │ 10    │ 12        │ 20         │\n│ 5       │ 'Mrs. Dennis Schulist'     │ 'South Christy'  │ 10    │ 6         │ 20         │\n│ 6       │ 'Kurtis Weissnat'          │ 'Howemouth'      │ 10    │ 9         │ 20         │\n│ 7       │ 'Nicholas Runolfsdottir V' │ 'Aliyaview'      │ 10    │ 11        │ 20         │\n│ 8       │ 'Glenna Reichert'          │ 'Bartholomebury' │ 10    │ 8         │ 20         │\n│ 9       │ 'Clementina DuBuque'       │ 'Lebsackbury'    │ 10    │ 12        │ 20         │\n└─────────┴────────────────────────────┴──────────────────┴───────┴───────────┴────────────┘\n",
-        0
+        0,
+        110
        ],
        [
-        112,
+        91,
         "It's a tie! Top Users: Chelsey Dietrich, Clementina DuBuque with 12 completed todos each.\n",
-        0
+        0,
+        112
        ]
       ]
      }

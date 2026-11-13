@@ -76,6 +76,8 @@ A plain practice file needs nothing special: the whole file is one block, shown 
 
 ## After adding or editing a lesson: capture its output
 
+The capture records, for every printed piece, the line of the lesson that printed it and the statement that started the work (`[line, text, stream, starting line]` in `output-cache.json`). The Capture dialog uses this: with lines selected, "Include the output" shows only what those lines printed, or what a selected call printed (select a `console.log` line, or a call such as `printReport(report)`). A call that is not awaited at the top level, such as a bare `main();`, loses its starting line, so select the lines inside the function instead (or write `await main();`).
+
 The site never runs a lesson to show its output. Every sample output comes from `src/lib/output-cache.json`, which is **not** regenerated automatically:
 
 ```bash

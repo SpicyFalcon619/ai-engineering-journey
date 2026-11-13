@@ -124,10 +124,11 @@ async function captureBlock(lessonFile, relPath, index, block, wholeFile) {
         // A killed run leaves no result.
       }
     }
-    const shifted = segments.map(([line, text, stream]) => [line > 0 ? line + shift : block.line, text, stream])
+    const place = (line) => (line > 0 ? line + shift : block.line)
+    const shifted = segments.map(([line, text, stream, outer]) => [place(line), text, stream, place(outer ?? line)])
     // A run that stopped with an error: its message (not the stack) goes after what it printed.
     const failed = result.status !== 0 || result.timedOut
-    if (failed && !result.timedOut && result.stderr.trim()) shifted.push([block.line, clean(result.stderr) + '\n', 1])
+    if (failed && !result.timedOut && result.stderr.trim()) shifted.push([block.line, clean(result.stderr) + '\n', 1, block.line])
     const stdout = shifted.map(([, text]) => text).join('')
     const status = result.timedOut ? 'timeout' : result.status === -1 ? 'launch-error' : failed ? 'runtime-error' : 'ok'
     return {
@@ -152,7 +153,8 @@ function partsOf(segments, questions) {
   const parts = { 0: { stdout: '', segments: [] }, rest: { stdout: '', segments: [] } }
   for (const q of questions) parts[q.line] = { stdout: '', segments: [] }
   for (const segment of segments) {
-    const line = segment[0]
+    // The statement that started the work (the call), so a function defined in one question and called in another counts for the caller.
+    const line = segment[3] ?? segment[0]
     const question = questions.find((q) => line >= q.line && line <= q.end)
     const key = question ? question.line : line > 0 && line < questions[0].line ? '0' : 'rest'
     parts[key].segments.push(segment)
