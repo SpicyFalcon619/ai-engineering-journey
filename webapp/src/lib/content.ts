@@ -27,6 +27,7 @@ const SECTION_LABELS: Record<string, string> = {
   // The React track has its own lesson numbers, so its sections are named by track and folder.
   'phase2-react/lesson1': 'Lesson 1: Components and JSX',
   'phase2-react/lesson2': 'Lesson 2: Props',
+  'phase2-react/lesson3': 'Lesson 3: Lists',
 }
 
 // Files whose own header comment does not make a good title in the sidebar.

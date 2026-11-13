@@ -5,8 +5,8 @@ Last updated: 2026-11-13
 ## Current Status
 
 - **Current phase:** Phase 2 - React Fundamentals. Phase 1 (JavaScript) is complete, 2026-11-13.
-- **Current topic:** Lesson 2, props (taught, exercise pending). Lesson 1 (components, JSX, Vite setup) is done. Notes: `phase2-react/NOTES.md`
-- **Next learning task:** Lesson 2 in `phase2-react/app/src/lessons/lesson2/lesson2.jsx`, items 1 to 4: switch `src/App.jsx` to show `Lesson2`, then write `Greeting` with a `name` prop.
+- **Current topic:** Lesson 3, lists (taught, exercise pending). Lessons 1 (components, JSX, Vite setup) and 2 (props) are done. Notes: `phase2-react/NOTES.md`
+- **Next learning task:** Lesson 3 in `phase2-react/app/src/lessons/lesson3/lesson3.jsx`, items 1 to 5: switch `src/App.jsx` to show `Lesson3`, then render a list with `map` and `key`.
 
 ## Roadmap
 
@@ -26,6 +26,7 @@ Last updated: 2026-11-13
 - JS Lesson 6: promises (a promise as a box, `resolve` and `reject` as buttons, `then`, `catch`, chaining) - 2026-11-08. Started with three small steps on functions as values and arrow functions, because the first explanation was too fast.
 - JS Lesson 4 part 2: some, every, reduce, sort - 2026-11-06.
 - React Lesson 1: components as functions with capital names, JSX, one parent element, using a component twice, a second component, the lowercase mistake, and setting up a Vite project by hand (`npm create vite`, `npm install`, `npm run dev`, hot reload) - 2026-11-13.
+- React Lesson 2: props (passing with quotes and braces, receiving with destructuring, several props, a default value, a missing prop is `undefined` and draws nothing) - 2026-11-13.
 - JS Lesson 9: mini project, a user activity report (`getJson`, `loadData`, `buildReport` with `map`/`filter`, `console.table`, a two-pass `findTopUser` that handles a tie, `main()` with one `try`/`catch`) - 2026-11-13. Wrote `buildReport` and the tie handling themselves, working from a step-by-step plan.
 - JS Lesson 8 part 2: errors and POST (`response.ok`, throwing on a bad status, network failure vs a 404, GET vs POST, `method`/`headers`/`body`, why the body needs `JSON.stringify`) - 2026-11-13. The terms GET and POST had to be taught from scratch.
 - JS Lesson 8 part 1: `JSON.stringify` and `JSON.parse`, GET with `fetch`, the second `await` for `response.json()`, a 404 does not reject (`response.ok` is false) - 2026-11-09. Item 2 prediction was wrong (`fetch(url)` prints `Promise { <pending> }`).

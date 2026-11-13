@@ -185,7 +185,7 @@ The import path is a normal Lesson 5 import: `./` means "the folder this file is
 
 # Lesson 2: Props
 
-## Part 1: passing data into a component (taught, exercise pending)
+## Part 1: passing data into a component (done, 2026-11-13)
 
 ### The problem
 
@@ -264,3 +264,95 @@ Write these in `app/src/lessons/lesson2/lesson2.jsx`. To see it, change the impo
 2. Write that `Greeting` and use it three times with three different names.
 3. Write a `Profile` component that takes two props, `name` and `university`, and shows them in an `<h2>` and a `<p>`. Use it twice with two different people.
 4. Use `<Greeting />` with no `name`. Predict first what you will see. Then add a default value `"friend"`.
+
+Result of item 4: with no default, a missing prop is `undefined` and React draws nothing for it, so the heading reads just "Hello, " with no error. With `name = "friend"` it reads "Hello, friend", and the greetings that were given a name are unchanged.
+
+---
+
+# Lesson 3: Lists
+
+## Part 1: showing a list of items (taught, exercise pending)
+
+### The problem
+
+You have an array, and you want one element on the page for each item, like a `for` loop that builds a list. In React you do not write a loop in the markup. You use `map`, the array method from JavaScript Lesson 4, and each result is a JSX element.
+
+```jsx
+const names = ["Aisha", "Rahim", "Karim"];
+
+function NameList() {
+  return (
+    <ul>
+      {names.map((name) => (
+        <li key={name}>{name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+- `names.map(...)` makes a new array: one `<li>` for each name. React draws an array of elements one after another.
+- The curly braces `{ }` put that array into the markup, like any JavaScript value in JSX.
+- The arrow function uses **parentheses** after `=>`, so the JSX is returned automatically.
+
+In Python terms: it is a list comprehension that builds the elements, `[li(n) for n in names]`.
+
+### The key
+
+Each element made by `map` needs a `key` prop: a value that is **unique among its siblings**. React uses it to tell the items apart, so that when the list changes it updates the right one and leaves the rest alone.
+
+- Without it the list still draws, but the browser console warns: `Each child in a list should have a unique "key" prop.`
+- Use a stable id from your data (`student.id`), not the item's position (`index`), when items can be added, removed or reordered. For a fixed list the position is fine.
+- `key` is not a prop your component can read. It is only for React.
+
+### A list of objects
+
+```jsx
+const students = [
+  { id: 1, name: "Aisha", score: 82 },
+  { id: 2, name: "Rahim", score: 45 },
+];
+
+<ul>
+  {students.map((student) => (
+    <li key={student.id}>
+      {student.name}: {student.score}
+    </li>
+  ))}
+</ul>
+```
+
+### Each item as a component
+
+```jsx
+function StudentItem({ name, score }) {
+  return (
+    <li>
+      {name}: {score}
+    </li>
+  );
+}
+
+{students.map((student) => (
+  <StudentItem key={student.id} name={student.name} score={student.score} />
+))}
+```
+
+The `key` goes on the element written **inside** `map` (the `<StudentItem>`), not inside the component.
+
+### Common mistakes
+
+- **Braces without `return`:** `names.map((n) => { <li>{n}</li> })` has braces but no `return`, so every call gives back `undefined` and the list is empty. It is the same trap as in JavaScript Lesson 4. Use parentheses, or write `return`.
+- **A missing key:** the list works but the console warns.
+- **Putting `{names}` directly:** an array of strings is drawn with the items run together, with no separators. Use `map` to make elements.
+- **The key in the wrong place:** it belongs on the outermost element returned inside `map`.
+
+### Your exercises
+
+Write these in `app/src/lessons/lesson3/lesson3.jsx`. To see it, change the import in `src/App.jsx` to `Lesson3` from `./lessons/lesson3/lesson3.jsx` (and `<Lesson3 />`).
+
+1. Predict first: what does a `<ul>` containing `["Aisha", "Rahim", "Karim"].map((n) => <li key={n}>{n}</li>)` show?
+2. Show that array as a `<ul>` list. First leave out the `key`, open the browser console (`F12`, the Console tab) and read the warning. Then add the key.
+3. Make an array of three student objects (each with `id`, `name` and `score`) and show "name: score" for each in a list, using `key={student.id}`.
+4. Move each list item into a `StudentItem` component that takes `name` and `score` props, and use it inside `map`.
+5. Break it: write the `map` callback with braces and no `return`. Predict first what you will see, then look.
