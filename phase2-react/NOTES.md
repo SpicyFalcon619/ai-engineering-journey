@@ -12,6 +12,14 @@ React files end in `.jsx` instead of `.js`, because they contain JSX (explained 
 
 ## Part 1: what React is, components, JSX (done, 2026-11-13)
 
+### What this phase covers
+
+Components and JSX (Lesson 1), props (Lesson 2) and lists with `map` and `key` (Lesson 3). Then conditional rendering, events, state with `useState`, effects with `useEffect`, and forms. Two projects finish the phase: a task manager, and an app that fetches data from a public API (using your `fetch` skills from JavaScript Lesson 8). The goal is a frontend you can later connect to a Python backend.
+
+### Seeing your code on this website
+
+Each React lesson on the site has an **Edit and run** button under its code. It opens an editor with the result drawn right under it, and the result updates as you type, including things that use state. It is a quick way to try an idea. The real work happens in the project in `phase2-react/app`, which you run with `npm run dev`.
+
 ### The problem React solves
 
 In plain JavaScript, changing a web page means finding elements and editing them by hand. As a page grows, it gets hard to keep track of what changed.
@@ -57,7 +65,7 @@ function App() {
 ### Common mistakes
 
 - A lowercase component name (`greeting`), so React draws an unknown HTML tag instead of your component.
-- Returning two elements side by side with no wrapper.
+- Returning two elements side by side with no wrapper. Vite stops with `Adjacent JSX elements must be wrapped in an enclosing tag`. Wrap them in one `<div>`, or in a fragment `<>...</>`.
 - Forgetting the `return`, or writing `Greeting()` instead of `<Greeting />` when using it.
 
 ### Your exercises
@@ -162,6 +170,29 @@ Where JSX differs from HTML:
 
 Experiments: delete the `<>` and `</>` wrapper and read the error (a component must return one parent), then undo; add `const name = "..."` above `return` and write `<h1>Hello, {name}</h1>`.
 
+### How your files fit together (and why the screen can be blank)
+
+Each file draws the next one, like a chain:
+
+```
+index.html        has an empty <div id="root"></div>
+  main.jsx        puts <App /> inside that root div
+    App.jsx       draws one lesson, for example <Lesson2 />
+      lesson2.jsx   your file: it defines components and exports one as the default
+```
+
+- `App.jsx` is the switchboard. To look at a different lesson, change its `import` line and the tag (`<Lesson3 />`). An import you no longer use makes the linter warn, so delete it.
+- If the page is blank and there is no error, one level of the chain is drawing nothing: for example a component that returns an empty `<div>`, or a lowercase tag. Check each level in turn. Right-click the page and choose Inspect to see what really ended up inside `<div id="root">`.
+- When you save, Vite sends the change to the open page at once (hot reload), so you do not refresh by hand.
+
+### When something goes wrong, where to look
+
+| Where | What it shows |
+|---|---|
+| The terminal running `npm run dev` | Errors from Vite about your code, for example a syntax error such as `Adjacent JSX elements must be wrapped in an enclosing tag` |
+| The browser page | The same errors drawn on an overlay, or your page when all is well |
+| The browser console (`F12`, then the Console tab) | **Warnings** from React that do not stop the page, such as `The tag <greeting> is unrecognized in this browser...` or `Each child in a list should have a unique "key" prop` |
+
 ### Your exercises
 
 Once the project runs:
@@ -232,6 +263,10 @@ In Python terms: the component is a function, and props are its parameters. `<Gr
 | `passed={true}` | a boolean |
 
 Anything that is not a plain string goes inside `{ }`.
+
+### Why the greetings appear one under the other
+
+That is plain HTML, not React. An `<h1>` is a **block** element, so each one takes its own line. Words and inline elements like `<span>` flow along a line instead. The `<div>` around them is just the one container a component must return.
 
 ### Default values
 
@@ -356,3 +391,15 @@ Write these in `app/src/lessons/lesson3/lesson3.jsx`. To see it, change the impo
 3. Make an array of three student objects (each with `id`, `name` and `score`) and show "name: score" for each in a list, using `key={student.id}`.
 4. Move each list item into a `StudentItem` component that takes `name` and `score` props, and use it inside `map`.
 5. Break it: write the `map` callback with braces and no `return`. Predict first what you will see, then look.
+
+### Silent failures so far
+
+Some React mistakes are **silent**: nothing crashes, the page is just wrong. This is a summary of the ones from Lessons 1 to 3, and it grows with each lesson. Knowing them saves a lot of guessing:
+
+| Mistake | What you see | Why |
+|---|---|---|
+| A lowercase component name (`<greeting />`) | Nothing for that component, only a console warning | React treats a lowercase tag as an ordinary HTML tag and never runs your function |
+| A missing or misspelled prop, with no default | The text is missing (`Hello, `) | The prop is `undefined`, and React draws nothing for `undefined` |
+| `map` with braces and no `return` | An empty list | The callback returns `undefined` for every item |
+| A missing `key` in a list | The list works, with a console warning | React cannot tell the items apart |
+| A number passed as a string (`age="22"`) | It looks the same, but it is text | Only `age={22}` is a number |
